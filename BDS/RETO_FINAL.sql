@@ -85,6 +85,7 @@ BEGIN
 		SELECT CONCAT('No se ha podido realizar la compra');
 	ELSE 
 		SELECT CONCAT('Compra realizada correctamente');
+<<<<<<< HEAD
 	END IF;
     
     UPDATE MODEL
@@ -94,6 +95,12 @@ BEGIN
 	ELSE 
 		SELECT CONCAT('Compra realizada correctamente');
 	END IF;
+=======
+	END IF
+    
+    UPDATE MODEL
+    SET STOCK = STOCK -1 WHERE NAME_MODEL = NAME_MODEL2 AND ID_CAR_DEALER = ID_CAR_DEALER2;
+>>>>>>> 26c59bef4458f94efe88f77eec53dd35f8cc5857
     
 END //
 
