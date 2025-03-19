@@ -6,9 +6,9 @@ public class Worker {
 	private String user;
 	private String password;
 	
-	public Worker(boolean admin, String user, String password) 
+	public Worker(boolean Admin, String user, String password) 
 	{
-		this.admin = admin;
+		this.admin = Admin;
 		this.user = user;
 		this.password = password;
 	}
