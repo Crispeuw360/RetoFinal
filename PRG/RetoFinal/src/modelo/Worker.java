@@ -13,6 +13,13 @@ public class Worker {
 		this.password = password;
 	}
 
+	public Worker() 
+	{
+		this.admin = false;
+		this.user = "";
+		this.password = "";
+	}
+	
 	public boolean isAdmin() {
 		return admin;
 	}
