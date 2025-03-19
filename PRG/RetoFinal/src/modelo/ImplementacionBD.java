@@ -55,7 +55,7 @@ public class ImplementacionBD implements UsuarioDAO{
 		
 
 		/*@Override
-		public boolean comprobarUsuario(Usuario usuario){
+		public boolean comprobarUsuario(Worker worker){
 			// Abrimos la conexion
 			boolean existe=false;
 			this.openConnection();

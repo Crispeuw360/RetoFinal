@@ -12,6 +12,13 @@ public class CarDealership {
 		this.location = location;
 		this.id = id;
 	}
+	
+	public CarDealership() 
+	{
+		this.name = "";
+		this.location = "";
+		this.id = 0;
+	}
 
 	public String getName() {
 		return name;
