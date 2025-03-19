@@ -108,12 +108,12 @@ public class ImplementacionBD implements UsuarioDAO{
 			
 		}*/
 		
-		/*public Map<String, Usuario> visualizarUsuarios() {
+		/*public Map<String, Model> visualizeModels() {
 			// TODO Auto-generated method stub
 			
 			ResultSet rs = null;
-			Usuario usuario;
-			Map<String, Usuario> usuarios = new TreeMap<>();
+			Model modelo;
+			Map<String, Model> modelos = new TreeMap<>();
 
 			// Abrimos la conexi n
 			this.openConnection();
@@ -125,10 +125,10 @@ public class ImplementacionBD implements UsuarioDAO{
 
 				// Leemos de uno en uno
 				while (rs.next()) {
-					usuario = new Usuario();
-					usuario.setNombre(rs.getString("nombre"));
-					usuario.setContrasena(rs.getString("contrasena"));
-					usuarios.put(usuario.getNombre(), usuario);
+					modelo = new Model();
+					modelo.setName_model(rs.getString("nombre"));
+					modelo.setMark(rs.getString("Mark"));
+					modelos.put(modelo.getNombre(), modelo);
 					
 				}
 				rs.close();
@@ -138,7 +138,7 @@ public class ImplementacionBD implements UsuarioDAO{
 				System.out.println("Error de SQL");
 				e.printStackTrace();
 			}
-			return usuarios;
+			return modelos;
 
 		}*/
 	

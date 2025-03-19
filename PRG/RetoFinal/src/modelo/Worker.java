@@ -5,6 +5,7 @@ public class Worker {
 	private boolean admin;
 	private String user;
 	private String password;
+	private int id_car_dealer;
 	
 	public Worker(boolean Admin, String user, String password) 
 	{
@@ -19,7 +20,7 @@ public class Worker {
 		this.user = "";
 		this.password = "";
 	}
-	
+
 	public boolean isAdmin() {
 		return admin;
 	}
@@ -44,10 +45,21 @@ public class Worker {
 		this.password = password;
 	}
 
+	public int getId_car_dealer() {
+		return id_car_dealer;
+	}
+	public void setId_car_dealer(int id_car_dealer) {
+		this.id_car_dealer = id_car_dealer;
+	}
+
 	@Override
 	public String toString() {
-		return "Worker [Admin=" + admin + ", user=" + user + ", password=" + password + "]";
+		return "Worker [admin=" + admin + ", user=" + user + ", password=" + password + ", id_car_dealer="
+				+ id_car_dealer + "]";
 	}
+	
+	
+	
 	
 	
 }
