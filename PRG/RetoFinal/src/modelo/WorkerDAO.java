@@ -1,10 +1,16 @@
 package modelo;
 
-public interface UsuarioDAO {
+import java.util.Map;
+
+public interface WorkerDAO {
 
 	public boolean comprobarWorker(Worker worker);
 	/*public boolean insertarUsuario(Usuario usuario);
 	public Map<String, Usuario> visualizarUsuarios();
 	public boolean eliminarUsuario(String nombre);
 	public boolean modificarUsuario(Usuario usuario);*/
+
+	Map<String, Model> visualizeModels(CarDealership cardealer);
+
+	Map<String, Model> getModels(CarDealership cardealer);
 }
