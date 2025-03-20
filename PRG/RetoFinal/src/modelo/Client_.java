@@ -20,8 +20,47 @@ public class Client_ {
 		this.dni = "";
 		this.email = "";
 		this.user_ = "";
+		this.password_ = "";
+	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUser_() {
+		return user_;
+	}
+
+	public void setUser_(String user_) {
+		this.user_ = user_;
+	}
+
+	public String getPassword_() {
+		return password_;
+	}
+
+	public void setPassword_(String password_) {
 		this.password_ = password_;
 	}
+
+	@Override
+	public String toString() {
+		return "Client_ [dni=" + dni + ", email=" + email + ", user_=" + user_ + ", password_=" + password_ + "]";
+	}
+	
+	
 	
 	
 }

@@ -51,6 +51,10 @@ public class Worker {
 		return id_car_dealer;
 	}
 
+	public void setId_car_dealer(int id_car_dealer) {
+		this.id_car_dealer = id_car_dealer;
+	}
+
 	@Override
 	public String toString() {
 		return "Worker [admin=" + admin + ", user=" + user + ", password=" + password + ", id_car_dealer="

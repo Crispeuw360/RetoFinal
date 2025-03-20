@@ -5,7 +5,8 @@ import modelo.*;
 
 public class LoginControlador {
 
-UsuarioDAO dao = new ImplementacionBD();
+	WorkerDAO dao = new ImplementacionBD();
+
 	
 	/*public void visualizarPantalla() {
 		VentanaLogin ven = new VentanaLogin(this);
@@ -31,5 +32,16 @@ UsuarioDAO dao = new ImplementacionBD();
 		return dao.modificarUsuario(usuario);
 		
 	}*/
+
+	public Map<String, Model> getModels(CarDealership cardealer) {
+		return dao.getModels(cardealer);
+		
+	}
+	
+	public Map<String, Client_> getClients() {
+		return dao.getClients_();
+		
+	}
+	
 	
 }
