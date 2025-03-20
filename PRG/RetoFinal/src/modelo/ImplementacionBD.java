@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
-public class ImplementacionBD implements UsuarioDAO{
+public class ImplementacionBD implements WorkerDAO{
 	// Atributos
 		private Connection con;
 		private PreparedStatement stmt;
@@ -27,6 +27,7 @@ public class ImplementacionBD implements UsuarioDAO{
 		final String SQL = "SELECT * FROM usuario WHERE nombre = ? AND contrasena = ?";
 		final String SAQLINSERT = "INSERT INTO usuario VALUES ( ?,?)";
 		final String SQLCONSULTA = "SELECT * FROM usuario";
+		final String SQLMODELS = "SELECT * FROM model";
 		final String SQLBORRAR = "DELETE FROM usuario WHERE nombre=?";
 		final String SQLMODIFICAR = "UPDATE usuario SET NOMBRE = ? AND contranea = ?";
 		
@@ -108,39 +109,42 @@ public class ImplementacionBD implements UsuarioDAO{
 			
 		}*/
 		
-		/*public Map<String, Model> visualizeModels() {
+		public Map<String, Model> getModels(CarDealership cardealer) 
+		{
 			// TODO Auto-generated method stub
-			
-			ResultSet rs = null;
-			Model modelo;
-			Map<String, Model> modelos = new TreeMap<>();
 
+			ResultSet rs = null;
+			Model model;
+			Map<String, Model> models = new TreeMap<>();
 			// Abrimos la conexi n
 			this.openConnection();
-			
 			try {
-				stmt = con.prepareStatement(SQLCONSULTA);
-
+				stmt = con.prepareStatement(SQLMODELS);
 				rs = stmt.executeQuery();
-
 				// Leemos de uno en uno
 				while (rs.next()) {
-					modelo = new Model();
-					modelo.setName_model(rs.getString("nombre"));
-					modelo.setMark(rs.getString("Mark"));
-					modelos.put(modelo.getNombre(), modelo);
-					
+					model = new Model();
+					model.setId_car_dealer(rs.getInt("id_car_dealer"));
+					model.setMark(rs.getString("mark"));
+					model.setName_model(rs.getString("name_model"));
+					model.setPrice(rs.getDouble("price"));
+					model.setStock(rs.getInt("stock"));				
+
+					if (model.getId_car_dealer()==cardealer.getId())
+					{
+						models.put(model.getName_model(), model);	
+					}
 				}
 				rs.close();
-	            stmt.close();
-	            con.close();
+				stmt.close();
+				con.close();
 			} catch (SQLException e) {
+
 				System.out.println("Error de SQL");
 				e.printStackTrace();
 			}
-			return modelos;
-
-		}*/
+			return models;
+		}
 	
 
 		/*@Override

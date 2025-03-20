@@ -5,8 +5,12 @@ import modelo.*;
 
 public class LoginControlador {
 
-UsuarioDAO dao = new ImplementacionBD();
+WorkerDAO dao = new ImplementacionBD();
+
+public Map<String, Model> getModels(CarDealership cardealer) {
+	return dao.getModels(cardealer);
 	
+}
 	/*public void visualizarPantalla() {
 		VentanaLogin ven = new VentanaLogin(this);
 		ven.setVisible(true);	
@@ -18,9 +22,7 @@ UsuarioDAO dao = new ImplementacionBD();
 		return dao.insertarUsuario(usuario);
 	}
 	
-	public Map<String, Usuario> visualizarUsuarios() {
-		return dao.visualizarUsuarios();
-	}
+	
 	
 	public boolean eliminarUsuario(String nombre) {
 		return dao.eliminarUsuario(nombre);
