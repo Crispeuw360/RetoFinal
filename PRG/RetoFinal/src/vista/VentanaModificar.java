@@ -38,6 +38,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 	private JButton btnUpdate;
 	private LoginControlador cont;
 	private Map<String, Model> modelsList;
+	private boolean activar = false;
 
 
 	public VentanaModificar(JFrame parent,CarDealership cardealer,LoginControlador cont) 
@@ -62,8 +63,9 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		comboBoxLista.setBounds(35, 108, 201, 41);
 		contentPanel.add(comboBoxLista);
 
+
 		JPanel panelDatos = new JPanel();
-		panelDatos.setBounds(453, 99, 323, 401);
+		panelDatos.setBounds(453, 88, 323, 401);
 		contentPanel.add(panelDatos);
 		panelDatos.setLayout(null);
 
@@ -73,6 +75,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		panelDatos.add(lblName);
 
 		textFieldName = new JTextField();
+		textFieldName.setEnabled(activar);
 		textFieldName.setBounds(126, 88, 170, 20);
 		panelDatos.add(textFieldName);
 		textFieldName.setColumns(10);
@@ -83,11 +86,13 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		panelDatos.add(lblMark);
 
 		textFieldMark = new JTextField();
+		textFieldMark.setEnabled(activar);
 		textFieldMark.setColumns(10);
 		textFieldMark.setBounds(126, 143, 170, 20);
 		panelDatos.add(textFieldMark);
 
 		textFieldStock = new JTextField();
+		textFieldStock.setEnabled(activar);
 		textFieldStock.setColumns(10);
 		textFieldStock.setBounds(126, 193, 170, 20);
 		panelDatos.add(textFieldStock);
@@ -103,6 +108,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		panelDatos.add(lblPrice);
 
 		textFieldPrice = new JTextField();
+		textFieldPrice.setEnabled(activar);
 		textFieldPrice.setColumns(10);
 		textFieldPrice.setBounds(126, 247, 170, 20);
 		panelDatos.add(textFieldPrice);
@@ -114,6 +120,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		btnModify.addActionListener(this);
 
 		btnUpdate = new JButton("Update");
+		btnUpdate.setEnabled(activar);
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnUpdate.setBounds(163, 10, 150, 33);
 		panelDatos.add(btnUpdate);
@@ -124,8 +131,9 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		btnBack.setBounds(10, 512, 215, 41);
 		contentPanel.add(btnBack);
 		btnBack.addActionListener(this);
-		
+
 		loadModels(cardealer);
+		setupListeners();
 	}
 
 
@@ -135,11 +143,18 @@ public class VentanaModificar extends JDialog implements ActionListener {
 
 		if(e.getSource()==btnModify)
 		{
+			activar = true;
+			toggleFields(activar);
 
+		}
+		else if(e.getSource()==btnBack) 
+		{
+			activar = false;
+			toggleFields(activar);
 		}
 
 	}
-
+	//it loads all models to the comboBox
 	public void loadModels(CarDealership cardealer)
 	{
 		modelsList = cont.getModels(cardealer);
@@ -149,5 +164,42 @@ public class VentanaModificar extends JDialog implements ActionListener {
 			}
 		}
 		comboBoxLista.setSelectedIndex(-1);
+	}
+	//It updates the data on the textFields
+	private void updateFields(Model model) 
+	{
+		textFieldName.setText(model.getName_model());
+		textFieldMark.setText(model.getMark());
+		textFieldStock.setText(String.valueOf(model.getStock()));
+		textFieldPrice.setText(String.valueOf(model.getPrice()));
+	}
+	//Setups the listener in the comboBox so it can detect changes
+	public void setupListeners() 
+	{
+		comboBoxLista.addActionListener(new ActionListener() 
+		{
+			//when a change is detected,gets the selected item and calls the funcion update Field
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selectedModel;
+				Model model;
+				selectedModel = (String) comboBoxLista.getSelectedItem();
+				
+				if (selectedModel != null && modelsList.containsKey(selectedModel)) 
+				{
+					model = modelsList.get(selectedModel);
+					updateFields(model);
+				}
+			}
+		});
+	}
+	// updates the buttons and textFields visually to be enabled
+	private void toggleFields(boolean enable) 
+	{
+		textFieldName.setEnabled(enable);
+		textFieldMark.setEnabled(enable);
+		textFieldStock.setEnabled(enable);
+		textFieldPrice.setEnabled(enable);
+		btnUpdate.setEnabled(enable);
 	}
 }
