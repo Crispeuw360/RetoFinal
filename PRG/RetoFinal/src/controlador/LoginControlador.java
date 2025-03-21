@@ -9,7 +9,10 @@ public class LoginControlador {
 	WorkerDAO dao = new ImplementacionBD();
 
 	public void visualizarPantalla() {
-		VentanaPrincipal ven = new VentanaPrincipal(this);
+
+		Worker worker = new Worker(true, "Alex", "1234", 1);
+
+		VentanaPrincipal ven = new VentanaPrincipal(this, worker);
 		ven.setVisible(true);
 	}
 
@@ -30,7 +33,12 @@ public class LoginControlador {
 	 * 
 	 * }
 	 */
-	public Map<String, Model> visualizeModels(CarDealership cardealer) {
-		return dao.visualizeModels(cardealer);
+	public Map<String, Model> getModels(CarDealership cardealer) {
+		return dao.getModels(cardealer);
 	}
+	
+	public CarDealership getWorkingPlace(Worker worker) {
+		return dao.getWorkingPlace(worker);
+	}
+
 }

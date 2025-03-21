@@ -4,11 +4,12 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import controlador.LoginControlador;
 import modelo.Model;
-import modelo.Usuario;
+import modelo.Worker;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -16,6 +17,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Window;
@@ -36,11 +38,16 @@ public class VentanaPrincipal extends JFrame {
 	private JMenu mnNewMenu;
 	private JMenuItem mntmDealership;
 	private JMenuItem mntmAdmin;
-	
-	private Map<String, Model> models;
+	private Worker worker;
 
-	public VentanaPrincipal(LoginControlador cont) {
+    private Map<String, Model> models;
+    private DefaultListModel<String> listModel;
+    private JList<String> listModels;
+
+
+	public VentanaPrincipal(LoginControlador cont, Worker worker) {
 		this.cont = cont;
+		this.worker = worker;
 		setBackground(new Color(181, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
@@ -51,9 +58,11 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JList list = new JList();
-		list.setBounds(470, 75, 275, 350);
-		contentPane.add(list);
+        listModel = new DefaultListModel<>();
+        listModels = new JList<>(listModel);
+        JScrollPane scrollPane = new JScrollPane(listModels);
+        scrollPane.setBounds(470, 75, 275, 350);
+        contentPane.add(scrollPane);
 
 		btnModifyCars = new JButton("MODIFY");
 		btnModifyCars.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
@@ -93,33 +102,28 @@ public class VentanaPrincipal extends JFrame {
 
 		mntmAdmin = new JMenuItem("Admin");
 		mnNewMenu.add(mntmAdmin);
-		
-		
+		loadModel();
 
-		
-/*
-		public void cargarsuarios() {
-			usuarios = cont.getUsuarios();
-
-			if (!usuarios.isEmpty()) {
-
-				for (Usuario u : usuarios.values()) {
-					comboBox.addItem(u.getNombre());
-				}
-			}
-			comboBox.setSelectedIndex(-1);
-		}
-*/
+		/*
+		 * public void cargarsuarios() { usuarios = cont.getUsuarios();
+		 * 
+		 * if (!usuarios.isEmpty()) {
+		 * 
+		 * for (Usuario u : usuarios.values()) { comboBox.addItem(u.getNombre()); } }
+		 * comboBox.setSelectedIndex(-1); }
+		 */
 
 	}
-	
+
 	public void loadModel() {
-		models = cont.getModels();
-		
-		if(!models.isEmpty()) {
-			
+		models = cont.getModels(cont.getWorkingPlace(worker));
+
+		if (!models.isEmpty()) {
+
+			for (Model m : models.values()) {
+				listModel.addElement(m.getName_model()); 
+			}
+
 		}
-		
 	}
-	
 }

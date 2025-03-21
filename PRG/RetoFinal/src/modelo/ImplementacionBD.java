@@ -30,6 +30,8 @@ public class ImplementacionBD implements WorkerDAO {
 	final String SQLBORRAR = "DELETE FROM usuario WHERE nombre=?";
 	final String SQLMODIFICAR = "UPDATE usuario SET NOMBRE = ? AND contranea = ?";
 
+	final String SQLGETDEALER = " SELECT * FROM car_dealership WHERE id_car_dealer = ?";
+
 	// Para la conexi n utilizamos un fichero de configuaraci n, config que
 	// guardamos en el paquete control:
 	public ImplementacionBD() {
@@ -53,7 +55,7 @@ public class ImplementacionBD implements WorkerDAO {
 
 	@Override
 
-	public Map<String, Model> getModels (CarDealership cardealer) {
+	public Map<String, Model> getModels(CarDealership cardealer) {
 
 		// TODO Auto-generated method stub
 
@@ -114,6 +116,49 @@ public class ImplementacionBD implements WorkerDAO {
 		}
 
 		return models;
+
+	}
+
+	public CarDealership getWorkingPlace(Worker worker) {
+
+		CarDealership cardealer = null;
+		ResultSet rs = null;
+
+		this.openConnection();
+
+		try {
+
+			stmt = con.prepareStatement(SQLGETDEALER);
+
+			rs = stmt.executeQuery();
+
+			// Leemos de uno en uno
+
+			while (rs.next()) {
+
+				cardealer = new CarDealership();
+
+				cardealer.setId(rs.getInt("id_car_dealer"));
+				cardealer.setLocation(rs.getString("location"));
+				cardealer.setName("name_");
+
+			}
+
+			rs.close();
+
+			stmt.close();
+
+			con.close();
+
+		} catch (SQLException e) {
+
+			System.out.println("Error de SQL");
+
+			e.printStackTrace();
+
+		}
+
+		return cardealer;
 
 	}
 
