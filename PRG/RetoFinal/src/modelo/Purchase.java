@@ -9,23 +9,28 @@ public class Purchase {
 	private int id_car_dealer;
 	private LocalDate date_purchase;
 	private int quantity;
-	
-	public Purchase(String dni, String name_model, int id_car_dealer, LocalDate date_purchase, int quantity) {
+	private int id_purchase;
+
+	public Purchase(String dni, String name_model, int id_car_dealer, LocalDate date_purchase, int quantity,int id_purchase) 
+	{
 		super();
 		this.dni = dni;
 		this.name_model = name_model;
 		this.id_car_dealer = id_car_dealer;
 		this.date_purchase = date_purchase;
 		this.quantity = quantity;
+		this.id_purchase = id_purchase;
 	}
-	
-	public Purchase() {
+
+	public Purchase() 
+	{
 		super();
 		this.dni = "";
 		this.name_model = "";
 		this.id_car_dealer = 0;
 		this.date_purchase = null;
 		this.quantity = 0;
+		this.id_purchase = 0;
 	}
 
 	public String getDni() {
@@ -68,13 +73,20 @@ public class Purchase {
 		this.quantity = quantity;
 	}
 
+	public int getId_purchase() {
+		return id_purchase;
+	}
+
+	public void setId_purchase(int id_purchase) {
+		this.id_purchase = id_purchase;
+	}
+
 	@Override
 	public String toString() {
 		return "Purchase [dni=" + dni + ", name_model=" + name_model + ", id_car_dealer=" + id_car_dealer
-				+ ", date_purchase=" + date_purchase + ", quantity=" + quantity + "]";
+				+ ", date_purchase=" + date_purchase + ", quantity=" + quantity + ", id_purchase=" + id_purchase + "]";
 	}
+
 	
-	
-	
-	
+
 }
