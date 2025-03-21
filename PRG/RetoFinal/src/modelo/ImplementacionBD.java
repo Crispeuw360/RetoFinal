@@ -30,6 +30,7 @@ public class ImplementacionBD implements WorkerDAO{
 		final String SQLMODELS = "SELECT * FROM model";
 		final String SQLBORRAR = "DELETE FROM usuario WHERE nombre=?";
 		final String SQLMODIFICAR = "UPDATE usuario SET NOMBRE = ? AND contranea = ?";
+		final String SQLCLIENTS = "SELECT * FROM client_";
 		
 
 		// Para la conexi n utilizamos un fichero de configuaraci n, config que
@@ -55,35 +56,41 @@ public class ImplementacionBD implements WorkerDAO{
 
 		
 
-		/*@Override
-		public boolean comprobarUsuario(Worker worker){
-			// Abrimos la conexion
-			boolean existe=false;
+		@Override
+		public Map<String, Client> getClients() {
+			// TODO Auto-generated method stub
+
+			ResultSet rs = null;
+			Client client;
+			Map<String, Client> clientsList = new TreeMap<>();
+
+			// Abrimos la conexi n
 			this.openConnection();
 
-			
 			try {
-				stmt = con.prepareStatement(SQL);
-	            stmt.setString(1, usuario.getNombre());
-	            stmt.setString(2, usuario.getContrasena());
-	            ResultSet resultado = stmt.executeQuery();
+				stmt = con.prepareStatement(SQLCLIENTS);
 
-	            //Si hay un resultado, el usuario existe
-	            if (resultado.next()) {
-	                existe = true;
-	            }
+				rs = stmt.executeQuery();
 
-	            
-	            resultado.close();
-	            stmt.close();
-	            con.close();
+				// Leemos de uno en uno
+				while (rs.next()) {
+					client = new Client();
+					client.setDni(rs.getString("dni"));
+					client.setEmail(rs.getString("email"));
+					client.setUser_(rs.getString("user_"));
+					client.setPassword_(rs.getString("password_"));
+					clientsList.put(client.getUser_(), client);								
+				}
+				rs.close();
+				stmt.close();
+				con.close();
+			} catch (SQLException e) {
+				System.out.println("Error de SQL");
+				e.printStackTrace();
+			}
+			return clientsList;
 
-	        } catch (SQLException e) {
-	            System.out.println("Error al verificar credenciales: " + e.getMessage());
-	        }
-
-	        return existe;
-	    }*/
+		}
 
 		/*@Override
 		public boolean insertarUsuario(Usuario usuario) {
