@@ -6,8 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import controlador.LoginControlador;
+import modelo.CarDealership;
 import modelo.Model;
 import modelo.Worker;
 
@@ -39,11 +42,12 @@ public class VentanaPrincipal extends JFrame {
 	private JMenuItem mntmDealership;
 	private JMenuItem mntmAdmin;
 	private Worker worker;
-
-    private Map<String, Model> models;
-    private DefaultListModel<String> listModel;
-    private JList<String> listModels;
-
+	private CarDealership cardealer;
+	private Map<String, Model> models;
+	private DefaultListModel<String> listModel;
+	private JList<String> listModels;
+	private JMenuItem mntmLocation;
+	private JLabel lblCarInfo;
 
 	public VentanaPrincipal(LoginControlador cont, Worker worker) {
 		this.cont = cont;
@@ -58,11 +62,21 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-        listModel = new DefaultListModel<>();
-        listModels = new JList<>(listModel);
-        JScrollPane scrollPane = new JScrollPane(listModels);
-        scrollPane.setBounds(470, 75, 275, 350);
-        contentPane.add(scrollPane);
+		lblCarInfo = new JLabel("New label");
+		lblCarInfo.setBounds(40, 128, 319, 192);
+		contentPane.add(lblCarInfo);
+
+		lblDealership = new JLabel("");
+		lblDealership.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDealership.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblDealership.setBounds(40, 10, 705, 55);
+		contentPane.add(lblDealership);
+
+		listModel = new DefaultListModel<>();
+		listModels = new JList<>(listModel);
+		JScrollPane scrollPane = new JScrollPane(listModels);
+		scrollPane.setBounds(470, 75, 275, 350);
+		contentPane.add(scrollPane);
 
 		btnModifyCars = new JButton("MODIFY");
 		btnModifyCars.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
@@ -79,16 +93,6 @@ public class VentanaPrincipal extends JFrame {
 		btnDelete.setBounds(552, 475, 150, 55);
 		contentPane.add(btnDelete);
 
-		JLabel lblCarInfo = new JLabel("New label");
-		lblCarInfo.setBounds(40, 128, 319, 192);
-		contentPane.add(lblCarInfo);
-
-		lblDealership = new JLabel("WELCOME TO nombrecO");
-		lblDealership.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDealership.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
-		lblDealership.setBounds(40, 10, 705, 55);
-		contentPane.add(lblDealership);
-
 		menuBar = new JMenuBar();
 		menuBar.setBounds(676, 10, 100, 40);
 		contentPane.add(menuBar);
@@ -100,30 +104,55 @@ public class VentanaPrincipal extends JFrame {
 		mntmDealership = new JMenuItem("Concesionario:");
 		mnNewMenu.add(mntmDealership);
 
+		mntmLocation = new JMenuItem();
+		mnNewMenu.add(mntmLocation);
+
 		mntmAdmin = new JMenuItem("Admin");
 		mnNewMenu.add(mntmAdmin);
+
+		loadDealer();
 		loadModel();
 
-		/*
-		 * public void cargarsuarios() { usuarios = cont.getUsuarios();
-		 * 
-		 * if (!usuarios.isEmpty()) {
-		 * 
-		 * for (Usuario u : usuarios.values()) { comboBox.addItem(u.getNombre()); } }
-		 * comboBox.setSelectedIndex(-1); }
-		 */
+		listModels.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) {
+
+					String modelName = listModels.getSelectedValue();
+
+					if (modelName != null) {
+
+						Model model = models.get(modelName);
+
+						String infoCar = "Name: " + model.getName_model() + "<br>" + "Mark: " + model.getMark();
+						lblCarInfo.setText("<html>" + infoCar + "</htlm>");
+					}
+				}
+			}
+		});
 
 	}
 
 	public void loadModel() {
+		// Instantiate the Map models, taking all the models from the given dealership
 		models = cont.getModels(cont.getWorkingPlace(worker));
 
 		if (!models.isEmpty()) {
 
 			for (Model m : models.values()) {
-				listModel.addElement(m.getName_model()); 
+				listModel.addElement(m.getName_model());
 			}
 
 		}
+	}
+
+	public void loadDealer() {
+
+		cardealer = cont.getWorkingPlace(worker);
+
+		lblDealership.setText("Bienvenido a " + cardealer.getName());
+
+		mntmLocation.setText("📍 " + cardealer.getLocation());
+
 	}
 }

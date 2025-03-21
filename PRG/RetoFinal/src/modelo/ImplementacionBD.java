@@ -129,7 +129,7 @@ public class ImplementacionBD implements WorkerDAO {
 		try {
 
 			stmt = con.prepareStatement(SQLGETDEALER);
-
+			stmt.setInt(1, worker.getId_car_dealer());
 			rs = stmt.executeQuery();
 
 			// Leemos de uno en uno
@@ -140,7 +140,7 @@ public class ImplementacionBD implements WorkerDAO {
 
 				cardealer.setId(rs.getInt("id_car_dealer"));
 				cardealer.setLocation(rs.getString("location"));
-				cardealer.setName("name_");
+				cardealer.setName(rs.getString("name_"));
 
 			}
 
