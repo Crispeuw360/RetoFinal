@@ -10,7 +10,7 @@ public class LoginControlador {
 
 	public void visualizarPantalla() {
 
-		Worker worker = new Worker(false, "Alex", "1234", 2);
+		Worker worker = new Worker(true, "Alex", "1234", 2);
 
 		VentanaPrincipal ven = new VentanaPrincipal(this, worker);
 		ven.setVisible(true);

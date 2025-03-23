@@ -44,9 +44,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	private JButton btnDelete;
 	private JLabel lblDealership;
 	private JMenuBar menuBar;
-	private JMenu mnNewMenu;
+	private JMenu mnUserMenu;
 	private JMenuItem mntmLogOut;
-	private JMenuItem mntmAdmin;
 	private Worker worker;
 	private CarDealership cardealer;
 	private Map<String, Model> models;
@@ -55,6 +54,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	private JMenuItem mntmLocation;
 	private JLabel lblCarInfo;
 	private JLabel lblWarning;
+	private JMenu mnAdmin;
+	private JMenuItem mntmMngModel;
+	private JMenuItem mntmMngWorker;
 
 	public VentanaPrincipal(LoginControlador cont, Worker worker) {
 		this.cont = cont;
@@ -119,21 +121,28 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		menuBar.setBounds(666, 10, 110, 40);
 		contentPane.add(menuBar);
 
-		mnNewMenu = new JMenu("Username");
-		mnNewMenu.setPreferredSize(new Dimension(110, 40)); // Makes the JMenu bigger
-		menuBar.add(mnNewMenu);
+		mnUserMenu = new JMenu("Username");
+		mnUserMenu.setPreferredSize(new Dimension(110, 40)); // Makes the JMenu bigger
+		menuBar.add(mnUserMenu);
 
 		mntmLocation = new JMenuItem("<dynamic>");
-		mnNewMenu.add(mntmLocation);
+		mnUserMenu.add(mntmLocation);
 		mntmLocation.addActionListener(this);
-		
-		mntmAdmin = new JMenuItem("Admin");
-		mnNewMenu.add(mntmAdmin);
-		mntmAdmin.addActionListener(this);
 
 		mntmLogOut = new JMenuItem("Log Out:");
-		mnNewMenu.add(mntmLogOut);
+		mnUserMenu.add(mntmLogOut);
 		mntmLogOut.addActionListener(this);
+
+		mnAdmin = new JMenu("Admin options");
+		mnUserMenu.add(mnAdmin);
+
+		mntmMngWorker = new JMenuItem("Manage workers");
+		mnAdmin.add(mntmMngWorker);
+		mntmMngWorker.addActionListener(this);
+
+		mntmMngModel = new JMenuItem("Manage models");
+		mnAdmin.add(mntmMngModel);
+		mntmMngModel.addActionListener(this);
 
 		loadDealer();
 		loadModel();
@@ -189,16 +198,16 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	public void loadWorker() {
 		if (!worker.isAdmin()) {
 
+			mnUserMenu.setText(worker.getUser());
+
 			btnDelete.setEnabled(false);
 			btnDelete.setToolTipText("This is an Admin function!");
-			
-			mntmAdmin.setEnabled(false);
-			mntmAdmin.setToolTipText("This is an Admin function!");
+
+			mnAdmin.setEnabled(false);
+			mnAdmin.setToolTipText("This is an Admin function!");
 
 			ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
 			toolTipManager.setInitialDelay(0); // Show tooltip immediately
-			
-		
 
 		}
 
@@ -218,18 +227,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 			}
 		}
 
-		if (e.getSource() == mntmAdmin) {
-
-			// INSTANCIAR VENTANA ADMIN
-
-		}
-
-		if (e.getSource() == mntmLogOut) {
-			this.dispose();
-		
-
-		}
-
 		if (e.getSource() == mntmLocation) {
 
 			try {
@@ -241,9 +238,25 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 				desktop.browse(new URI(searchUrl));
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Error al abrir el navegador.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Failed while trying to open the browser.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
+		}
+
+		if (e.getSource() == mntmLogOut) {
+			this.dispose();
+
+		}
+
+		if (e.getSource() == mntmMngModel) {
+
+		}
+		
+		if (e.getSource() == mntmMngWorker) {
+
+			WindowMngWorker ven = new WindowMngWorker(this, cont);
+			ven.setVisible(true);
+			
 		}
 
 	}
