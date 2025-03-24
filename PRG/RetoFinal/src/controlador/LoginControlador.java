@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.Map;
 import modelo.*;
+import vista.VentanaModificar;
 
 public class LoginControlador {
 
@@ -12,6 +13,18 @@ public class LoginControlador {
 	}
 	public Map<String, Client> getClients(){
 		return dao.getClients();
+	}
+	public void visualizarPantalla() {
+
+		CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
+		Worker work = new Worker("juan23","pass123",true,1);
+
+		VentanaModificar ven = new VentanaModificar(car,this,work);
+		ven.setVisible(true);
+	}
+	public boolean modifyModel(Model model) 
+	{
+		return dao.modifyModel(model);
 	}
 	/*public void visualizarPantalla() {
 		VentanaLogin ven = new VentanaLogin(this);

@@ -7,11 +7,12 @@ public class Worker {
 	private String password;
 	private int id_car_dealer;
 	
-	public Worker(boolean Admin, String user, String password) 
+	public Worker( String user, String password,boolean Admin,int id_car_dealer) 
 	{
 		this.admin = Admin;
 		this.user = user;
 		this.password = password;
+		this.id_car_dealer=id_car_dealer;
 	}
 
 	public Worker() 

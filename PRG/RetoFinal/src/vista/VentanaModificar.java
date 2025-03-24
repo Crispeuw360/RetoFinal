@@ -12,8 +12,11 @@ import javax.swing.border.EmptyBorder;
 import controlador.LoginControlador;
 import modelo.CarDealership;
 import modelo.Model;
+import modelo.Worker;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +25,8 @@ import java.util.Map;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class VentanaModificar extends JDialog implements ActionListener {
 
@@ -37,14 +42,18 @@ public class VentanaModificar extends JDialog implements ActionListener {
 	private JButton btnModify;
 	private JButton btnUpdate;
 	private LoginControlador cont;
+	private Worker worker;
+	private CarDealership cardealer;
 	private Map<String, Model> modelsList;
 	private boolean activar = false;
 
 
-	public VentanaModificar(JFrame parent,CarDealership cardealer,LoginControlador cont) 
+	public VentanaModificar(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont,Worker worker) 
 	{
-		super(parent, true);
+		/*super(parent, true);*/
 		this.cont = cont;
+		this.worker=worker;
+		this.cardealer=cardealer;
 		setTitle("VentanaModificar");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
@@ -65,6 +74,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 
 
 		JPanel panelDatos = new JPanel();
+		panelDatos.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelDatos.setBounds(453, 88, 323, 401);
 		contentPanel.add(panelDatos);
 		panelDatos.setLayout(null);
@@ -140,17 +150,39 @@ public class VentanaModificar extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		int stock;
+		double price;
+		Model modi;
 
 		if(e.getSource()==btnModify)
 		{
 			activar = true;
 			toggleFields(activar);
 
+
+		}else if(e.getSource()==btnUpdate) 
+		{
+			stock = Integer.parseInt(textFieldStock.getText().trim());
+			price = Double.parseDouble(textFieldPrice.getText().trim());
+			modi = new Model(textFieldName.getText().trim(),textFieldMark.getText().trim(),stock,price,worker.getId_car_dealer());
+			if (cont.modifyModel(modi)) 
+			{
+				JOptionPane.showMessageDialog(null, "Modelo actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+				
+				comboBoxLista.removeAllItems();  // Limpiar ComboBox
+                loadModels(cardealer); // Recargar modelos con el concesionario adecuado
+                
+                // Actualizar campos con los nuevos valores
+                updateFields(modi);
+
+			} else 
+			{
+				JOptionPane.showMessageDialog(null, "Error: No se pudo actualizar el modelo.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else if(e.getSource()==btnBack) 
 		{
-			activar = false;
-			toggleFields(activar);
+			this.dispose();
 		}
 
 	}
@@ -184,7 +216,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 				String selectedModel;
 				Model model;
 				selectedModel = (String) comboBoxLista.getSelectedItem();
-				
+
 				if (selectedModel != null && modelsList.containsKey(selectedModel)) 
 				{
 					model = modelsList.get(selectedModel);
@@ -196,7 +228,6 @@ public class VentanaModificar extends JDialog implements ActionListener {
 	// updates the buttons and textFields visually to be enabled
 	private void toggleFields(boolean enable) 
 	{
-		textFieldName.setEnabled(enable);
 		textFieldMark.setEnabled(enable);
 		textFieldStock.setEnabled(enable);
 		textFieldPrice.setEnabled(enable);
