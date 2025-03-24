@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.Map;
 
 import javax.swing.JTextField;
@@ -41,10 +42,12 @@ public class VentanaVender extends JDialog implements ActionListener {
 	private LoginControlador cont;
 	private JLabel lblModels;
 	private JLabel lblWorkers;
+	private CarDealership cardealer;
 
 	public VentanaVender(JFrame parent, CarDealership cardealer, LoginControlador cont) {
 		super(parent, true);
 		this.cont = cont;
+		this.cardealer = cardealer;
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -124,12 +127,16 @@ public class VentanaVender extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Client_ client;
+		Model model;
 		if (e.getSource() == btnAddUser) {
 			//AQUI VA LA VENTANA NUEVO USUARIO
 		}
 		
-		if(e.getSource()==btnSell) {
+		if(e.getSource()==btnSell) throws StockException {
+			
 			client = clientsList.get(comboBoxClients.getSelectedItem());
+			model = modelsList.get(comboBoxModels.getSelectedItem());
+			cont.callProcedure(client, model, cardealer, LocalDate.now(), Integer.parseInt(lblUnits.getText()));
 			
 		}
 	}

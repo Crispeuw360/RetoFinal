@@ -1,10 +1,13 @@
 package modelo;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
@@ -24,12 +27,9 @@ public class ImplementacionBD implements WorkerDAO{
 
 	// Sentencias SQL
 
-	final String SQL = "SELECT * FROM usuario WHERE nombre = ? AND contrasena = ?";
-	final String SAQLINSERT = "INSERT INTO usuario VALUES ( ?,?)";
 	final String SQLMODELS = "SELECT * FROM model";
 	final String SQLCLIENTS = "SELECT * FROM client_";
-	final String SQLBORRAR = "DELETE FROM usuario WHERE nombre=?";
-	final String SQLMODIFICAR = "UPDATE usuario SET NOMBRE = ? AND contranea = ?";
+	final String SQLSTOCK = "SELECT STOCK FROM model WHERE NAME_MODEL = ? AND ID_CAR_DEALER = ? ";
 
 
 	// Para la conexi n utilizamos un fichero de configuaraci n, config que
@@ -78,7 +78,7 @@ public class ImplementacionBD implements WorkerDAO{
 				model.setName_model(rs.getString("name_model"));
 				model.setPrice(rs.getDouble("price"));
 				model.setStock(rs.getInt("stock"));				
-				
+
 				if (model.getId_car_dealer()==cardealer.getId())
 				{
 					models.put(model.getName_model(), model);	
@@ -94,7 +94,7 @@ public class ImplementacionBD implements WorkerDAO{
 		return models;
 
 	}
-	
+
 	@Override
 	public Map<String, Client_> getClients_() {
 		// TODO Auto-generated method stub
@@ -116,8 +116,8 @@ public class ImplementacionBD implements WorkerDAO{
 				client = new Client_();
 				client.setDni(rs.getString("dni"));
 				client.setEmail(rs.getString("email"));
-				client.setDni(rs.getString("dni"));
-				client.setDni(rs.getString("dni"));
+				client.setPassword_((rs.getString("password_")));
+				client.setUser_((rs.getString("user_")));
 				clientsList.put(client.getUser_(), client);								
 			}
 			rs.close();
@@ -130,6 +130,74 @@ public class ImplementacionBD implements WorkerDAO{
 		return clientsList;
 
 	}
+
+	@Override
+	public boolean callProcedure(Client_ client, Model model, CarDealership carDealer, LocalDate actualDate, int quantity) {
+		// TODO Auto-generated method stub
+		boolean ok=false;
+		DateTimeFormatter formateador = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		String wfecha;
+		
+		wfecha =actualDate.format(formateador);
+		
+		this.openConnection();
+
+		try {
+			CallableStatement stmt = con.prepareCall("{ CALL REGISTER_PURCHASE(?, ?, ?, ?, ?) }");
+
+			// Parameters
+			stmt.setString(1, client.getUser_());
+			stmt.setString(2, model.getName_model());
+			stmt.setInt(3, carDealer.getId());
+			stmt.setString(4, wfecha);
+			stmt.setInt(5, quantity);
+			stmt.close();
+			con.close();
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Error de SQL");
+			e.printStackTrace();
+		}
+
+		return ok;
+	}
+
+	@Override
+	public boolean comprobarStock(Model model) {
+		// TODO Auto-generated method stub
+		
+		boolean stock=false;
+		this.openConnection();
+
+
+		try {
+			stmt = con.prepareStatement(SQLSTOCK);
+            stmt.setString(1, model.getName_model());
+            stmt.setInt(2, model.getId_car_dealer());
+            ResultSet result = stmt.executeQuery();
+
+            //If there is stock, will return true
+            if (result.next()) { 
+                int stockValue = result.getInt("STOCK"); 
+                if (stockValue > 0) {
+                    stock = true;
+                }
+            }
+
+
+            result.close();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error al verificar credenciales: " + e.getMessage());
+        }
+
+        return stock;
+	}
+	
+	
 
 
 

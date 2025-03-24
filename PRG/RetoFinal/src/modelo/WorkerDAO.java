@@ -1,5 +1,6 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 public interface WorkerDAO {
@@ -10,6 +11,9 @@ public interface WorkerDAO {
 	public boolean eliminarUsuario(String nombre);
 	public boolean modificarUsuario(Usuario usuario);*/
 	
-	Map<String, Client_> getClients_();
-	Map<String, Model> getModels(CarDealership cardealer);
+	public Map<String, Client_> getClients_();
+	public Map<String, Model> getModels(CarDealership cardealer);
+	public boolean callProcedure(Client_ client, Model model, CarDealership carDealer, LocalDate actualDate, int quantity);
+	public boolean comprobarStock(Model model, CarDealership carDealer);
+	
 }

@@ -1,5 +1,6 @@
 package controlador;
 
+import java.time.LocalDate;
 import java.util.Map;
 import modelo.*;
 
@@ -43,5 +44,12 @@ public class LoginControlador {
 		
 	}
 	
+	public boolean callProcedure(Client_ client, Model model, CarDealership carDealer, LocalDate actualDate, int quantity) {
+		return dao.callProcedure(client, model, carDealer, actualDate, quantity);
+	}
+	
+	public boolean comprobarStock(Model model, CarDealership carDealer) {
+		return dao.comprobarStock(model, carDealer);
+	}
 	
 }
