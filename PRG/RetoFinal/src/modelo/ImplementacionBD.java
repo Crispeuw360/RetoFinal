@@ -53,7 +53,7 @@ public class ImplementacionBD implements WorkerDAO{
 		}
 	}
 
-
+	//returns a list of the models of the current cardealership
 	@Override
 	public Map<String, Model> getModels(CarDealership cardealer) {
 		// TODO Auto-generated method stub
@@ -95,6 +95,7 @@ public class ImplementacionBD implements WorkerDAO{
 
 	}
 
+	//returns all the clients of all cardealerships
 	@Override
 	public Map<String, Client_> getClients_() {
 		// TODO Auto-generated method stub
@@ -131,15 +132,17 @@ public class ImplementacionBD implements WorkerDAO{
 
 	}
 
+	//it calls the SQL procedure
 	@Override
 	public boolean callProcedure(Client_ client, Model model, CarDealership carDealer, LocalDate actualDate, int quantity) {
 		// TODO Auto-generated method stub
 		boolean ok=false;
 		DateTimeFormatter formateador = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-		String wfecha;
-		
-		wfecha =actualDate.format(formateador);
-		
+		String wdate;
+
+		//we give a format to the date to set as string
+		wdate =actualDate.format(formateador);
+
 		this.openConnection();
 
 		try {
@@ -149,12 +152,16 @@ public class ImplementacionBD implements WorkerDAO{
 			stmt.setString(1, client.getUser_());
 			stmt.setString(2, model.getName_model());
 			stmt.setInt(3, carDealer.getId());
-			stmt.setString(4, wfecha);
+			stmt.setString(4, wdate);
 			stmt.setInt(5, quantity);
+
+			if (stmt.executeUpdate()>0) { 
+				ok = true; 			
+			}
 			stmt.close();
 			con.close();
-			
-			
+
+
 		} catch (SQLException e) {
 			System.out.println("Error de SQL");
 			e.printStackTrace();
@@ -163,41 +170,42 @@ public class ImplementacionBD implements WorkerDAO{
 		return ok;
 	}
 
+	//if the stock is more than 0 returns true, is used to manage the exception
 	@Override
-	public boolean comprobarStock(Model model) {
+	public boolean checkStock(Model model) {
 		// TODO Auto-generated method stub
-		
+
 		boolean stock=false;
 		this.openConnection();
 
 
 		try {
 			stmt = con.prepareStatement(SQLSTOCK);
-            stmt.setString(1, model.getName_model());
-            stmt.setInt(2, model.getId_car_dealer());
-            ResultSet result = stmt.executeQuery();
+			stmt.setString(1, model.getName_model());
+			stmt.setInt(2, model.getId_car_dealer());
+			ResultSet result = stmt.executeQuery();
 
-            //If there is stock, will return true
-            if (result.next()) { 
-                int stockValue = result.getInt("STOCK"); 
-                if (stockValue > 0) {
-                    stock = true;
-                }
-            }
+			//If there is stock, will return true
+			if (result.next()) { 
+				int stockValue = result.getInt("STOCK"); 
+				if (stockValue > 0) {
+					stock = true;
+				}
+			}
 
 
-            result.close();
-            stmt.close();
-            con.close();
+			result.close();
+			stmt.close();
+			con.close();
 
-        } catch (SQLException e) {
-            System.out.println("Error al verificar credenciales: " + e.getMessage());
-        }
+		} catch (SQLException e) {
+			System.out.println("Error al verificar credenciales: " + e.getMessage());
+		}
 
-        return stock;
+		return stock;
 	}
-	
-	
+
+
 
 
 

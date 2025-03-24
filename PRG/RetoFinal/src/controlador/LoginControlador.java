@@ -3,6 +3,7 @@ package controlador;
 import java.time.LocalDate;
 import java.util.Map;
 import modelo.*;
+import vista.VentanaVender;
 
 public class LoginControlador {
 
@@ -34,6 +35,11 @@ public class LoginControlador {
 		
 	}*/
 
+	public void openWindow(CarDealership cardealer) {
+		VentanaVender ven = new VentanaVender(cardealer, this);
+		ven.setVisible(true);
+	}
+	
 	public Map<String, Model> getModels(CarDealership cardealer) {
 		return dao.getModels(cardealer);
 		
@@ -48,8 +54,8 @@ public class LoginControlador {
 		return dao.callProcedure(client, model, carDealer, actualDate, quantity);
 	}
 	
-	public boolean comprobarStock(Model model, CarDealership carDealer) {
-		return dao.comprobarStock(model, carDealer);
+	public boolean checkStock(Model model) {
+		return dao.checkStock(model);
 	}
 	
 }

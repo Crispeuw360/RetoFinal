@@ -12,6 +12,7 @@ import controlador.LoginControlador;
 import modelo.CarDealership;
 import modelo.Client_;
 import modelo.Model;
+import modelo.StockException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -44,8 +45,8 @@ public class VentanaVender extends JDialog implements ActionListener {
 	private JLabel lblWorkers;
 	private CarDealership cardealer;
 
-	public VentanaVender(JFrame parent, CarDealership cardealer, LoginControlador cont) {
-		super(parent, true);
+	public VentanaVender(/*JFrame parent,*/ CarDealership cardealer, LoginControlador cont) {
+		//super(parent, true);
 		this.cont = cont;
 		this.cardealer = cardealer;
 		setSize(800, 600);
@@ -97,9 +98,13 @@ public class VentanaVender extends JDialog implements ActionListener {
 		lblWorkers.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
 		lblWorkers.setBounds(542, 44, 78, 35);
 		contentPanel.add(lblWorkers);
-
+		
 		loadCliens();
 		loadModels(cardealer);
+		
+		
+		btnSell.addActionListener(this);
+		btnAddUser.addActionListener(this);
 
 	}
 
@@ -132,12 +137,36 @@ public class VentanaVender extends JDialog implements ActionListener {
 			//AQUI VA LA VENTANA NUEVO USUARIO
 		}
 		
-		if(e.getSource()==btnSell) throws StockException {
+		//the try catch surrounds the button not to get into an infinite loop
+		try {
+		if(e.getSource()==btnSell) {
 			
-			client = clientsList.get(comboBoxClients.getSelectedItem());
-			model = modelsList.get(comboBoxModels.getSelectedItem());
-			cont.callProcedure(client, model, cardealer, LocalDate.now(), Integer.parseInt(lblUnits.getText()));
-			
+				checkingStock();
 		}
+			
+		} catch (StockException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	}
+	
+	public void checkingStock() throws StockException {
+		Client_ client;
+		Model model;
+		
+		client = clientsList.get(comboBoxClients.getSelectedItem());
+		model = modelsList.get(comboBoxModels.getSelectedItem());
+		
+		if(cont.checkStock(model)) {
+			cont.callProcedure(client, model, cardealer, LocalDate.now(), Integer.parseInt(textFieldUnits.getText()));
+			lblMessage.setText("PURCHASE CORRECTLY DONE!");
+			}else {
+				throw new StockException();
+				//AÑADIR VENTANA POP UPP
+				//SE TIENE QUE QUEDAR EN BUCLE????? NO SE PUEDE EN BUCLE
+				
+			}
+	}
+	
 }
