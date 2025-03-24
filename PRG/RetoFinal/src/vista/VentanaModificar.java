@@ -54,6 +54,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		this.cont = cont;
 		this.worker=worker;
 		this.cardealer=cardealer;
+		setResizable(false);
 		setTitle("VentanaModificar");
 		setSize(800, 600);
 		setLocationRelativeTo(null);

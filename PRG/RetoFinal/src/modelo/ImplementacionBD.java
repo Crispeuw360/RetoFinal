@@ -25,7 +25,7 @@ public class ImplementacionBD implements WorkerDAO{
 	// Sentencias SQL
 
 	final String SQL = "SELECT * FROM usuario WHERE nombre = ? AND contrasena = ?";
-	final String SAQLINSERT = "INSERT INTO usuario VALUES ( ?,?)";
+	final String SQLINSERTCLIENT = "INSERT INTO client_ VALUES ( ?,?,?,?)";
 	final String SQLCONSULTA = "SELECT * FROM usuario";
 	final String SQLMODELS = "SELECT * FROM model";
 	final String SQLBORRAR = "DELETE FROM usuario WHERE nombre=?";
@@ -92,17 +92,19 @@ public class ImplementacionBD implements WorkerDAO{
 
 	}
 
-	/*@Override
-		public boolean insertarUsuario(Usuario usuario) {
+	@Override
+		public boolean insertClient(Client client) {
 			// TODO Auto-generated method stub
 			boolean ok=false;
 			this.openConnection();
 			try {
 				// Preparamos la sentencia stmt con la conexion y sentencia sql correspondiente
 
-				stmt = con.prepareStatement(SAQLINSERT);
-				stmt.setString(1, usuario.getNombre());
-				stmt.setString(2, usuario.getContrasena());
+				stmt = con.prepareStatement(SQLINSERTCLIENT);
+				stmt.setString(1, client.getDni());
+				stmt.setString(2, client.getEmail());
+				stmt.setString(3, client.getUser_());
+				stmt.setString(4, client.getPassword_());
 				if (stmt.executeUpdate()>0) {
 					ok=true;
 				}
@@ -114,7 +116,7 @@ public class ImplementacionBD implements WorkerDAO{
 	        }
 			return ok;
 
-		}*/
+		}
 
 	public Map<String, Model> getModels(CarDealership cardealer) 
 	{

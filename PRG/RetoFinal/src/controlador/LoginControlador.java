@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.Map;
 import modelo.*;
+import vista.VentanaCrearUsuario;
 import vista.VentanaModificar;
 
 public class LoginControlador {
@@ -16,20 +17,23 @@ public class LoginControlador {
 	}
 	public void visualizarPantalla() {
 
-		CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
+		/*CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
 		Worker work = new Worker("juan23","pass123",true,1);
 
-		VentanaModificar ven = new VentanaModificar(car,this,work);
+		VentanaModificar ven = new VentanaModificar(car,this,work);*/
+		CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
+		VentanaCrearUsuario ven = new VentanaCrearUsuario(car,this);
 		ven.setVisible(true);
 	}
 	public boolean modifyModel(Model model) 
 	{
 		return dao.modifyModel(model);
 	}
-	/*public void visualizarPantalla() {
-		VentanaLogin ven = new VentanaLogin(this);
-		ven.setVisible(true);	
+	public boolean insertClient(Client client) 
+	{
+		return dao.insertClient(client);
 	}
+	/*
 	public boolean comprobarUsuario(Usuario usuario){
 		return dao.comprobarUsuario(usuario);	
 	}

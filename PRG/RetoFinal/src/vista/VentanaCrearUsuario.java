@@ -35,9 +35,10 @@ public class VentanaCrearUsuario extends JDialog implements ActionListener {
 	private JLabel lblInvisible;
 
 	
-	public VentanaCrearUsuario(JFrame parent,CarDealership cardealer,LoginControlador cont) 
+	public VentanaCrearUsuario(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont) 
 	{
-		super(parent, true);
+		//super(parent, true);
+		setResizable(false);
 		setTitle("Create New User");
 		this.cont = cont;
 		setSize(600, 450);
@@ -108,25 +109,39 @@ public class VentanaCrearUsuario extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Client cli;
+		
 		if(e.getSource()==btnCreate) 
 		{
+			//Checks if the forms are not empty
 			if(!textFieldUserName.getText().trim().isEmpty()&&!passwordField.getPassword().toString().trim().isEmpty()&&!textFieldDni.getText().trim().isEmpty()&&!textFieldEmail.getText().trim().isEmpty()) 
 			{
-				if(checkClientList(textFieldUserName.getText()))
+				//calls the procedure
+				if(!checkClientList(textFieldUserName.getText().trim()))
 				{
-					
+					cli = new Client(textFieldDni.getText().trim(),textFieldEmail.getText().trim(),textFieldUserName.getText().trim(),new String(passwordField.getPassword()));
+					//calls fron the LoginControlador
+					if(cont.insertClient(cli))
+					{
+						lblInvisible.setText("User created Correctly");
+					}else
+					{
+						lblInvisible.setText("Error creating the user");
+					}
 				}else
 				{
-					lblInvisible.setText("Nombre de usuario Ya existe, vuelve a intentarlo");
+					lblInvisible.setText("This Username already exist, Try Again");
 				}
 			}else
 			{
-				lblInvisible.setText("Rellena todo los apartados");
+				lblInvisible.setText("fill all the forms");
 			}
 		}
 	}
+	//Checks all the rows of the table client, to confirm if the username already exist
 	public boolean checkClientList(String userName) {
 		boolean encontrado = false;
+		//calls the method of the LoginControlador to get all the clients to the checkbox
 		clientsList = cont.getClients();
 		if (!clientsList.isEmpty()) 
 		{
