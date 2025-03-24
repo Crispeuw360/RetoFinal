@@ -13,7 +13,12 @@ public interface WorkerDAO {
 
 	Map<String, Model> getModels(CarDealership cardealer);
 
+	Map<String, Worker> getCoWorkers(Worker worker);
+
 	public CarDealership getWorkingPlace(Worker worker);
 
 	public boolean deleteModel(Model model);
+
+	public Worker checkWorker(Worker worker);
+
 }

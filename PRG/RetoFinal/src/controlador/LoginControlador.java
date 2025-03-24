@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.Map;
 import modelo.*;
+import vista.VentanaLogin;
 import vista.VentanaPrincipal;
 
 public class LoginControlador {
@@ -10,14 +11,18 @@ public class LoginControlador {
 
 	public void visualizarPantalla() {
 
-		Worker worker = new Worker(true, "Alex", "1234", 2);
+	
 
-		VentanaPrincipal ven = new VentanaPrincipal(this, worker);
+		VentanaLogin ven = new VentanaLogin(this);
 		ven.setVisible(true);
 	}
 
 	public Map<String, Model> getModels(CarDealership cardealer) {
 		return dao.getModels(cardealer);
+	}
+
+	public Map<String, Worker> getCoWorkers(Worker worker) {
+		return dao.getCoWorkers(worker);
 	}
 
 	public CarDealership getWorkingPlace(Worker worker) {
@@ -26,6 +31,11 @@ public class LoginControlador {
 
 	public boolean deleteModel(Model model) {
 		return dao.deleteModel(model);
+	}
+
+	public Worker checkWorker(Worker worker) {
+
+		return dao.checkWorker(worker);
 	}
 
 }

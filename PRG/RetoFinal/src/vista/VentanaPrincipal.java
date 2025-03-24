@@ -39,6 +39,7 @@ import javax.swing.JMenuBar;
 
 public class VentanaPrincipal extends JFrame implements ActionListener {
 	private LoginControlador cont;
+	private Worker worker;
 	private JButton btnSell;
 	private JButton btnModifyCars;
 	private JButton btnDelete;
@@ -46,7 +47,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	private JMenuBar menuBar;
 	private JMenu mnUserMenu;
 	private JMenuItem mntmLogOut;
-	private Worker worker;
 	private CarDealership cardealer;
 	private Map<String, Model> models;
 	private DefaultListModel<String> listModel;
@@ -196,6 +196,18 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	}
 
 	public void loadWorker() {
+		
+		
+	     if (worker.isAdmin()) {
+             System.out.println("El usuario es administrador");
+             // Aquí puedes abrir una ventana de administrador
+             
+             
+         } else {
+             System.out.println("El usuario no es administrador");
+             // Aquí puedes abrir una ventana de usuario normal
+         }
+		
 		if (!worker.isAdmin()) {
 
 			mnUserMenu.setText(worker.getUser());
@@ -238,25 +250,26 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 				desktop.browse(new URI(searchUrl));
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Failed while trying to open the browser.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Failed while trying to open the browser.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 
 		}
 
 		if (e.getSource() == mntmLogOut) {
 			this.dispose();
-
+			//OPEN LOGIN
 		}
 
 		if (e.getSource() == mntmMngModel) {
 
 		}
-		
+
 		if (e.getSource() == mntmMngWorker) {
 
-			WindowMngWorker ven = new WindowMngWorker(this, cont);
+			WindowMngWorker ven = new WindowMngWorker(this, cont, worker);
 			ven.setVisible(true);
-			
+
 		}
 
 	}
