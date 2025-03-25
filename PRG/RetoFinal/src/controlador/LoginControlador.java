@@ -40,8 +40,8 @@ public class LoginControlador {
 		ven.setVisible(true);
 	}
 	
-	public Map<String, Model> getModels(CarDealership cardealer) {
-		return dao.getModels(cardealer);
+	public Map<String, Model> getModels(Worker worker) {
+		return dao.getModels(worker);
 		
 	}
 	
@@ -50,8 +50,8 @@ public class LoginControlador {
 		
 	}
 	
-	public boolean callProcedure(Client_ client, Model model, CarDealership carDealer, LocalDate actualDate, int quantity) {
-		return dao.callProcedure(client, model, carDealer, actualDate, quantity);
+	public boolean callProcedure(Client_ client, Model model, Worker worker, LocalDate actualDate, int quantity) {
+		return dao.callProcedure(client, model, worker, actualDate, quantity);
 	}
 	
 	public boolean checkStock(Model model) {

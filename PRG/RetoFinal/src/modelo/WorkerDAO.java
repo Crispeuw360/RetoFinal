@@ -12,8 +12,8 @@ public interface WorkerDAO {
 	public boolean modificarUsuario(Usuario usuario);*/
 	
 	public Map<String, Client_> getClients_();
-	public Map<String, Model> getModels(CarDealership cardealer);
-	public boolean callProcedure(Client_ client, Model model, CarDealership carDealer, LocalDate actualDate, int quantity);
+	public Map<String, Model> getModels(Worker worker);
+	public boolean callProcedure(Client_ client, Model model, Worker worker, LocalDate actualDate, int quantity);
 	public boolean checkStock(Model model);
 	
 }

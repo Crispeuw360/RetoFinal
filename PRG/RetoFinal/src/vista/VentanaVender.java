@@ -13,6 +13,7 @@ import modelo.CarDealership;
 import modelo.Client_;
 import modelo.Model;
 import modelo.StockException;
+import modelo.Worker;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -44,6 +45,7 @@ public class VentanaVender extends JDialog implements ActionListener {
 	private JLabel lblModels;
 	private JLabel lblWorkers;
 	private CarDealership cardealer;
+	private JButton btnGoBack;
 
 	public VentanaVender(/*JFrame parent,*/ CarDealership cardealer, LoginControlador cont) {
 		//super(parent, true);
@@ -57,54 +59,60 @@ public class VentanaVender extends JDialog implements ActionListener {
 		contentPanel.setLayout(null);
 
 		comboBoxModels = new JComboBox<String>();
-		comboBoxModels.setBounds(112, 89, 135, 35);
+		comboBoxModels.setBounds(117, 94, 135, 35);
 		contentPanel.add(comboBoxModels);
 
 		comboBoxClients = new JComboBox<String>();
-		comboBoxClients.setBounds(519, 89, 135, 35);
+		comboBoxClients.setBounds(524, 94, 135, 35);
 		contentPanel.add(comboBoxClients);
 
 		lblUnits = new JLabel("Units to sell:");
 		lblUnits.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		lblUnits.setBounds(124, 319, 118, 35);
+		lblUnits.setBounds(117, 329, 118, 35);
 		contentPanel.add(lblUnits);
 
 		textFieldUnits = new JTextField();
-		textFieldUnits.setBounds(258, 317, 127, 35);
+		textFieldUnits.setBounds(251, 327, 127, 35);
 		contentPanel.add(textFieldUnits);
 		textFieldUnits.setColumns(10);
 
 		btnSell = new JButton("SELL\r\n");
 		btnSell.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-		btnSell.setBounds(573, 420, 127, 43);
+		btnSell.setBounds(566, 430, 127, 43);
 		contentPanel.add(btnSell);
 
 		lblMessage = new JLabel("");
 		lblMessage.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-		lblMessage.setBounds(95, 372, 529, 24);
+		lblMessage.setBounds(88, 426, 529, 24);
 		contentPanel.add(lblMessage);
 
 		btnAddUser = new JButton("ADD USER");
 		btnAddUser.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-		btnAddUser.setBounds(146, 421, 127, 43);
+		btnAddUser.setBounds(139, 431, 127, 43);
 		contentPanel.add(btnAddUser);
 
 		lblModels = new JLabel("MODELS");
 		lblModels.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		lblModels.setBounds(135, 44, 78, 35);
+		lblModels.setBounds(140, 49, 78, 35);
 		contentPanel.add(lblModels);
 
 		lblWorkers = new JLabel("WORKERS\r\n");
 		lblWorkers.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		lblWorkers.setBounds(542, 44, 78, 35);
+		lblWorkers.setBounds(547, 49, 78, 35);
 		contentPanel.add(lblWorkers);
-		
+
+		btnGoBack = new JButton("GO BACK");
+		btnGoBack.setFont(new Font("Trebuchet MS", Font.PLAIN, 12));
+		btnGoBack.setBounds(24, 515, 84, 24);
+		contentPanel.add(btnGoBack);
+
 		loadCliens();
-		loadModels(cardealer);
-		
-		
+		loadModels(worker);
+
+
 		btnSell.addActionListener(this);
 		btnAddUser.addActionListener(this);
+		btnGoBack.addActionListener(this);
 
 	}
 
@@ -118,8 +126,8 @@ public class VentanaVender extends JDialog implements ActionListener {
 		comboBoxClients.setSelectedIndex(-1);
 	}
 
-	public void loadModels(CarDealership cardealer) {
-		modelsList = cont.getModels(cardealer);
+	public void loadModels(Worker Worker) {
+		modelsList = cont.getModels(worker);
 		if (!modelsList.isEmpty()) {
 			for (Model m : modelsList.values()) {
 				comboBoxModels.addItem(m.getName_model());
@@ -136,37 +144,41 @@ public class VentanaVender extends JDialog implements ActionListener {
 		if (e.getSource() == btnAddUser) {
 			//AQUI VA LA VENTANA NUEVO USUARIO
 		}
-		
+
 		//the try catch surrounds the button not to get into an infinite loop
-		try {
+
 		if(e.getSource()==btnSell) {
-			
+			try {
 				checkingStock();
+			} catch (StockException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-			
-		} catch (StockException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
+
+
+		if (e.getSource() == btnGoBack) {
+			this.dispose();
 		}
-		
+
 	}
-	
+
 	public void checkingStock() throws StockException {
 		Client_ client;
 		Model model;
-		
+
 		client = clientsList.get(comboBoxClients.getSelectedItem());
 		model = modelsList.get(comboBoxModels.getSelectedItem());
-		
+
 		if(cont.checkStock(model)) {
 			cont.callProcedure(client, model, cardealer, LocalDate.now(), Integer.parseInt(textFieldUnits.getText()));
 			lblMessage.setText("PURCHASE CORRECTLY DONE!");
-			}else {
-				throw new StockException();
-				//AÑADIR VENTANA POP UPP
-				//SE TIENE QUE QUEDAR EN BUCLE????? NO SE PUEDE EN BUCLE
-				
-			}
+		}else {
+			throw new StockException();
+			//AÑADIR VENTANA POP UPP
+			//SE TIENE QUE QUEDAR EN BUCLE????? NO SE PUEDE EN BUCLE
+
+		}
 	}
-	
 }
