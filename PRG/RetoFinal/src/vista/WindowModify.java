@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 
-public class VentanaModificar extends JDialog implements ActionListener {
+public class WindowModify extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	private JComboBox<String> comboBoxLista;
@@ -48,7 +48,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 	private boolean activar = false;
 
 
-	public VentanaModificar(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont,Worker worker) 
+	public WindowModify(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont,Worker worker) 
 	{
 		/*super(parent, true);*/
 		this.cont = cont;

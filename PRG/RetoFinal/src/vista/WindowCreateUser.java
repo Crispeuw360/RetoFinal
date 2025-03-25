@@ -22,7 +22,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 
-public class VentanaCrearUsuario extends JDialog implements ActionListener {
+public class WindowCreateUser extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	private LoginControlador cont;
@@ -33,9 +33,10 @@ public class VentanaCrearUsuario extends JDialog implements ActionListener {
 	private JButton btnCreate;
 	private Map<String, Client> clientsList;
 	private JLabel lblInvisible;
+	private JButton btnBack;
 
 	
-	public VentanaCrearUsuario(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont) 
+	public WindowCreateUser(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont) 
 	{
 		//super(parent, true);
 		setResizable(false);
@@ -95,7 +96,7 @@ public class VentanaCrearUsuario extends JDialog implements ActionListener {
 		
 		btnCreate = new JButton("Create");
 		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnCreate.setBounds(208, 287, 156, 46);
+		btnCreate.setBounds(222, 297, 156, 46);
 		contentPanel.add(btnCreate);
 		btnCreate .addActionListener(this);
 		
@@ -103,6 +104,12 @@ public class VentanaCrearUsuario extends JDialog implements ActionListener {
 		lblInvisible.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblInvisible.setBounds(26, 343, 543, 46);
 		contentPanel.add(lblInvisible);
+		
+		btnBack = new JButton("Go Back");
+		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnBack.setBounds(10, 368, 126, 35);
+		contentPanel.add(btnBack);
+		btnBack.addActionListener(this);
 	}
 
 
@@ -136,6 +143,11 @@ public class VentanaCrearUsuario extends JDialog implements ActionListener {
 			{
 				lblInvisible.setText("fill all the forms");
 			}
+		}
+		
+		if(e.getSource()==btnBack)
+		{
+			this.dispose();
 		}
 	}
 	//Checks all the rows of the table client, to confirm if the username already exist

@@ -2,8 +2,8 @@ package controlador;
 
 import java.util.Map;
 import modelo.*;
-import vista.VentanaCrearUsuario;
-import vista.VentanaModificar;
+import vista.WindowCreateUser;
+import vista.WindowModify;
 
 public class LoginControlador {
 
@@ -22,7 +22,7 @@ public class LoginControlador {
 
 		VentanaModificar ven = new VentanaModificar(car,this,work);*/
 		CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
-		VentanaCrearUsuario ven = new VentanaCrearUsuario(car,this);
+		WindowCreateUser ven = new WindowCreateUser(car,this);
 		ven.setVisible(true);
 	}
 	public boolean modifyModel(Model model) 
