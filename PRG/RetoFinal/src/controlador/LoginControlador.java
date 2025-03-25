@@ -17,10 +17,10 @@ public class LoginControlador {
 	}
 	public void visualizarPantalla() {
 
-		/*CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
+		/*
 		Worker work = new Worker("juan23","pass123",true,1);
 
-		VentanaModificar ven = new VentanaModificar(car,this,work);*/
+		WindowModify ven = new WindowModify(this,work);*/
 		CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
 		WindowCreateUser ven = new WindowCreateUser(car,this);
 		ven.setVisible(true);

@@ -43,17 +43,15 @@ public class WindowModify extends JDialog implements ActionListener {
 	private JButton btnUpdate;
 	private LoginControlador cont;
 	private Worker worker;
-	private CarDealership cardealer;
 	private Map<String, Model> modelsList;
 	private boolean activar = false;
 
 
-	public WindowModify(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont,Worker worker) 
+	public WindowModify(/*JFrame parent,*/LoginControlador cont,Worker worker) 
 	{
 		/*super(parent, true);*/
 		this.cont = cont;
 		this.worker=worker;
-		this.cardealer=cardealer;
 		setResizable(false);
 		setTitle("VentanaModificar");
 		setSize(800, 600);
