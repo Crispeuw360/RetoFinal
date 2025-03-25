@@ -11,8 +11,6 @@ public class LoginControlador {
 
 	public void visualizarPantalla() {
 
-	
-
 		VentanaLogin ven = new VentanaLogin(this);
 		ven.setVisible(true);
 	}
@@ -21,12 +19,20 @@ public class LoginControlador {
 		return dao.getModels(cardealer);
 	}
 
+	public Map<String, Worker> getWorkers() {
+		return dao.getWorkers();
+	}
+	
 	public Map<String, Worker> getCoWorkers(Worker worker) {
 		return dao.getCoWorkers(worker);
 	}
 
 	public CarDealership getWorkingPlace(Worker worker) {
 		return dao.getWorkingPlace(worker);
+	}
+
+	public Map<String, CarDealership> getAllDeals() {
+		return dao.getAllDeals();
 	}
 
 	public boolean deleteModel(Model model) {

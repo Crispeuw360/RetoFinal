@@ -30,9 +30,10 @@ public class ImplementacionBD implements WorkerDAO {
 
 	// dej
 	final String SQLGETMODELS = "SELECT * FROM model WHERE id_car_dealer = ?";
-	final String SQLGETWORKERS = " SELECT * FROM worker WHERE id_car_dealer = ?";
+	final String SQLGETWORKERS = " SELECT * FROM worker";
+	final String SQLGETCOWORKERS = " SELECT * FROM worker WHERE id_car_dealer = ?";
 	final String SQLGETDEALER = " SELECT * FROM car_dealership WHERE id_car_dealer = ?";
-
+	final String SQLGETDEALS = "SELECT * FROM car_dealership";
 	final String SQLDELETEMODEL = "DELETE FROM model WHERE name_model = ?";
 
 	final String SQLBORRAR = "DELETE FROM usuario WHERE nombre=?";
@@ -59,7 +60,58 @@ public class ImplementacionBD implements WorkerDAO {
 		}
 	}
 
-	@Override
+	public Map<String, Worker> getWorkers() {
+
+		// TODO Auto-generated method stub
+
+		ResultSet rs = null;
+		Worker worker;
+		Map<String, Worker> workers = new TreeMap<>();
+
+		// Abrimos la conexi n
+
+		this.openConnection();
+
+		try {
+
+			stmt = con.prepareStatement(SQLGETWORKERS);
+			rs = stmt.executeQuery();
+
+			// Leemos de uno en uno
+
+			while (rs.next()) {
+
+				worker = new Worker();
+
+				worker.setAdmin(rs.getBoolean("admin_"));
+
+				worker.setUser(rs.getString("user_"));
+
+				worker.setPassword(rs.getString("password_"));
+
+				worker.setId_car_dealer(rs.getInt("id_car_dealer"));
+
+				workers.put(worker.getUser(), worker);
+
+			}
+
+			rs.close();
+
+			stmt.close();
+
+			con.close();
+
+		} catch (SQLException e) {
+
+			System.out.println("Error de SQL");
+
+			e.printStackTrace();
+
+		}
+
+		return workers;
+
+	}
 
 	public Map<String, Worker> getCoWorkers(Worker worker) {
 
@@ -75,7 +127,7 @@ public class ImplementacionBD implements WorkerDAO {
 
 		try {
 
-			stmt = con.prepareStatement(SQLGETWORKERS);
+			stmt = con.prepareStatement(SQLGETCOWORKERS);
 			stmt.setInt(1, worker.getId_car_dealer());
 			rs = stmt.executeQuery();
 
@@ -216,21 +268,6 @@ public class ImplementacionBD implements WorkerDAO {
 		}
 		return ok;
 	}
-	/*
-	 * public boolean deleteWorker(Worker worker) { boolean ok = false;
-	 * 
-	 * this.openConnection();
-	 * 
-	 * 
-	 * try { smtm =con.prepareCall(SQLDELETEWORKER)
-	 * 
-	 * }
-	 * 
-	 * return ok;
-	 * 
-	 * 
-	 * }
-	 */
 
 	public Worker checkWorker(Worker worker) {
 		Worker foundWorker = null; // Inicializamos como null
@@ -271,4 +308,53 @@ public class ImplementacionBD implements WorkerDAO {
 
 		return foundWorker; // Devolvemos el Worker encontrado (o null si no existe)
 	}
+
+	public Map<String, CarDealership> getAllDeals() {
+
+		CarDealership cardealer = null;
+
+		Map<String, CarDealership> dealers = new TreeMap<>();
+
+		ResultSet rs = null;
+
+		this.openConnection();
+
+		try {
+
+			stmt = con.prepareStatement(SQLGETDEALS);
+
+			rs = stmt.executeQuery();
+
+			// Leemos de uno en uno
+
+			while (rs.next()) {
+
+				cardealer = new CarDealership();
+
+				cardealer.setId(rs.getInt("id_car_dealer"));
+				cardealer.setLocation(rs.getString("location"));
+				cardealer.setName(rs.getString("name_"));
+
+				dealers.put(cardealer.getName(), cardealer);
+
+			}
+
+			rs.close();
+
+			stmt.close();
+
+			con.close();
+
+		} catch (SQLException e) {
+
+			System.out.println("Error de SQL");
+
+			e.printStackTrace();
+
+		}
+
+		return dealers;
+
+	}
+
 }

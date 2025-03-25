@@ -63,6 +63,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		this.worker = worker;
 		setBackground(new Color(181, 255, 255));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		JPanel contentPane = new JPanel();
@@ -196,21 +197,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	}
 
 	public void loadWorker() {
-		
-		
-	     if (worker.isAdmin()) {
-             System.out.println("El usuario es administrador");
-             // Aquí puedes abrir una ventana de administrador
-             
-             
-         } else {
-             System.out.println("El usuario no es administrador");
-             // Aquí puedes abrir una ventana de usuario normal
-         }
-		
-		if (!worker.isAdmin()) {
 
-			mnUserMenu.setText(worker.getUser());
+		mnUserMenu.setText(worker.getUser());
+
+		if (!worker.isAdmin()) {
 
 			btnDelete.setEnabled(false);
 			btnDelete.setToolTipText("This is an Admin function!");
@@ -258,7 +248,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
 		if (e.getSource() == mntmLogOut) {
 			this.dispose();
-			//OPEN LOGIN
+			cont.visualizarPantalla();
 		}
 
 		if (e.getSource() == mntmMngModel) {

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controlador.LoginControlador;
+import modelo.CarDealership;
 import modelo.Worker;
 
 import javax.swing.JLabel;
@@ -29,17 +30,26 @@ import javax.swing.JComponent;
 public class WindowMngWorker extends JDialog implements ActionListener {
 
 	private LoginControlador cont;
-	private Worker worker;
 	private static final long serialVersionUID = 1L;
+
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField_user;
 	private JPasswordField passwordField;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+
 	private JButton btnGoBack;
 	private JButton btnDelete;
-	private JComboBox <String> comboBoxWorkers;
-	private Component comboBoxWorkPlace;
+
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JRadioButton rdbtnYes;
+	private JRadioButton rdbtnNo;
+
+	private JComboBox<String> comboBoxWorkers;
+	private JComboBox<String> comboBoxWorkPlace;
+
+	private Worker worker;
 	private Map<String, Worker> workers;
+	private CarDealership dealer;
+	private Map<String, CarDealership> dealers;
 
 	public WindowMngWorker(VentanaPrincipal ventanaPrincipal, LoginControlador cont, Worker worker) {
 		super(ventanaPrincipal, true);
@@ -117,27 +127,28 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		btnUpdate.setBounds(163, 10, 150, 33);
 		panelDatos.add(btnUpdate);
 
-		JRadioButton rdbtnYes = new JRadioButton("YES");
+		rdbtnYes = new JRadioButton("YES");
 		buttonGroup.add(rdbtnYes);
 		rdbtnYes.setBounds(126, 247, 80, 20);
 		panelDatos.add(rdbtnYes);
 
-		JRadioButton rdbtnNo = new JRadioButton("NO");
+		rdbtnNo = new JRadioButton("NO");
 		buttonGroup.add(rdbtnNo);
 		rdbtnNo.setBounds(216, 247, 80, 20);
 		panelDatos.add(rdbtnNo);
-		
+
 		loadWorker();
+		setupListeners();
 
 	}
 
 	public void loadWorker() {
-		workers = cont.getCoWorkers(worker);
+		workers = cont.getWorkers();
 
 		if (!workers.isEmpty()) {
 
 			comboBoxWorkers.addItem("New Worker");
-			
+
 			for (Worker w : workers.values()) {
 				comboBoxWorkers.addItem(w.getUser());
 			}
@@ -145,16 +156,93 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		comboBoxWorkers.setSelectedIndex(-1);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		
-		if (e.getSource() == btnGoBack) {
-			
-			this.dispose();
-			
+	public void loadDealer(Worker worker) {
+
+		int index = 0;
+
+		dealer = cont.getWorkingPlace(worker);
+
+		dealers = cont.getAllDeals();
+
+		comboBoxWorkPlace.removeAllItems();
+
+		if (!dealers.isEmpty()) {
+
+			for (CarDealership c : dealers.values()) {
+				comboBoxWorkPlace.addItem(c.getName());
+
+				if (c.getId() == dealer.getId()) {
+
+					comboBoxWorkPlace.setSelectedIndex(index);
+
+				}
+				index++;
+			}
+
 		}
-		
+
 	}
 
+	// Setups the listener in the comboBox so it can detect changes
+	public void setupListeners() {
+		comboBoxWorkers.addActionListener(new ActionListener() {
+			// when a change is detected,gets the selected item and calls the funcion update
+			// Field
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selectedWorker;
+				Worker worker;
+				selectedWorker = (String) comboBoxWorkers.getSelectedItem();
+
+				if (selectedWorker != null && workers.containsKey(selectedWorker)) {
+
+					worker = workers.get(selectedWorker);
+
+					updateFields(worker);
+				} else {
+					updateFields(null);
+				}
+			}
+		});
+	}
+
+	private void updateFields(Worker selectedWorker) {
+
+		if (selectedWorker != null) {
+			textField_user.setText(selectedWorker.getUser());
+			passwordField.setText(selectedWorker.getPassword());
+			// comboBoxWorkPlace
+
+			loadDealer(selectedWorker);
+
+			if (selectedWorker.isAdmin()) {
+				rdbtnYes.setSelected(true);
+			} else {
+				rdbtnNo.setSelected(true);
+			}
+
+		} else {
+
+			textField_user.setText("");
+			passwordField.setText("");
+
+			comboBoxWorkPlace.setSelectedIndex(-1);
+
+			rdbtnYes.setSelected(false);
+
+			rdbtnNo.setSelected(false);
+
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if (e.getSource() == btnGoBack) {
+
+			this.dispose();
+
+		}
+
+	}
 }
