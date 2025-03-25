@@ -9,8 +9,8 @@ public class LoginControlador {
 
 	WorkerDAO dao = new ImplementacionBD();
 
-	public Map<String, Model> getModels(CarDealership cardealer) {
-		return dao.getModels(cardealer);
+	public Map<String, Model> getModels(Worker worker) {
+		return dao.getModels(worker);
 	}
 	public Map<String, Client> getClients(){
 		return dao.getClients();

@@ -69,7 +69,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		lblTitulo.setBounds(277, 10, 201, 58);
 		contentPanel.add(lblTitulo);
 
-		comboBoxLista = new JComboBox();
+		comboBoxLista = new JComboBox<String>();
 		comboBoxLista.setBounds(35, 108, 201, 41);
 		contentPanel.add(comboBoxLista);
 
@@ -143,7 +143,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 		contentPanel.add(btnBack);
 		btnBack.addActionListener(this);
 
-		loadModels(cardealer);
+		loadModels(worker);
 		setupListeners();
 	}
 
@@ -171,7 +171,7 @@ public class VentanaModificar extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Modelo actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 				
 				comboBoxLista.removeAllItems();  // Limpiar ComboBox
-                loadModels(cardealer); // Recargar modelos con el concesionario adecuado
+                loadModels(worker); // Recargar modelos con el concesionario adecuado
                 
                 // Actualizar campos con los nuevos valores
                 updateFields(modi);
@@ -188,9 +188,9 @@ public class VentanaModificar extends JDialog implements ActionListener {
 
 	}
 	//it loads all models to the comboBox
-	public void loadModels(CarDealership cardealer)
+	public void loadModels(Worker worker)
 	{
-		modelsList = cont.getModels(cardealer);
+		modelsList = cont.getModels(worker);
 		if (!modelsList.isEmpty()) {
 			for (Model m : modelsList.values()) {
 				comboBoxLista.addItem(m.getName_model());

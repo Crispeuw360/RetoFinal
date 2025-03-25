@@ -27,7 +27,7 @@ public class ImplementacionBD implements WorkerDAO{
 	final String SQL = "SELECT * FROM usuario WHERE nombre = ? AND contrasena = ?";
 	final String SQLINSERTCLIENT = "INSERT INTO client_ VALUES ( ?,?,?,?)";
 	final String SQLCONSULTA = "SELECT * FROM usuario";
-	final String SQLMODELS = "SELECT * FROM model";
+	final String SQLMODELS = "SELECT * FROM model WHERE ID_CAR_DEALER = ?";
 	final String SQLBORRAR = "DELETE FROM usuario WHERE nombre=?";
 	final String SQLMODIFICARMODEL = "UPDATE MODEL SET MARK = ?, STOCK = ?, PRICE = ? WHERE NAME_MODEL = ? AND ID_CAR_DEALER = ?";
 	final String SQLCLIENTS = "SELECT * FROM client_";
@@ -118,7 +118,7 @@ public class ImplementacionBD implements WorkerDAO{
 
 		}
 
-	public Map<String, Model> getModels(CarDealership cardealer) 
+	public Map<String, Model> getModels(Worker worker) 
 	{
 		// TODO Auto-generated method stub
 
@@ -129,6 +129,7 @@ public class ImplementacionBD implements WorkerDAO{
 		this.openConnection();
 		try {
 			stmt = con.prepareStatement(SQLMODELS);
+			stmt.setInt(1, worker.getId_car_dealer());
 			rs = stmt.executeQuery();
 			// Leemos de uno en uno
 			while (rs.next()) {
@@ -138,11 +139,8 @@ public class ImplementacionBD implements WorkerDAO{
 				model.setName_model(rs.getString("name_model"));
 				model.setPrice(rs.getDouble("price"));
 				model.setStock(rs.getInt("stock"));				
+				models.put(model.getName_model(), model);	
 
-				if (model.getId_car_dealer()==cardealer.getId())
-				{
-					models.put(model.getName_model(), model);	
-				}
 			}
 			rs.close();
 			stmt.close();
