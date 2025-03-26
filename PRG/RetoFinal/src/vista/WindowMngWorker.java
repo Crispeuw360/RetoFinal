@@ -51,6 +51,9 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 	private CarDealership dealer;
 	private Map<String, CarDealership> dealers;
 
+	private JButton btnShowPass;
+	boolean visible = false;
+
 	public WindowMngWorker(VentanaPrincipal ventanaPrincipal, LoginControlador cont, Worker worker) {
 		super(ventanaPrincipal, true);
 		this.cont = cont;
@@ -99,8 +102,14 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 		passwordField = new JPasswordField();
 		passwordField.setEnabled(false);
-		passwordField.setBounds(126, 143, 170, 20);
+		passwordField.setBounds(126, 143, 115, 20);
 		panelDatos.add(passwordField);
+
+		btnShowPass = new JButton("show");
+		btnShowPass.setFont(new Font("Tahoma", Font.PLAIN, 6));
+		btnShowPass.setBounds(246, 143, 50, 20);
+		panelDatos.add(btnShowPass);
+		btnShowPass.addActionListener(this);
 
 		comboBoxWorkPlace = new JComboBox<String>();
 		comboBoxWorkPlace.setBounds(126, 193, 170, 20);
@@ -241,6 +250,19 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		if (e.getSource() == btnGoBack) {
 
 			this.dispose();
+
+		}
+
+		if (e.getSource() == btnShowPass) {
+
+			if (visible) {
+			    passwordField.setEchoChar('\u2022'); // Ocultar texto
+				
+			} else {
+				passwordField.setEchoChar((char) 0); // Mostrar texto
+			}
+
+			visible = !visible; // Alternar el estado
 
 		}
 
