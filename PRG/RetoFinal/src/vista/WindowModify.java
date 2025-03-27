@@ -31,7 +31,7 @@ import java.awt.Color;
 public class WindowModify extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
-	private JComboBox<String> comboBoxLista;
+	private JComboBox<String> comboBoxList;
 	private JLabel lblTitulo;
 	private JLabel lblName;
 	private JTextField textFieldName;
@@ -67,9 +67,9 @@ public class WindowModify extends JDialog implements ActionListener {
 		lblTitulo.setBounds(277, 10, 201, 58);
 		contentPanel.add(lblTitulo);
 
-		comboBoxLista = new JComboBox<String>();
-		comboBoxLista.setBounds(35, 108, 201, 41);
-		contentPanel.add(comboBoxLista);
+		comboBoxList = new JComboBox<String>();
+		comboBoxList.setBounds(35, 108, 201, 41);
+		contentPanel.add(comboBoxList);
 
 
 		JPanel panelDatos = new JPanel();
@@ -169,14 +169,14 @@ public class WindowModify extends JDialog implements ActionListener {
 				if (cont.modifyModel(modi)) 
 				{
 					JOptionPane.showMessageDialog(null, "Modelo actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-					
-					comboBoxLista.removeAllItems();  // Limpiar ComboBox
-	                loadModels(worker); // Recargar modelos con el concesionario adecuado
-	                
-	                
-						// Actualizar campos con los nuevos valores
-						updateFields(modi);
-					
+
+					comboBoxList.removeAllItems();  // Limpiar ComboBox
+					loadModels(worker); // Recargar modelos con el concesionario adecuado
+
+
+					// Actualizar campos con los nuevos valores
+					updateFields(modi);
+
 
 				} else 
 				{
@@ -189,7 +189,7 @@ public class WindowModify extends JDialog implements ActionListener {
 			{
 				JOptionPane.showMessageDialog(null, "Error: Put a Double in the form.", "Error format", JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 		}
 		else if(e.getSource()==btnBack) 
 		{
@@ -203,35 +203,50 @@ public class WindowModify extends JDialog implements ActionListener {
 		modelsList = cont.getModels(worker);
 		if (!modelsList.isEmpty()) {
 			for (Model m : modelsList.values()) {
-				comboBoxLista.addItem(m.getName_model());
+				comboBoxList.addItem(m.getName_model());
 			}
 		}
-		comboBoxLista.setSelectedIndex(-1);
+		comboBoxList.setSelectedIndex(-1);
 	}
 	//It updates the data on the textFields
 	private void updateFields(Model model) 
 	{
-		textFieldName.setText(model.getName_model());
-		textFieldMark.setText(model.getMark());
-		textFieldStock.setText(String.valueOf(model.getStock()));
-		textFieldPrice.setText(String.valueOf(model.getPrice()));
+		if (model != null) {
+			textFieldName.setText(model.getName_model());
+			textFieldMark.setText(model.getMark());
+			textFieldStock.setText(String.valueOf(model.getStock()));
+			textFieldPrice.setText(String.valueOf(model.getPrice()));
+		}else
+		{
+			textFieldName.setText("");
+			textFieldMark.setText("");
+			textFieldStock.setText("");
+			textFieldPrice.setText("");
+			
+			comboBoxList.setSelectedIndex(-1);
+			
+			toggleFields(false);
+		}
 	}
 	//Setups the listener in the comboBox so it can detect changes
 	public void setupListeners() 
 	{
-		comboBoxLista.addActionListener(new ActionListener() 
+		comboBoxList.addActionListener(new ActionListener() 
 		{
 			//when a change is detected,gets the selected item and calls the funcion update Field
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String selectedModel;
 				Model model;
-				selectedModel = (String) comboBoxLista.getSelectedItem();
+				selectedModel = (String) comboBoxList.getSelectedItem();
 
 				if (selectedModel != null && modelsList.containsKey(selectedModel)) 
 				{
 					model = modelsList.get(selectedModel);
 					updateFields(model);
+				}else
+				{
+					updateFields(null);
 				}
 			}
 		});
@@ -245,19 +260,19 @@ public class WindowModify extends JDialog implements ActionListener {
 		btnUpdate.setEnabled(enable);
 	}
 	public static boolean checkInt(String cadena) {
-	    try {
-	        Integer.parseInt(cadena);
-	        return true;  // Es un número entero
-	    } catch (NumberFormatException e) {
-	        return false; // No es un número entero
-	    }
+		try {
+			Integer.parseInt(cadena);
+			return true;  // Es un número entero
+		} catch (NumberFormatException e) {
+			return false; // No es un número entero
+		}
 	}
 	public static boolean checkDouble(String cadena) {
-	    try {
-	        Double.parseDouble(cadena);
-	        return true;  // Es un número decimal válido
-	    } catch (NumberFormatException e) {
-	        return false; // No es un número válido
-	    }
+		try {
+			Double.parseDouble(cadena);
+			return true;  // Es un número decimal válido
+		} catch (NumberFormatException e) {
+			return false; // No es un número válido
+		}
 	}
 }
