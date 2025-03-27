@@ -161,23 +161,35 @@ public class WindowModify extends JDialog implements ActionListener {
 
 		}else if(e.getSource()==btnUpdate) 
 		{
-			stock = Integer.parseInt(textFieldStock.getText().trim());
-			price = Double.parseDouble(textFieldPrice.getText().trim());
-			modi = new Model(textFieldName.getText().trim(),textFieldMark.getText().trim(),stock,price,worker.getId_car_dealer());
-			if (cont.modifyModel(modi)) 
+			if(checkInt(textFieldStock.getText().trim())&&checkDouble(textFieldPrice.getText().trim()))
 			{
-				JOptionPane.showMessageDialog(null, "Modelo actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-				
-				comboBoxLista.removeAllItems();  // Limpiar ComboBox
-                loadModels(worker); // Recargar modelos con el concesionario adecuado
-                
-                // Actualizar campos con los nuevos valores
-                updateFields(modi);
+				stock = Integer.parseInt(textFieldStock.getText().trim());
+				price = Double.parseDouble(textFieldPrice.getText().trim());
+				modi = new Model(textFieldName.getText().trim(),textFieldMark.getText().trim(),stock,price,worker.getId_car_dealer());
+				if (cont.modifyModel(modi)) 
+				{
+					JOptionPane.showMessageDialog(null, "Modelo actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+					
+					comboBoxLista.removeAllItems();  // Limpiar ComboBox
+	                loadModels(worker); // Recargar modelos con el concesionario adecuado
+	                
+	                
+						// Actualizar campos con los nuevos valores
+						updateFields(modi);
+					
 
-			} else 
+				} else 
+				{
+					JOptionPane.showMessageDialog(null, "Error: It couldnt be updated.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}else if(!checkInt(textFieldStock.getText().trim()))
 			{
-				JOptionPane.showMessageDialog(null, "Error: No se pudo actualizar el modelo.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Error: Put an Integer in the form.", "Error format", JOptionPane.ERROR_MESSAGE);
+			}else
+			{
+				JOptionPane.showMessageDialog(null, "Error: Put a Double in the form.", "Error format", JOptionPane.ERROR_MESSAGE);
 			}
+			
 		}
 		else if(e.getSource()==btnBack) 
 		{
@@ -231,5 +243,21 @@ public class WindowModify extends JDialog implements ActionListener {
 		textFieldStock.setEnabled(enable);
 		textFieldPrice.setEnabled(enable);
 		btnUpdate.setEnabled(enable);
+	}
+	public static boolean checkInt(String cadena) {
+	    try {
+	        Integer.parseInt(cadena);
+	        return true;  // Es un número entero
+	    } catch (NumberFormatException e) {
+	        return false; // No es un número entero
+	    }
+	}
+	public static boolean checkDouble(String cadena) {
+	    try {
+	        Double.parseDouble(cadena);
+	        return true;  // Es un número decimal válido
+	    } catch (NumberFormatException e) {
+	        return false; // No es un número válido
+	    }
 	}
 }

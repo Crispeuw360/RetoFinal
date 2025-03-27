@@ -34,6 +34,8 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 	private Map<String, Client> clientsList;
 	private JLabel lblInvisible;
 	private JButton btnBack;
+	private JButton btnShowPass;
+	private boolean visible = false;
 
 	
 	public WindowCreateUser(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont) 
@@ -107,9 +109,15 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		
 		btnBack = new JButton("Go Back");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnBack.setBounds(10, 368, 126, 35);
+		btnBack.setBounds(10, 20, 126, 35);
 		contentPanel.add(btnBack);
 		btnBack.addActionListener(this);
+		
+		btnShowPass = new JButton("Show");
+		btnShowPass.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnShowPass.setBounds(513, 135, 56, 33);
+		contentPanel.add(btnShowPass);
+		btnShowPass.addActionListener(this);		
 	}
 
 
@@ -142,6 +150,21 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 			}else
 			{
 				lblInvisible.setText("fill all the forms");
+			}
+		}
+		if(e.getSource()==btnShowPass)
+		{
+			if (e.getSource() == btnShowPass) {
+
+				if (visible) {
+				    passwordField.setEchoChar('\u2022'); // Ocultar texto
+					
+				} else {
+					passwordField.setEchoChar((char) 0); // Mostrar texto
+				}
+
+				visible = !visible; // Alternar el estado
+
 			}
 		}
 		
