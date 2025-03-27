@@ -22,7 +22,7 @@ public class LoginControlador {
 	public Map<String, Worker> getWorkers() {
 		return dao.getWorkers();
 	}
-	
+
 	public Map<String, Worker> getCoWorkers(Worker worker) {
 		return dao.getCoWorkers(worker);
 	}
@@ -42,6 +42,20 @@ public class LoginControlador {
 	public Worker checkWorker(Worker worker) {
 
 		return dao.checkWorker(worker);
+	}
+
+	public boolean modifyWorker(Worker worker) {
+		return dao.modifyWorker(worker);
+
+	}
+
+	public Worker getWorker(String worker) {
+		return dao.getWorker(worker);
+
+	}
+
+	public boolean deleteWorker(Worker worker) {
+		return dao.deleteWorker(worker);
 	}
 
 }

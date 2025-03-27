@@ -9,7 +9,7 @@ public class Purchase {
 	private int id_car_dealer;
 	private LocalDate date_purchase;
 	private int quantity;
-	
+
 	public Purchase(String dni, String name_model, int id_car_dealer, LocalDate date_purchase, int quantity) {
 		super();
 		this.dni = dni;
@@ -18,7 +18,7 @@ public class Purchase {
 		this.date_purchase = date_purchase;
 		this.quantity = quantity;
 	}
-	
+
 	public Purchase() {
 		super();
 		this.dni = "";
@@ -73,8 +73,5 @@ public class Purchase {
 		return "Purchase [dni=" + dni + ", name_model=" + name_model + ", id_car_dealer=" + id_car_dealer
 				+ ", date_purchase=" + date_purchase + ", quantity=" + quantity + "]";
 	}
-	
-	
-	
-	
+
 }

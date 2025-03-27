@@ -5,16 +5,14 @@ public class CarDealership {
 	private String name;
 	private String location;
 	private int id;
-	
-	public CarDealership(String name, String location, int id) 
-	{
+
+	public CarDealership(String name, String location, int id) {
 		this.name = name;
 		this.location = location;
 		this.id = id;
 	}
-	
-	public CarDealership() 
-	{
+
+	public CarDealership() {
 		this.name = "";
 		this.location = "";
 		this.id = 0;

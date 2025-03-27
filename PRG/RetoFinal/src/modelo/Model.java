@@ -7,7 +7,7 @@ public class Model {
 	private int stock;
 	private double price;
 	private int id_car_dealer;
-	
+
 	public Model(String name_model, String mark, int stock, double price, int id_car_dealer) {
 		super();
 		this.name_model = name_model;
@@ -16,7 +16,7 @@ public class Model {
 		this.price = price;
 		this.id_car_dealer = id_car_dealer;
 	}
-	
+
 	public Model() {
 		super();
 		this.name_model = "";
@@ -71,5 +71,5 @@ public class Model {
 		return "Model [name_model=" + name_model + ", mark=" + mark + ", stock=" + stock + ", price=" + price
 				+ ", id_car_dealer=" + id_car_dealer + "]";
 	}
-	
+
 }

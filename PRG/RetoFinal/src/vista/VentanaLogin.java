@@ -85,18 +85,19 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
 			if (!usuario.isEmpty() && !password.isEmpty()) {
 				Worker worker = new Worker(false, usuario, password, 1); // Inicialmente, no sabemos si es admin
-				Worker foundWorker = cont.checkWorker(worker);
+				Worker foundWorker = cont.checkWorker(worker); // Entra worker con admin y cardealer mal sale bien
 
 				if (foundWorker != null) {
 					error.setText("Inicio de sesión exitoso");
 					error.setForeground(Color.GREEN);
 					error.setVisible(true);
-					
-				     // Verificamos si el usuario es administrador
-	           
+
+					// Verificamos si el usuario es administrador
 
 					VentanaPrincipal ven = new VentanaPrincipal(cont, foundWorker);
 					ven.setVisible(true);
+
+					this.dispose();
 
 				} else {
 					error.setText("Usuario o contraseña incorrectos");

@@ -24,20 +24,21 @@ public class ImplementacionBD implements WorkerDAO {
 
 	// Sentencias SQL
 
-	final String SAQLINSERT = "INSERT INTO usuario VALUES ( ?,?)";
-
 	final String SQLLOGIN = "SELECT * FROM worker WHERE user_ = ? AND password_ = ?";
 
 	// dej
 	final String SQLGETMODELS = "SELECT * FROM model WHERE id_car_dealer = ?";
+
 	final String SQLGETWORKERS = " SELECT * FROM worker";
+	final String SQLGETWORKER = "SELECT * FROM worker WHERE user_ = ?";
 	final String SQLGETCOWORKERS = " SELECT * FROM worker WHERE id_car_dealer = ?";
+
 	final String SQLGETDEALER = " SELECT * FROM car_dealership WHERE id_car_dealer = ?";
 	final String SQLGETDEALS = "SELECT * FROM car_dealership";
-	final String SQLDELETEMODEL = "DELETE FROM model WHERE name_model = ?";
 
-	final String SQLBORRAR = "DELETE FROM usuario WHERE nombre=?";
-	final String SQLMODIFICAR = "UPDATE usuario SET NOMBRE = ? AND contranea = ?";
+	final String SQLDELETEMODEL = "DELETE FROM model WHERE name_model = ?";
+	final String SQLDELETEWORKER = "DELETE FROM worker WHERE user_ = ?";
+	final String SQLMODIFYWORKER = "UPDATE worker SET password_ = ?, admin_ = ?, id_car_dealer = ? WHERE user_ = ?";
 
 	// Para la conexi n utilizamos un fichero de configuaraci n, config que
 	// guardamos en el paquete control:
@@ -269,6 +270,23 @@ public class ImplementacionBD implements WorkerDAO {
 		return ok;
 	}
 
+	public boolean deleteWorker(Worker worker) {
+		boolean ok = false;
+		this.openConnection();
+		try {
+			stmt = con.prepareStatement(SQLDELETEWORKER);
+			stmt.setString(1, worker.getUser());
+			if (stmt.executeUpdate() > 0) {
+				ok = true;
+			}
+			stmt.close();
+			con.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return ok;
+	}
+
 	public Worker checkWorker(Worker worker) {
 		Worker foundWorker = null; // Inicializamos como null
 		this.openConnection(); // Abrimos la conexión a la base de datos
@@ -292,21 +310,12 @@ public class ImplementacionBD implements WorkerDAO {
 				foundWorker = new Worker(esAdmin, usuario, contraseña, idCarDealer);
 			}
 
+			stmt.close();
+			con.close();
 		} catch (SQLException e) {
 			System.out.println("Error al verificar credenciales: " + e.getMessage());
-		} finally {
-			// Cerramos los recursos en un bloque finally
-			try {
-				if (stmt != null)
-					stmt.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				System.out.println("Error al cerrar recursos: " + e.getMessage());
-			}
 		}
-
-		return foundWorker; // Devolvemos el Worker encontrado (o null si no existe)
+		return foundWorker;
 	}
 
 	public Map<String, CarDealership> getAllDeals() {
@@ -354,6 +363,65 @@ public class ImplementacionBD implements WorkerDAO {
 		}
 
 		return dealers;
+
+	}
+
+	public boolean modifyWorker(Worker worker) {
+		// TODO Auto-generated method stub
+		boolean ok = false;
+
+		this.openConnection();
+		try {
+			// Preparamos la sentencia stmt con la conexion y sentencia sql correspondiente
+
+			// "UPDATE worker SET password_ = ?, admin_ = ?, id_car_dealer = ?WHEREuser_ =?
+
+			stmt = con.prepareStatement(SQLMODIFYWORKER);
+			stmt.setString(1, worker.getPassword());
+			stmt.setBoolean(2, worker.isAdmin());
+			stmt.setInt(3, worker.getId_car_dealer());
+
+			stmt.setString(4, worker.getUser());
+
+			ok = stmt.executeUpdate() > 0;
+
+			stmt.close();
+			con.close();
+		} catch (SQLException e) {
+			System.out.println("Error al verificar credenciales: " + e.getMessage());
+		}
+
+		return ok;
+	}
+
+	public Worker getWorker(String worker) {
+
+		Worker foundWorker = null;
+		this.openConnection();
+
+		try {
+			// Preparamos la consulta SQL
+			stmt = con.prepareStatement(SQLGETWORKER);
+			stmt.setString(1, worker);
+			ResultSet resultado = stmt.executeQuery();
+
+			if (resultado.next()) {
+
+				boolean admin = resultado.getBoolean("admin_");
+				String userName = resultado.getString("user_");
+				String password = resultado.getString("password_");
+				int idCarDealer = resultado.getInt("id_car_dealer");
+
+				foundWorker = new Worker(admin, userName, password, idCarDealer);
+			}
+
+			stmt.close();
+			con.close();
+		} catch (SQLException e) {
+			System.out.println("Error al verificar credenciales: " + e.getMessage());
+		}
+
+		return foundWorker;
 
 	}
 

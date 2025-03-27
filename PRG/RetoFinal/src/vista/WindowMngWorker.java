@@ -26,6 +26,7 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.SwingConstants;
 
 public class WindowMngWorker extends JDialog implements ActionListener {
 
@@ -53,6 +54,9 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 	private JButton btnShowPass;
 	boolean visible = false;
+	private JButton btnUpdate;
+	private JButton btnModify;
+	private JLabel lblWarning;
 
 	public WindowMngWorker(VentanaPrincipal ventanaPrincipal, LoginControlador cont, Worker worker) {
 		super(ventanaPrincipal, true);
@@ -73,11 +77,14 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		btnGoBack.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
 		btnGoBack.setBounds(552, 475, 150, 55);
 		contentPanel.add(btnGoBack);
+		btnGoBack.addActionListener(this);
 
 		btnDelete = new JButton("DELETE");
 		btnDelete.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
 		btnDelete.setBounds(84, 475, 150, 55);
 		contentPanel.add(btnDelete);
+		btnDelete.setEnabled(false);
+		btnDelete.addActionListener(this);
 
 		JPanel panelDatos = new JPanel();
 		panelDatos.setLayout(null);
@@ -113,6 +120,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 		comboBoxWorkPlace = new JComboBox<String>();
 		comboBoxWorkPlace.setBounds(126, 193, 170, 20);
+		comboBoxWorkPlace.setEnabled(false);
 		panelDatos.add(comboBoxWorkPlace);
 
 		JLabel lblDealer = new JLabel("Dealership");
@@ -125,26 +133,36 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		lblAdmin.setBounds(10, 246, 77, 21);
 		panelDatos.add(lblAdmin);
 
-		JButton btnModify = new JButton("Modify");
+		btnModify = new JButton("Modify");
 		btnModify.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnModify.setBounds(2, 10, 150, 33);
 		panelDatos.add(btnModify);
+		btnModify.addActionListener(this);
 
-		JButton btnUpdate = new JButton("Update");
+		btnUpdate = new JButton("Update");
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnUpdate.setEnabled(false);
 		btnUpdate.setBounds(163, 10, 150, 33);
 		panelDatos.add(btnUpdate);
+		btnUpdate.addActionListener(this);
 
 		rdbtnYes = new JRadioButton("YES");
 		buttonGroup.add(rdbtnYes);
 		rdbtnYes.setBounds(126, 247, 80, 20);
 		panelDatos.add(rdbtnYes);
+		rdbtnYes.setEnabled(false);
 
 		rdbtnNo = new JRadioButton("NO");
 		buttonGroup.add(rdbtnNo);
 		rdbtnNo.setBounds(216, 247, 80, 20);
 		panelDatos.add(rdbtnNo);
+		rdbtnNo.setEnabled(false);
+
+		lblWarning = new JLabel("");
+		lblWarning.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWarning.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblWarning.setBounds(14, 316, 292, 21);
+		panelDatos.add(lblWarning);
 
 		loadWorker();
 		setupListeners();
@@ -153,6 +171,8 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 	public void loadWorker() {
 		workers = cont.getWorkers();
+		
+		comboBoxWorkers.removeAllItems();
 
 		if (!workers.isEmpty()) {
 
@@ -167,9 +187,14 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 	public void loadDealer(Worker worker) {
 
+		boolean existingWorker = false;
 		int index = 0;
 
-		dealer = cont.getWorkingPlace(worker);
+		if (worker != null) {
+
+			dealer = cont.getWorkingPlace(worker);
+			existingWorker = true;
+		}
 
 		dealers = cont.getAllDeals();
 
@@ -180,12 +205,17 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 			for (CarDealership c : dealers.values()) {
 				comboBoxWorkPlace.addItem(c.getName());
 
-				if (c.getId() == dealer.getId()) {
-
-					comboBoxWorkPlace.setSelectedIndex(index);
-
+				if (existingWorker) {
+					if (c.getId() == dealer.getId()) {
+						comboBoxWorkPlace.setSelectedIndex(index);
+					}
 				}
+
 				index++;
+			}
+
+			if (!existingWorker) {
+				comboBoxWorkPlace.setSelectedIndex(-1);
 			}
 
 		}
@@ -208,26 +238,53 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 					worker = workers.get(selectedWorker);
 
 					updateFields(worker);
-				} else {
+					toggleFields(false);
+
+					lblWarning.setText("");
+					btnUpdate.setText("Update");
+					btnDelete.setEnabled(true);
+
+				} else if (selectedWorker == "New Worker") {
+
 					updateFields(null);
+					toggleFields(false);
+
+					lblWarning.setText("");
+					textField_user.setEnabled(false);
+					btnDelete.setEnabled(false);
+					btnUpdate.setText("Create");
+
 				}
 			}
 		});
 	}
 
+	private void toggleFields(boolean enable) {
+
+		passwordField.setEnabled(enable);
+		comboBoxWorkPlace.setEnabled(enable);
+		rdbtnNo.setEnabled(enable);
+		rdbtnYes.setEnabled(enable);
+		btnUpdate.setEnabled(enable);
+
+	}
+
 	private void updateFields(Worker selectedWorker) {
 
 		if (selectedWorker != null) {
+			textField_user.setEnabled(false);
+			toggleFields(false);
 			textField_user.setText(selectedWorker.getUser());
 			passwordField.setText(selectedWorker.getPassword());
-			// comboBoxWorkPlace
 
 			loadDealer(selectedWorker);
 
 			if (selectedWorker.isAdmin()) {
 				rdbtnYes.setSelected(true);
+				rdbtnNo.setSelected(false);
 			} else {
 				rdbtnNo.setSelected(true);
+				rdbtnYes.setSelected(false);
 			}
 
 		} else {
@@ -235,13 +292,55 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 			textField_user.setText("");
 			passwordField.setText("");
 
-			comboBoxWorkPlace.setSelectedIndex(-1);
+			loadDealer(selectedWorker);
 
 			rdbtnYes.setSelected(false);
 
 			rdbtnNo.setSelected(false);
 
 		}
+	}
+
+	private Worker getFields() {
+
+		String userName, password;
+		Boolean admin = null;
+		int dealerId;
+
+		// Check rdButons
+		if (buttonGroup.getSelection() != null) {
+			if (rdbtnYes.isSelected())
+				admin = true;
+			else if (rdbtnNo.isSelected())
+				admin = false;
+		} else
+			return null;
+
+		// Check userName
+		userName = textField_user.getText().trim();
+		if (userName.equals("")) {
+			lblWarning.setText("Write a valid username");
+			return null;
+		}
+
+		// Check password
+		password = new String(passwordField.getPassword());
+		if (password.equals("")) {
+			lblWarning.setText("Write a valid password");
+			return null;
+		}
+
+		// Check dealer
+		try {
+			dealerId = (comboBoxWorkPlace.getSelectedIndex() + 1);
+		} catch (NumberFormatException e) {
+			lblWarning.setText("Select a Dealership");
+			return null;
+		}
+
+		Worker modifiedWorker = new Worker(admin, userName, password, dealerId);
+
+		return modifiedWorker;
 	}
 
 	@Override
@@ -253,18 +352,70 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 		}
 
-		if (e.getSource() == btnShowPass) {
+		if (e.getSource() == btnDelete) {
 
-			if (visible) {
-			    passwordField.setEchoChar('\u2022'); // Ocultar texto
-				
-			} else {
-				passwordField.setEchoChar((char) 0); // Mostrar texto
-			}
+			String userName = (String) comboBoxWorkers.getSelectedItem();
 
-			visible = !visible; // Alternar el estado
+			Worker selectedWorker = cont.getWorker(userName);
+
+			if (cont.deleteWorker(selectedWorker))
+				lblWarning.setText("Worker was successfully fired");
+			else
+				lblWarning.setText("Worker has not been erased");
+			
+			
+			loadWorker();
+
+			System.out.println("meter ventana JOption y no eliminar al ultimo/a ti");
 
 		}
 
+		if (e.getSource() == btnShowPass) {
+
+			if (visible) {
+				passwordField.setEchoChar('\u2022'); // Hide password
+
+			} else {
+				passwordField.setEchoChar((char) 0); // Show password
+			}
+
+			visible = !visible; // change the boolean
+
+		}
+
+		if (e.getSource() == btnModify) {
+			toggleFields(true);
+
+			if (comboBoxWorkers.getSelectedIndex() == 0) {
+
+				textField_user.setEnabled(true);
+
+			}
+		}
+
+		if (e.getSource() == btnUpdate) {
+
+			if (btnUpdate.getText() == "Update") {
+				Worker editedWorker = getFields();
+
+				if (editedWorker != null)
+					if (cont.modifyWorker(editedWorker))
+						lblWarning.setText("The worker was successfully edited");
+			} else if (btnUpdate.getText() == "Create") {
+				System.out.println("si");
+			}
+		}
+
+		if (e.getSource() == btnGoBack) {
+
+			// Update worker to see changes in the mainWindow
+			worker = cont.getWorker(worker.getUser());
+
+			VentanaPrincipal win = new VentanaPrincipal(cont, worker);
+			win.setVisible(true);
+			this.dispose();
+
+		}
 	}
+
 }

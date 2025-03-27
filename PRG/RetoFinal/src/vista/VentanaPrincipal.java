@@ -256,7 +256,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == mntmMngWorker) {
-
+			this.dispose();
 			WindowMngWorker ven = new WindowMngWorker(this, cont, worker);
 			ven.setVisible(true);
 
