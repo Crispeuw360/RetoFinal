@@ -61,6 +61,6 @@ public class Client {
 	
 	@Override
 	public String toString() {
-		return "Client_ [dni=" + dni + ", email=" + email + ", user_=" + user_ + ", password_=" + password_ + "]";
+		return "Client [dni=" + dni + ", email=" + email + ", user_=" + user_ + ", password_=" + password_ + "]";
 	}
 }
