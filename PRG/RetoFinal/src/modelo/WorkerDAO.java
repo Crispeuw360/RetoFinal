@@ -14,6 +14,6 @@ public interface WorkerDAO {
 	public Map<String, Client_> getClients_();
 	public Map<String, Model> getModels(Worker worker);
 	public boolean callProcedure(Client_ client, Model model, Worker worker, LocalDate actualDate, int quantity);
-	public boolean checkStock(Model model);
+	public int checkStock(Model model);
 	
 }

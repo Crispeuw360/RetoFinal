@@ -35,8 +35,8 @@ public class LoginControlador {
 		
 	}*/
 
-	public void openWindow(CarDealership cardealer) {
-		VentanaVender ven = new VentanaVender(cardealer, this);
+	public void openWindow(Worker worker) {
+		VentanaVender ven = new VentanaVender(worker, this);
 		ven.setVisible(true);
 	}
 	
@@ -54,7 +54,7 @@ public class LoginControlador {
 		return dao.callProcedure(client, model, worker, actualDate, quantity);
 	}
 	
-	public boolean checkStock(Model model) {
+	public int checkStock(Model model) {
 		return dao.checkStock(model);
 	}
 	

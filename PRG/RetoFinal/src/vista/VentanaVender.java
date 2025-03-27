@@ -7,6 +7,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import controlador.LoginControlador;
 import modelo.CarDealership;
@@ -17,25 +19,29 @@ import modelo.Worker;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.time.LocalDate;
 import java.util.Map;
 
 import javax.swing.JTextField;
+import javax.swing.JScrollBar;
+import javax.swing.JSlider;
 
-public class VentanaVender extends JDialog implements ActionListener {
+public class VentanaVender extends JDialog implements ActionListener, ChangeListener{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textFieldUnits;
 	private JComboBox<String> comboBoxModels;
 	private JComboBox<String> comboBoxClients;
-	private JLabel lblUnits;
 	private JButton btnSell;
 	private JLabel lblMessage;
 	private JButton btnAddUser;
@@ -44,13 +50,15 @@ public class VentanaVender extends JDialog implements ActionListener {
 	private LoginControlador cont;
 	private JLabel lblModels;
 	private JLabel lblWorkers;
-	private CarDealership cardealer;
+	private Worker worker;
 	private JButton btnGoBack;
+	private JLabel lblQuantity;
+	private JSlider sliderQuantity;
 
-	public VentanaVender(/*JFrame parent,*/ CarDealership cardealer, LoginControlador cont) {
+	public VentanaVender(/*JFrame parent,*/ Worker worker, LoginControlador cont) {
 		//super(parent, true);
 		this.cont = cont;
-		this.cardealer = cardealer;
+		this.worker = worker;
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -66,16 +74,6 @@ public class VentanaVender extends JDialog implements ActionListener {
 		comboBoxClients.setBounds(524, 94, 135, 35);
 		contentPanel.add(comboBoxClients);
 
-		lblUnits = new JLabel("Units to sell:");
-		lblUnits.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		lblUnits.setBounds(117, 329, 118, 35);
-		contentPanel.add(lblUnits);
-
-		textFieldUnits = new JTextField();
-		textFieldUnits.setBounds(251, 327, 127, 35);
-		contentPanel.add(textFieldUnits);
-		textFieldUnits.setColumns(10);
-
 		btnSell = new JButton("SELL\r\n");
 		btnSell.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
 		btnSell.setBounds(566, 430, 127, 43);
@@ -83,7 +81,7 @@ public class VentanaVender extends JDialog implements ActionListener {
 
 		lblMessage = new JLabel("");
 		lblMessage.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
-		lblMessage.setBounds(88, 426, 529, 24);
+		lblMessage.setBounds(117, 396, 529, 24);
 		contentPanel.add(lblMessage);
 
 		btnAddUser = new JButton("ADD USER");
@@ -105,6 +103,18 @@ public class VentanaVender extends JDialog implements ActionListener {
 		btnGoBack.setFont(new Font("Trebuchet MS", Font.PLAIN, 12));
 		btnGoBack.setBounds(24, 515, 84, 24);
 		contentPanel.add(btnGoBack);
+		
+		lblQuantity = new JLabel("");
+		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblQuantity.setBounds(342, 349, 153, 24);
+		contentPanel.add(lblQuantity);
+		
+		sliderQuantity = new JSlider();
+		sliderQuantity.setBounds(117, 351, 200, 22);
+		contentPanel.add(sliderQuantity);
+		sliderQuantity.setValue(5);
+		sliderQuantity.setValue(1);
+		sliderQuantity.setMaximum(10);
 
 		loadCliens();
 		loadModels(worker);
@@ -113,6 +123,7 @@ public class VentanaVender extends JDialog implements ActionListener {
 		btnSell.addActionListener(this);
 		btnAddUser.addActionListener(this);
 		btnGoBack.addActionListener(this);
+		sliderQuantity.addChangeListener(this);
 
 	}
 
@@ -139,8 +150,7 @@ public class VentanaVender extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		Client_ client;
-		Model model;
+	
 		if (e.getSource() == btnAddUser) {
 			//AQUI VA LA VENTANA NUEVO USUARIO
 		}
@@ -171,14 +181,27 @@ public class VentanaVender extends JDialog implements ActionListener {
 		client = clientsList.get(comboBoxClients.getSelectedItem());
 		model = modelsList.get(comboBoxModels.getSelectedItem());
 
-		if(cont.checkStock(model)) {
-			cont.callProcedure(client, model, cardealer, LocalDate.now(), Integer.parseInt(textFieldUnits.getText()));
+		if(cont.checkStock(model)>0) {
+			if(cont.checkStock(model)<sliderQuantity.getValue()){
+				JOptionPane.showMessageDialog(null, "Insufficient stock", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+			}else {
+			cont.callProcedure(client, model, worker, LocalDate.now(), sliderQuantity.getValue());
 			lblMessage.setText("PURCHASE CORRECTLY DONE!");
+			}
 		}else {
 			throw new StockException();
-			//AÑADIR VENTANA POP UPP
-			//SE TIENE QUE QUEDAR EN BUCLE????? NO SE PUEDE EN BUCLE
 
 		}
+	}
+
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// TODO Auto-generated method stub
+		int value;
+		lblMessage.setText("");
+		value = sliderQuantity.getValue();
+		System.out.println(sliderQuantity.getValue());
+		lblQuantity.setText("Units to sell: " + value);
 	}
 }

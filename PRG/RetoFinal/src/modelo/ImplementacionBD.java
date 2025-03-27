@@ -167,10 +167,10 @@ public class ImplementacionBD implements WorkerDAO{
 
 	//if the stock is more than 0 returns true, is used to manage the exception
 	@Override
-	public boolean checkStock(Model model) {
+	public int checkStock(Model model) {
 		// TODO Auto-generated method stub
 
-		boolean stock=false;
+		int stockValue=0;
 		this.openConnection();
 
 
@@ -182,13 +182,10 @@ public class ImplementacionBD implements WorkerDAO{
 
 			//If there is stock, will return true
 			if (result.next()) { 
-				int stockValue = result.getInt("STOCK"); 
-				if (stockValue > 0) {
-					stock = true;
-				}
+				stockValue = result.getInt("STOCK"); 
+				
 			}
-
-
+			
 			result.close();
 			stmt.close();
 			con.close();
@@ -197,7 +194,7 @@ public class ImplementacionBD implements WorkerDAO{
 			System.out.println("Error al verificar credenciales: " + e.getMessage());
 		}
 
-		return stock;
+		return stockValue;
 	}
 
 
