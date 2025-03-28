@@ -21,10 +21,17 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-
+/**
+ * This window allows creating new users in the system.
+ * The user needs to provide a username, password, DNI, and email.
+ * 
+ * @author Igor Nikolaidis
+ * @version 1.0
+ * */
 public class WindowCreateUser extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
+	/** we create the cont for using it in the window */
 	private LoginControlador cont;
 	private JTextField textFieldUserName;
 	private JTextField textFieldDni;
@@ -37,8 +44,14 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 	private JButton btnShowPass;
 	private boolean visible = false;
 
-	
-	public WindowCreateUser(/*JFrame parent,*/CarDealership cardealer,LoginControlador cont) 
+	/**
+	 * Constructor for the window Create User
+	 * 
+	 * @param parent is the main/father window
+	 * @param cardealer The car dealership object used in the system.
+     * @param cont The controller that handles user authentication and management.
+	 * */
+	public WindowCreateUser(JFrame parent,CarDealership cardealer,LoginControlador cont) 
 	{
 		//super(parent, true);
 		setResizable(false);
@@ -120,7 +133,11 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		btnShowPass.addActionListener(this);		
 	}
 
-
+	/** 
+	 * actiomPerformed is to listen all the activity of the buttons in the window
+	 * 
+	 * @param e get the source of  witch button has been pressed
+	 * */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -173,7 +190,12 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 			this.dispose();
 		}
 	}
-	//Checks all the rows of the table client, to confirm if the username already exist
+	/** 
+	 * Checks all the rows of the table client, to confirm if the username already exist
+	 * 
+	 * @param userName checks the username provided
+	 * @return True if the username exists, false otherwise.
+	 * */
 	public boolean checkClientList(String userName) {
 		boolean encontrado = false;
 		//calls the method of the LoginControlador to get all the clients to the checkbox

@@ -28,6 +28,13 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 
+/**
+ * This window allows modifying models in the system.
+ * A worker can update details of a selected model.
+ *
+ * @author Igor
+ * @version 1.0
+ */
 public class WindowModify extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
@@ -47,7 +54,14 @@ public class WindowModify extends JDialog implements ActionListener {
 	private boolean activar = false;
 
 
-	public WindowModify(/*JFrame parent,*/LoginControlador cont,Worker worker) 
+	/**
+     * Constructor for the WindowModify class.
+     *
+     *@param parent  the father/main window
+     * @param cont   The controller handling model modifications.
+     * @param worker The worker managing models.
+     */
+	public WindowModify(JFrame parent,LoginControlador cont,Worker worker) 
 	{
 		/*super(parent, true);*/
 		this.cont = cont;
@@ -146,20 +160,27 @@ public class WindowModify extends JDialog implements ActionListener {
 	}
 
 
+	/**
+     * Handles button actions for modifying and updating models.
+     *
+     * @param e The action event triggered by a button click.
+     */
 	@Override
+	//it provides all the functions of the buttons
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		int stock;
 		double price;
 		Model modi;
-
+		
+		//Enables the forms
 		if(e.getSource()==btnModify)
 		{
 			activar = true;
 			toggleFields(activar);
-
-
-		}else if(e.getSource()==btnUpdate) 
+		}
+		//Modify the Models
+		if(e.getSource()==btnUpdate) 
 		{
 			if(checkInt(textFieldStock.getText().trim())&&checkDouble(textFieldPrice.getText().trim()))
 			{
@@ -191,88 +212,113 @@ public class WindowModify extends JDialog implements ActionListener {
 			}
 
 		}
-		else if(e.getSource()==btnBack) 
+		//button to go back
+		if(e.getSource()==btnBack) 
 		{
 			this.dispose();
 		}
 
 	}
-	//it loads all models to the comboBox
-	public void loadModels(Worker worker)
-	{
-		modelsList = cont.getModels(worker);
-		if (!modelsList.isEmpty()) {
-			for (Model m : modelsList.values()) {
-				comboBoxList.addItem(m.getName_model());
-			}
-		}
-		comboBoxList.setSelectedIndex(-1);
+	/**
+	 * Loads all models into the comboBox.
+	 *
+	 * @param worker The worker whose models will be loaded.
+	 */
+	public void loadModels(Worker worker) {
+	    modelsList = cont.getModels(worker);
+	    if (!modelsList.isEmpty()) {
+	        for (Model m : modelsList.values()) {
+	            comboBoxList.addItem(m.getName_model());
+	        }
+	    }
+	    comboBoxList.setSelectedIndex(-1);
 	}
-	//It updates the data on the textFields
-	private void updateFields(Model model) 
-	{
-		if (model != null) {
-			textFieldName.setText(model.getName_model());
-			textFieldMark.setText(model.getMark());
-			textFieldStock.setText(String.valueOf(model.getStock()));
-			textFieldPrice.setText(String.valueOf(model.getPrice()));
-		}else
-		{
-			textFieldName.setText("");
-			textFieldMark.setText("");
-			textFieldStock.setText("");
-			textFieldPrice.setText("");
-			
-			comboBoxList.setSelectedIndex(-1);
-			
-			toggleFields(false);
-		}
-	}
-	//Setups the listener in the comboBox so it can detect changes
-	public void setupListeners() 
-	{
-		comboBoxList.addActionListener(new ActionListener() 
-		{
-			//when a change is detected,gets the selected item and calls the funcion update Field
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String selectedModel;
-				Model model;
-				selectedModel = (String) comboBoxList.getSelectedItem();
 
-				if (selectedModel != null && modelsList.containsKey(selectedModel)) 
-				{
-					model = modelsList.get(selectedModel);
-					updateFields(model);
-				}else
-				{
-					updateFields(null);
-				}
-			}
-		});
+	/**
+	 * Updates the text fields with the details of the selected model.
+	 *
+	 * @param model The model whose details will be displayed.
+	 */
+	private void updateFields(Model model) {
+	    if (model != null) {
+	        textFieldName.setText(model.getName_model());
+	        textFieldMark.setText(model.getMark());
+	        textFieldStock.setText(String.valueOf(model.getStock()));
+	        textFieldPrice.setText(String.valueOf(model.getPrice()));
+	    } else {
+	        textFieldName.setText("");
+	        textFieldMark.setText("");
+	        textFieldStock.setText("");
+	        textFieldPrice.setText("");
+	        
+	        comboBoxList.setSelectedIndex(-1);
+	        toggleFields(false);
+	    }
 	}
-	// updates the buttons and textFields visually to be enabled
-	private void toggleFields(boolean enable) 
-	{
-		textFieldMark.setEnabled(enable);
-		textFieldStock.setEnabled(enable);
-		textFieldPrice.setEnabled(enable);
-		btnUpdate.setEnabled(enable);
+
+	/**
+	 * Sets up the listener for the comboBox to detect changes in selection.
+	 */
+	public void setupListeners() {
+	    comboBoxList.addActionListener(new ActionListener() {
+	        /**
+	         * Detects a change in selection and updates the fields accordingly.
+	         *
+	         * @param e The action event triggered when an item is selected.
+	         */
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            String selectedModel = (String) comboBoxList.getSelectedItem();
+	            if (selectedModel != null && modelsList.containsKey(selectedModel)) {
+	                Model model = modelsList.get(selectedModel);
+	                updateFields(model);
+	            } else {
+	                updateFields(null);
+	            }
+	        }
+	    });
 	}
-	public static boolean checkInt(String cadena) {
-		try {
-			Integer.parseInt(cadena);
-			return true;  // Es un número entero
-		} catch (NumberFormatException e) {
-			return false; // No es un número entero
-		}
+
+	/**
+	 * Enables or disables the text fields and buttons.
+	 *
+	 * @param enable If true, the fields and buttons are enabled; otherwise, they are disabled.
+	 */
+	private void toggleFields(boolean enable) {
+	    textFieldMark.setEnabled(enable);
+	    textFieldStock.setEnabled(enable);
+	    textFieldPrice.setEnabled(enable);
+	    btnUpdate.setEnabled(enable);
 	}
-	public static boolean checkDouble(String cadena) {
-		try {
-			Double.parseDouble(cadena);
-			return true;  // Es un número decimal válido
-		} catch (NumberFormatException e) {
-			return false; // No es un número válido
-		}
+
+	/**
+	 * Checks if a given string is a valid integer.
+	 *
+	 * @param str The string to check.
+	 * @return True if the string is a valid integer, false otherwise.
+	 */
+	public static boolean checkInt(String str) {
+	    try {
+	        Integer.parseInt(str);
+	        return true;  // The string is a valid integer.
+	    } catch (NumberFormatException e) {
+	        return false; // The string is not a valid integer.
+	    }
 	}
+
+	/**
+	 * Checks if a given string is a valid double.
+	 *
+	 * @param str The string to check.
+	 * @return True if the string is a valid double, false otherwise.
+	 */
+	public static boolean checkDouble(String str) {
+	    try {
+	        Double.parseDouble(str);
+	        return true;  // The string is a valid double.
+	    } catch (NumberFormatException e) {
+	        return false; // The string is not a valid double.
+	    }
+	}
+
 }
