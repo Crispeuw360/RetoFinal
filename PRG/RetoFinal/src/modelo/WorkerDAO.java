@@ -31,4 +31,6 @@ public interface WorkerDAO {
 
 	public boolean deleteWorker(Worker worker);
 
+	public boolean createWorker(Worker worker);
+
 }

@@ -14,6 +14,8 @@ import modelo.CarDealership;
 import modelo.Worker;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -171,7 +173,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 	public void loadWorker() {
 		workers = cont.getWorkers();
-		
+
 		comboBoxWorkers.removeAllItems();
 
 		if (!workers.isEmpty()) {
@@ -294,9 +296,14 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 			loadDealer(selectedWorker);
 
-			rdbtnYes.setSelected(false);
+			buttonGroup.remove(rdbtnYes);
+			buttonGroup.remove(rdbtnNo);
 
+			rdbtnYes.setSelected(false);
 			rdbtnNo.setSelected(false);
+
+			buttonGroup.add(rdbtnYes);
+			buttonGroup.add(rdbtnNo);
 
 		}
 	}
@@ -306,15 +313,6 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		String userName, password;
 		Boolean admin = null;
 		int dealerId;
-
-		// Check rdButons
-		if (buttonGroup.getSelection() != null) {
-			if (rdbtnYes.isSelected())
-				admin = true;
-			else if (rdbtnNo.isSelected())
-				admin = false;
-		} else
-			return null;
 
 		// Check userName
 		userName = textField_user.getText().trim();
@@ -331,10 +329,20 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		}
 
 		// Check dealer
-		try {
-			dealerId = (comboBoxWorkPlace.getSelectedIndex() + 1);
-		} catch (NumberFormatException e) {
+		if (comboBoxWorkPlace.getSelectedIndex() == -1) {
 			lblWarning.setText("Select a Dealership");
+			return null;
+		}
+		dealerId = comboBoxWorkPlace.getSelectedIndex() + 1;
+
+		// Check rdButons
+		if (buttonGroup.getSelection() != null) {
+			if (rdbtnYes.isSelected())
+				admin = true;
+			else if (rdbtnNo.isSelected())
+				admin = false;
+		} else {
+			lblWarning.setText("Select an Admin status");
 			return null;
 		}
 
@@ -358,15 +366,26 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 			Worker selectedWorker = cont.getWorker(userName);
 
-			if (cont.deleteWorker(selectedWorker))
-				lblWarning.setText("Worker was successfully fired");
-			else
-				lblWarning.setText("Worker has not been erased");
-			
-			
-			loadWorker();
+			if (selectedWorker != null && !worker.getUser().equals(selectedWorker.getUser())) {
 
-			System.out.println("meter ventana JOption y no eliminar al ultimo/a ti");
+				// Confirm deleteDialog
+				int opcion = JOptionPane.showConfirmDialog(this,
+						(String) "Warning: Are you sure you want to delete this worker?", "Confirm deletion",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
+
+				if (opcion == JOptionPane.YES_OPTION)
+					if (cont.deleteWorker(selectedWorker)) {
+						loadWorker();
+						lblWarning.setText("Worker was successfully fired");
+					} else
+						lblWarning.setText("SQL PROBLEM");
+				else if (opcion == JOptionPane.NO_OPTION)
+					lblWarning.setText("Deletion canceled");
+				else
+					lblWarning.setText("Deletion canceled");
+
+			} else if (worker.getUser().equals(selectedWorker.getUser()))
+				lblWarning.setText("You can't delete yourself");
 
 		}
 
@@ -384,13 +403,23 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		}
 
 		if (e.getSource() == btnModify) {
-			toggleFields(true);
 
-			if (comboBoxWorkers.getSelectedIndex() == 0) {
+			if (comboBoxWorkers.getSelectedIndex() == -1) {
 
-				textField_user.setEnabled(true);
+				lblWarning.setText("You must select a worker");
+
+			} else {
+
+				toggleFields(true);
+
+				if (comboBoxWorkers.getSelectedIndex() == 0) {
+
+					textField_user.setEnabled(true);
+
+				}
 
 			}
+
 		}
 
 		if (e.getSource() == btnUpdate) {
@@ -399,10 +428,22 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 				Worker editedWorker = getFields();
 
 				if (editedWorker != null)
-					if (cont.modifyWorker(editedWorker))
+					if (cont.modifyWorker(editedWorker)) {
+						loadWorker();
 						lblWarning.setText("The worker was successfully edited");
+					}
 			} else if (btnUpdate.getText() == "Create") {
-				System.out.println("si");
+
+				Worker createWorker = getFields();
+
+				if (createWorker != null)
+					if (cont.getWorker(createWorker.getUser()) == null) {
+						if (cont.createWorker(createWorker)) {
+							loadWorker();
+							lblWarning.setText("The worker was successfully created");
+						}
+					} else
+						lblWarning.setText("That username is already in use");
 			}
 		}
 

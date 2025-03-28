@@ -58,4 +58,8 @@ public class LoginControlador {
 		return dao.deleteWorker(worker);
 	}
 
+	public boolean createWorker(Worker worker) {
+		return dao.createWorker(worker);
+	}
+
 }

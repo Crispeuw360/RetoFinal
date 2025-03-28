@@ -40,6 +40,8 @@ public class ImplementacionBD implements WorkerDAO {
 	final String SQLDELETEWORKER = "DELETE FROM worker WHERE user_ = ?";
 	final String SQLMODIFYWORKER = "UPDATE worker SET password_ = ?, admin_ = ?, id_car_dealer = ? WHERE user_ = ?";
 
+	final String SQLINSERTWORKER = "INSERT INTO worker (admin_, user_, password_, id_car_dealer) VALUES (?, ?, ?, ?)";
+
 	// Para la conexi n utilizamos un fichero de configuaraci n, config que
 	// guardamos en el paquete control:
 	public ImplementacionBD() {
@@ -422,6 +424,34 @@ public class ImplementacionBD implements WorkerDAO {
 		}
 
 		return foundWorker;
+
+	}
+
+	@Override
+	public boolean createWorker(Worker worker) {
+
+		// TODO Auto-generated method stub
+		boolean ok = false;
+		this.openConnection();
+		try {
+			// Preparamos la sentencia stmt con la conexion y sentencia sql correspondiente
+
+			stmt = con.prepareStatement(SQLINSERTWORKER);
+			stmt.setBoolean(1, worker.isAdmin());
+			stmt.setString(2, worker.getUser());
+			stmt.setString(3, worker.getPassword());
+			stmt.setInt(4, worker.getId_car_dealer());
+
+			if (stmt.executeUpdate() > 0) {
+				ok = true;
+			}
+
+			stmt.close();
+			con.close();
+		} catch (SQLException e) {
+			System.out.println("Error al verificar credenciales: " + e.getMessage());
+		}
+		return ok;
 
 	}
 
