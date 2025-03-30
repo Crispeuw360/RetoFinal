@@ -99,7 +99,7 @@ public class ImplementacionBD implements WorkerDAO{
 		Client_ client;
 		Map<String, Client_> clientsList = new TreeMap<>();
 
-		// Abrimos la conexi n
+		//Open conection
 		this.openConnection();
 
 		try {
@@ -107,7 +107,6 @@ public class ImplementacionBD implements WorkerDAO{
 
 			rs = stmt.executeQuery();
 
-			// Leemos de uno en uno
 			while (rs.next()) {
 				client = new Client_();
 				client.setDni(rs.getString("dni"));
@@ -165,7 +164,7 @@ public class ImplementacionBD implements WorkerDAO{
 		return ok;
 	}
 
-	//if the stock is more than 0 returns true, is used to manage the exception
+	//reutnrs the stock
 	@Override
 	public int checkStock(Model model) {
 		// TODO Auto-generated method stub
@@ -180,10 +179,9 @@ public class ImplementacionBD implements WorkerDAO{
 			stmt.setInt(2, model.getId_car_dealer());
 			ResultSet result = stmt.executeQuery();
 
-			//If there is stock, will return true
+		
 			if (result.next()) { 
-				stockValue = result.getInt("STOCK"); 
-				
+				stockValue = result.getInt("STOCK"); 				
 			}
 			
 			result.close();
@@ -196,151 +194,6 @@ public class ImplementacionBD implements WorkerDAO{
 
 		return stockValue;
 	}
-
-
-
-
-
-
-	/*@Override
-		public boolean comprobarUsuario(Worker worker){
-			// Abrimos la conexion
-			boolean existe=false;
-			this.openConnection();
-
-
-			try {
-				stmt = con.prepareStatement(SQL);
-	            stmt.setString(1, usuario.getNombre());
-	            stmt.setString(2, usuario.getContrasena());
-	            ResultSet resultado = stmt.executeQuery();
-
-	            //Si hay un resultado, el usuario existe
-	            if (resultado.next()) {
-	                existe = true;
-	            }
-
-
-	            resultado.close();
-	            stmt.close();
-	            con.close();
-
-	        } catch (SQLException e) {
-	            System.out.println("Error al verificar credenciales: " + e.getMessage());
-	        }
-
-	        return existe;
-	    }*/
-
-	/*@Override
-		public boolean insertarUsuario(Usuario usuario) {
-			// TODO Auto-generated method stub
-			boolean ok=false;
-			this.openConnection();
-			try {
-				// Preparamos la sentencia stmt con la conexion y sentencia sql correspondiente
-
-				stmt = con.prepareStatement(SAQLINSERT);
-				stmt.setString(1, usuario.getNombre());
-				stmt.setString(2, usuario.getContrasena());
-				if (stmt.executeUpdate()>0) {
-					ok=true;
-				}
-
-	            stmt.close();
-	            con.close();
-			  } catch (SQLException e) {
-	             System.out.println("Error al verificar credenciales: " + e.getMessage());
-	        }
-			return ok;
-
-		}*/
-
-	/*public Map<String, Usuario> visualizarUsuarios() {
-			// TODO Auto-generated method stub
-
-			ResultSet rs = null;
-			Usuario usuario;
-			Map<String, Usuario> usuarios = new TreeMap<>();
-
-			// Abrimos la conexi n
-			this.openConnection();
-
-			try {
-				stmt = con.prepareStatement(SQLCONSULTA);
-
-				rs = stmt.executeQuery();
-
-				// Leemos de uno en uno
-				while (rs.next()) {
-					usuario = new Usuario();
-					usuario.setNombre(rs.getString("nombre"));
-					usuario.setContrasena(rs.getString("contrasena"));
-					usuarios.put(usuario.getNombre(), usuario);
-
-				}
-				rs.close();
-	            stmt.close();
-	            con.close();
-			} catch (SQLException e) {
-				System.out.println("Error de SQL");
-				e.printStackTrace();
-			}
-			return usuarios;
-
-		}*/
-
-
-	/*@Override
-		public boolean eliminarUsuario(String nombre) {
-			// TODO Auto-generated method stub
-			boolean ok=false;
-
-			this.openConnection();
-			try {
-				// Preparamos la sentencia stmt con la conexion y sentencia sql correspondiente
-
-				stmt = con.prepareStatement(SQLBORRAR);
-				stmt.setString(1, nombre);
-				if (stmt.executeUpdate()>0) {
-					ok=true;
-				}
-
-	            stmt.close();
-	            con.close();
-			  } catch (SQLException e) {
-	             System.out.println("Error al verificar credenciales: " + e.getMessage());
-	        }
-
-			return ok;
-		}*/
-
-	/*@Override
-		public boolean modificarUsuario(Usuario usuario) {
-			// TODO Auto-generated method stub
-			boolean ok=false;
-
-			this.openConnection();
-			try {
-				// Preparamos la sentencia stmt con la conexion y sentencia sql correspondiente
-
-				stmt = con.prepareStatement(SQLMODIFICAR);
-				stmt.setString(1, usuario.getNombre());
-				stmt.setString(2, usuario.getContrasena());
-				if (stmt.executeUpdate()>0) {
-					ok=true;
-				}
-
-	            stmt.close();
-	            con.close();
-			  } catch (SQLException e) {
-	             System.out.println("Error al verificar credenciales: " + e.getMessage());
-	        }
-
-			return ok;
-		}*/
-
-
 
 
 }
