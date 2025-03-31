@@ -84,7 +84,7 @@ public class WindowModify extends JDialog implements ActionListener {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		lblTitulo = new JLabel("MODIFY");
+		lblTitulo = new JLabel("MODIFY MODELS");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		lblTitulo.setForeground(Color.WHITE);
