@@ -29,6 +29,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
+import javax.swing.ToolTipManager;
 
 public class WindowMngWorker extends JDialog implements ActionListener {
 
@@ -87,6 +88,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		contentPanel.add(btnDelete);
 		btnDelete.setEnabled(false);
 		btnDelete.addActionListener(this);
+		btnDelete.setToolTipText("You cant delete a non existing worker");
 
 		JPanel panelDatos = new JPanel();
 		panelDatos.setLayout(null);
@@ -147,6 +149,9 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		btnUpdate.setBounds(163, 10, 150, 33);
 		panelDatos.add(btnUpdate);
 		btnUpdate.addActionListener(this);
+		btnUpdate.setToolTipText("You must modify first");
+		ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
+		toolTipManager.setInitialDelay(0); // Show tooltip immediately
 
 		rdbtnYes = new JRadioButton("YES");
 		buttonGroup.add(rdbtnYes);
@@ -231,22 +236,30 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 			// Field
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String selectedWorker;
-				Worker worker;
-				selectedWorker = (String) comboBoxWorkers.getSelectedItem();
+				String workerName;
+				Worker selectedWorker;
+				workerName = (String) comboBoxWorkers.getSelectedItem();
 
-				if (selectedWorker != null && workers.containsKey(selectedWorker)) {
+				if (workerName != null && workers.containsKey(workerName)) {
 
-					worker = workers.get(selectedWorker);
+					selectedWorker = workers.get(workerName);
 
-					updateFields(worker);
+					updateFields(selectedWorker);
 					toggleFields(false);
 
 					lblWarning.setText("");
 					btnUpdate.setText("Update");
-					btnDelete.setEnabled(true);
 
-				} else if (selectedWorker == "New Worker") {
+					if (selectedWorker.getUser().equals(worker.getUser())) {
+						btnDelete.setEnabled(false);
+						btnDelete.setToolTipText("You can't delete yourself");
+
+					} else {
+						btnDelete.setEnabled(true);
+						btnDelete.setToolTipText(null);
+					}
+
+				} else if (workerName == "New Worker") {
 
 					updateFields(null);
 					toggleFields(false);
@@ -254,6 +267,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 					lblWarning.setText("");
 					textField_user.setEnabled(false);
 					btnDelete.setEnabled(false);
+					btnDelete.setToolTipText("You cant delete a non existing worker");
 					btnUpdate.setText("Create");
 
 				}
@@ -262,12 +276,20 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 	}
 
 	private void toggleFields(boolean enable) {
+		ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
+		toolTipManager.setInitialDelay(0); // Show tooltip immediately
 
 		passwordField.setEnabled(enable);
 		comboBoxWorkPlace.setEnabled(enable);
 		rdbtnNo.setEnabled(enable);
 		rdbtnYes.setEnabled(enable);
 		btnUpdate.setEnabled(enable);
+
+		if (enable) {
+			btnUpdate.setToolTipText(null);
+		} else {
+			btnUpdate.setToolTipText("You must modify first");
+		}
 
 	}
 
@@ -317,20 +339,20 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		// Check userName
 		userName = textField_user.getText().trim();
 		if (userName.equals("")) {
-			lblWarning.setText("Write a valid username");
+			JOptionPane.showMessageDialog(this, "Write a valid username", "Error", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 
 		// Check password
 		password = new String(passwordField.getPassword());
 		if (password.equals("")) {
-			lblWarning.setText("Write a valid password");
+			JOptionPane.showMessageDialog(this, "Write a valid password", "Error", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 
 		// Check dealer
 		if (comboBoxWorkPlace.getSelectedIndex() == -1) {
-			lblWarning.setText("Select a Dealership");
+			JOptionPane.showMessageDialog(this, "Select a Dealership", "Error", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 		dealerId = comboBoxWorkPlace.getSelectedIndex() + 1;
@@ -342,7 +364,9 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 			else if (rdbtnNo.isSelected())
 				admin = false;
 		} else {
-			lblWarning.setText("Select an Admin status");
+
+			JOptionPane.showMessageDialog(this, "Select if the worker is an Admin", "Error", JOptionPane.ERROR_MESSAGE);
+
 			return null;
 		}
 
@@ -371,12 +395,13 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 				// Confirm deleteDialog
 				int opcion = JOptionPane.showConfirmDialog(this,
 						(String) "Warning: Are you sure you want to delete this worker?", "Confirm deletion",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
+						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null);
 
 				if (opcion == JOptionPane.YES_OPTION)
 					if (cont.deleteWorker(selectedWorker)) {
 						loadWorker();
 						lblWarning.setText("Worker was successfully fired");
+
 					} else
 						lblWarning.setText("SQL PROBLEM");
 				else if (opcion == JOptionPane.NO_OPTION)
@@ -385,7 +410,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 					lblWarning.setText("Deletion canceled");
 
 			} else if (worker.getUser().equals(selectedWorker.getUser()))
-				lblWarning.setText("You can't delete yourself");
+				JOptionPane.showMessageDialog(this, "You can't delete yourself", "Error", JOptionPane.ERROR_MESSAGE);
 
 		}
 
@@ -403,22 +428,12 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		}
 
 		if (e.getSource() == btnModify) {
-
-			if (comboBoxWorkers.getSelectedIndex() == -1) {
-
-				lblWarning.setText("You must select a worker");
-
-			} else {
-
+			if (comboBoxWorkers.getSelectedIndex() == -1)
+				JOptionPane.showMessageDialog(this, "Select a worker first", "Error", JOptionPane.ERROR_MESSAGE);
+			else
 				toggleFields(true);
-
-				if (comboBoxWorkers.getSelectedIndex() == 0) {
-
-					textField_user.setEnabled(true);
-
-				}
-
-			}
+			if (comboBoxWorkers.getSelectedIndex() == 0)
+				textField_user.setEnabled(true);
 
 		}
 
@@ -430,7 +445,10 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 				if (editedWorker != null)
 					if (cont.modifyWorker(editedWorker)) {
 						loadWorker();
-						lblWarning.setText("The worker was successfully edited");
+
+						JOptionPane.showMessageDialog(this, editedWorker.getUser() + " was successfully edited",
+								"Success", JOptionPane.INFORMATION_MESSAGE);
+
 					}
 			} else if (btnUpdate.getText() == "Create") {
 
@@ -440,10 +458,12 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 					if (cont.getWorker(createWorker.getUser()) == null) {
 						if (cont.createWorker(createWorker)) {
 							loadWorker();
-							lblWarning.setText("The worker was successfully created");
+							JOptionPane.showMessageDialog(this, createWorker.getUser() + " was successfully created",
+									"Success", JOptionPane.INFORMATION_MESSAGE);
 						}
 					} else
-						lblWarning.setText("That username is already in use");
+						JOptionPane.showMessageDialog(this, createWorker.getUser() + " already exists", "Error",
+								JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
