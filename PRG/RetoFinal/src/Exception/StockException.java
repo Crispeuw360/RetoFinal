@@ -1,4 +1,4 @@
-package modelo;
+package Exception;
 
 import javax.swing.JOptionPane;
 

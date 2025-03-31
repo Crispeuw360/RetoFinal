@@ -2,6 +2,8 @@ package vista;
 
 import java.awt.BorderLayout;
 
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -9,16 +11,18 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.plaf.metal.MetalButtonUI;
 
-import controlador.LoginControlador;
+import Exception.StockException;
+import controlador.LoginController;
 import modelo.CarDealership;
 import modelo.Client_;
 import modelo.Model;
-import modelo.StockException;
 import modelo.Worker;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
@@ -34,8 +38,10 @@ import java.util.Map;
 import javax.swing.JTextField;
 import javax.swing.JScrollBar;
 import javax.swing.JSlider;
+import java.awt.Color;
+import java.awt.Component;
 
-public class VentanaVender extends JDialog implements ActionListener, ChangeListener, ItemListener{
+public class WindowPurchase extends JDialog implements ActionListener, ChangeListener, ItemListener{
 
 	/**
 	 * 
@@ -49,7 +55,7 @@ public class VentanaVender extends JDialog implements ActionListener, ChangeList
 	private JButton btnAddUser;
 	private Map<String, Client_> clientsList;
 	private Map<String, Model> modelsList;
-	private LoginControlador cont;
+	private LoginController cont;
 	private JLabel lblModels;
 	private JLabel lblWorkers;
 	private Worker worker;
@@ -59,57 +65,106 @@ public class VentanaVender extends JDialog implements ActionListener, ChangeList
 	private JLabel lblInformationModels;
 	private JLabel lblInformationClients;
 
-	public VentanaVender(/*JFrame parent,*/ Worker worker, LoginControlador cont) {
+	public WindowPurchase(/*JFrame parent,*/ Worker worker, LoginController cont) {
+		setForeground(new Color(255, 255, 255));
+		setBackground(new Color(0, 0, 0));
+		setTitle("PURCHASE");
 		//super(parent, true);
 		this.cont = cont;
 		this.worker = worker;
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(55, 55, 55));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
 		comboBoxModels = new JComboBox<String>();
+		comboBoxModels.setForeground(new Color(255, 255, 255));
+		comboBoxModels.setBackground(new Color(55, 55, 55));
+		comboBoxModels.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		comboBoxModels.setBounds(117, 94, 135, 35);
+		comboBoxModels.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (isSelected) {
+                    setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
+                    setForeground(Color.WHITE);
+                } else {
+                    setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
+                    setForeground(Color.WHITE);
+                }
+                return this;
+            }
+        });
 		contentPanel.add(comboBoxModels);
 
 		comboBoxClients = new JComboBox<String>();
+		comboBoxClients.setForeground(new Color(255, 255, 255));
+		comboBoxClients.setBackground(new Color(55, 55, 55));
+		comboBoxClients.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		comboBoxClients.setBounds(524, 94, 135, 35);
+		comboBoxClients.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (isSelected) {
+                    setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
+                    setForeground(Color.WHITE);
+                } else {
+                    setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
+                    setForeground(Color.WHITE);
+                }
+                return this;
+            }
+        });
 		contentPanel.add(comboBoxClients);
 
 		btnSell = new JButton("SELL\r\n");
+		btnSell.setBackground(new Color(211, 47, 47));
+		btnSell.setForeground(new Color(255, 255, 255));
 		btnSell.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		btnSell.setBounds(566, 430, 127, 43);
 		contentPanel.add(btnSell);
+		btnSell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		lblMessage = new JLabel("");
+		lblMessage.setForeground(new Color(255, 255, 255));
 		lblMessage.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		lblMessage.setBounds(117, 396, 529, 24);
 		contentPanel.add(lblMessage);
 
 		btnAddUser = new JButton("ADD USER");
+		btnAddUser.setForeground(new Color(255, 255, 255));
+		btnAddUser.setBackground(new Color(211, 47, 47));
 		btnAddUser.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		btnAddUser.setBounds(139, 431, 127, 43);
 		contentPanel.add(btnAddUser);
+		btnAddUser.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		lblModels = new JLabel("MODELS");
+		lblModels = new JLabel("SELECT THE MODEL");
+		lblModels.setForeground(new Color(255, 255, 255));
 		lblModels.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		lblModels.setBounds(140, 49, 78, 35);
+		lblModels.setBounds(106, 49, 177, 35);
 		contentPanel.add(lblModels);
 
-		lblWorkers = new JLabel("WORKERS\r\n");
+		lblWorkers = new JLabel("SELECT THE CLIENT");
+		lblWorkers.setForeground(new Color(255, 255, 255));
 		lblWorkers.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		lblWorkers.setBounds(547, 49, 78, 35);
+		lblWorkers.setBounds(516, 49, 177, 35);
 		contentPanel.add(lblWorkers);
 
 		btnGoBack = new JButton("GO BACK");
 		btnGoBack.setFont(new Font("Trebuchet MS", Font.BOLD, 12));
 		btnGoBack.setBounds(24, 515, 84, 24);
 		contentPanel.add(btnGoBack);
+		btnSell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		lblQuantity = new JLabel("Units to sell: 0");
-		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblQuantity.setForeground(new Color(255, 255, 255));
+		lblQuantity.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		lblQuantity.setBounds(342, 349, 153, 24);
 		contentPanel.add(lblQuantity);
 
@@ -119,13 +174,18 @@ public class VentanaVender extends JDialog implements ActionListener, ChangeList
 		sliderQuantity.setValue(5);
 		sliderQuantity.setValue(1);
 		sliderQuantity.setMaximum(10);
+		sliderQuantity.setBackground(Color.DARK_GRAY);
 
 		lblInformationModels = new JLabel("");
+		lblInformationModels.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+		lblInformationModels.setForeground(new Color(255, 255, 255));
 		lblInformationModels.setBounds(117, 265, 153, 75);
 		contentPanel.add(lblInformationModels);
 
 		lblInformationClients = new JLabel("");
-		lblInformationClients.setBounds(524, 265, 153, 56);
+		lblInformationClients.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+		lblInformationClients.setForeground(new Color(255, 255, 255));
+		lblInformationClients.setBounds(524, 265, 187, 56);
 		contentPanel.add(lblInformationClients);
 
 		loadCliens();
@@ -174,7 +234,7 @@ public class VentanaVender extends JDialog implements ActionListener, ChangeList
 				checkingStock();
 			} catch (StockException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			}
 		}
 
@@ -232,9 +292,9 @@ public class VentanaVender extends JDialog implements ActionListener, ChangeList
 			}
 		}
 
-		if(comboBoxClients.getSelectedItem() != null) {
-			client = clientsList.get(comboBoxClients.getSelectedItem());
-
+		client = clientsList.get(comboBoxClients.getSelectedItem());
+		
+		if(comboBoxClients.getSelectedItem() != null) {			
 			if(client != null) {
 				lblMessage.setText("");
 				lblInformationClients.setText("<html>DNI: " + client.getDni() + "<br>Email: " + client.getEmail());

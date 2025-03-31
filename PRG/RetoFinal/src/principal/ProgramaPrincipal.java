@@ -1,6 +1,6 @@
 package principal;
 
-import controlador.LoginControlador;
+import controlador.LoginController;
 import modelo.CarDealership;
 import modelo.Worker;
 
@@ -8,7 +8,7 @@ public class ProgramaPrincipal {
 
 	public static void main(String[] args) {
 		Worker c = new Worker(false, "Valencia Motors", "Valencia", 3);;
-		LoginControlador cont = new LoginControlador();
+		LoginController cont = new LoginController();
 		cont.openWindow(c);
 	
 	}

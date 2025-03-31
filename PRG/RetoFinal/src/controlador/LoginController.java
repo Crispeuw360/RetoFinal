@@ -3,9 +3,9 @@ package controlador;
 import java.time.LocalDate;
 import java.util.Map;
 import modelo.*;
-import vista.VentanaVender;
+import vista.WindowPurchase;
 
-public class LoginControlador {
+public class LoginController {
 
 	WorkerDAO dao = new ImplementacionBD();
 
@@ -36,7 +36,7 @@ public class LoginControlador {
 	}*/
 
 	public void openWindow(Worker worker) {
-		VentanaVender ven = new VentanaVender(worker, this);
+		WindowPurchase ven = new WindowPurchase(worker, this);
 		ven.setVisible(true);
 	}
 	
