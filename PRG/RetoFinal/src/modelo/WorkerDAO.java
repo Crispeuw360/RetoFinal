@@ -11,14 +11,22 @@ public interface WorkerDAO {
 	 * boolean modificarUsuario(Usuario usuario);
 	 */
 
-	Map<String, Model> getModels(CarDealership cardealer);
-
 	Map<String, Worker> getCoWorkers(Worker worker);
+	
+	public boolean modifyModel(Model model) ;
 
 	public CarDealership getWorkingPlace(Worker worker);
 
 	public boolean deleteModel(Model model);
 
 	public Worker checkWorker(Worker worker);
+
+	public boolean createModel(Model model);
+
+	Map<String, CarDealership> getCarDealerships();
+
+	Map<String, Model> getModels(CarDealership cardealer);
+	
+	public CarDealership getDealership(String name);
 
 }

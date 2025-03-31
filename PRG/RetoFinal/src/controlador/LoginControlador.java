@@ -17,10 +17,10 @@ public class LoginControlador {
 		ven.setVisible(true);
 	}
 
-	public Map<String, Model> getModels(CarDealership cardealer) {
-		return dao.getModels(cardealer);
+	public Map<String, CarDealership> getCarDealerships(){
+		return dao.getCarDealerships();
 	}
-
+	
 	public Map<String, Worker> getCoWorkers(Worker worker) {
 		return dao.getCoWorkers(worker);
 	}
@@ -36,6 +36,22 @@ public class LoginControlador {
 	public Worker checkWorker(Worker worker) {
 
 		return dao.checkWorker(worker);
+	}
+	public boolean createModel(Model model) {
+		return dao.createModel(model);
+	}
+
+
+	public Map<String, Model> getModels(CarDealership cardealer) {
+		return dao.getModels(cardealer);
+	}
+	
+	public CarDealership getDealership(String name) {
+        return dao.getDealership(name);
+    }
+
+	public boolean modifyModel(Model model) {
+		return dao.modifyModel(model);
 	}
 
 }

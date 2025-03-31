@@ -170,7 +170,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
 	public void loadModel() {
 		// Instantiate the Map models, taking all the models from the given dealership
-		models = cont.getModels(cont.getWorkingPlace(worker));
+		models = cont.getModels(cardealer);
 
 		// Delete all models on the list from previous loads
 
@@ -262,7 +262,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == mntmMngModel) {
-
+			CreateModel createModel = new CreateModel( cont, worker); 
+			createModel.setVisible(true);
 		}
 
 		if (e.getSource() == mntmMngWorker) {
