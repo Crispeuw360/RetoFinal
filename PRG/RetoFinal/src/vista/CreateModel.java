@@ -131,16 +131,7 @@ public class CreateModel extends JDialog implements ActionListener {
 		contentPanel.add(btnCreate);
 		btnCreate.addActionListener(this);
 
-		error = new JLabel("Rellena todos los campos:");
-		error.setForeground(new Color(255, 0, 0));
-		error.setHorizontalAlignment(SwingConstants.CENTER);
-		error.setFont(new Font("Tahoma", Font.BOLD, 15));
-		error.setBounds(111, 377, 282, 26);
-		contentPanel.add(error);
-		error.setVisible(false);
 		
-		
-
 		loadCarDealership();
 	}
 
