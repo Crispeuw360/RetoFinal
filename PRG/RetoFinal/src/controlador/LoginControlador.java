@@ -18,12 +18,12 @@ public class LoginControlador {
 	public void visualizarPantalla() {
 
 		
-		/*Worker work = new Worker("juan23","pass123",true,1);
+		Worker work = new Worker("juan23","pass123",true,1);
 
-		WindowModify ven = new WindowModify(this,work);*/
+		WindowModify ven = new WindowModify(this,work);
 		/*CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
 		WindowCreateUser ven = new WindowCreateUser(car,this);*/
-		//ven.setVisible(true);
+		ven.setVisible(true);
 	}
 	public boolean modifyModel(Model model) 
 	{

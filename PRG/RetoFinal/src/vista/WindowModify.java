@@ -3,6 +3,7 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -13,8 +14,10 @@ import controlador.LoginControlador;
 import modelo.CarDealership;
 import modelo.Model;
 import modelo.Worker;
+import javax.swing.DefaultListCellRenderer;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
@@ -27,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Component;
 
 /**
  * This window allows modifying models in the system.
@@ -61,8 +65,16 @@ public class WindowModify extends JDialog implements ActionListener {
      * @param cont   The controller handling model modifications.
      * @param worker The worker managing models.
      */
-	public WindowModify(JFrame parent,LoginControlador cont,Worker worker) 
+	public WindowModify(/*JFrame parent,*/LoginControlador cont,Worker worker) 
 	{
+		getContentPane().setBackground(new Color(255, 255, 255));
+
+        // Personalizar la ventana exterior
+        setUndecorated(true); // Elimina los bordes y la barra de título
+        setBackground(new Color(44, 44, 44)); // Color de fondo exterior
+
+        // Crear un borde personalizado para el JDialog
+        getRootPane().setBorder(new LineBorder(new Color(211, 47, 47), 10));
 		/*super(parent, true);*/
 		this.cont = cont;
 		this.worker=worker;
@@ -71,40 +83,69 @@ public class WindowModify extends JDialog implements ActionListener {
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
+		getContentPane().setBackground(new Color(44, 44, 44));
+        getContentPane().setLayout(new BorderLayout());
+		
+		
+		contentPanel.setBackground(new Color(44, 44, 44));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
 		lblTitulo = new JLabel("MODIFY");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblTitulo.setForeground(Color.WHITE);
 		lblTitulo.setBounds(277, 10, 201, 58);
 		contentPanel.add(lblTitulo);
 
 		comboBoxList = new JComboBox<String>();
+		comboBoxList.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		comboBoxList.setBackground(new Color(55, 55, 55));
+		comboBoxList.setForeground(new Color(255, 255, 255));
 		comboBoxList.setBounds(35, 108, 201, 41);
+		comboBoxList.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (isSelected) {
+                    setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
+                    setForeground(Color.WHITE);
+                } else {
+                    setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
+                    setForeground(Color.WHITE);
+                }
+                return this;
+            }
+        });
 		contentPanel.add(comboBoxList);
 
 
 		JPanel panelDatos = new JPanel();
-		panelDatos.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelDatos.setBorder(new LineBorder(new Color(150, 0, 0)));
+		panelDatos.setBackground(new Color(58, 58, 58));
 		panelDatos.setBounds(453, 88, 323, 401);
 		contentPanel.add(panelDatos);
 		panelDatos.setLayout(null);
 
 		lblName = new JLabel("Name: ");
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblName.setForeground(Color.WHITE);
 		lblName.setBounds(10, 87, 77, 21);
 		panelDatos.add(lblName);
 
 		textFieldName = new JTextField();
 		textFieldName.setEnabled(activar);
 		textFieldName.setBounds(126, 88, 170, 20);
+		textFieldName.setBackground(new Color(80, 80, 80));
+		textFieldName.setForeground(Color.WHITE);
+		textFieldName.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		panelDatos.add(textFieldName);
 		textFieldName.setColumns(10);
 
 		JLabel lblMark = new JLabel("Mark");
 		lblMark.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblMark.setForeground(Color.WHITE);
 		lblMark.setBounds(10, 142, 77, 21);
 		panelDatos.add(lblMark);
 
@@ -112,21 +153,29 @@ public class WindowModify extends JDialog implements ActionListener {
 		textFieldMark.setEnabled(activar);
 		textFieldMark.setColumns(10);
 		textFieldMark.setBounds(126, 143, 170, 20);
+		textFieldMark.setBackground(new Color(80, 80, 80));
+        textFieldMark.setForeground(Color.WHITE);
+        textFieldMark.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		panelDatos.add(textFieldMark);
 
 		textFieldStock = new JTextField();
 		textFieldStock.setEnabled(activar);
 		textFieldStock.setColumns(10);
 		textFieldStock.setBounds(126, 193, 170, 20);
+		textFieldStock.setBackground(new Color(80, 80, 80));
+        textFieldStock.setForeground(Color.WHITE);
+        textFieldStock.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		panelDatos.add(textFieldStock);
 
 		JLabel lblStock = new JLabel("Stock: ");
 		lblStock.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblStock.setForeground(Color.WHITE);
 		lblStock.setBounds(10, 196, 77, 21);
 		panelDatos.add(lblStock);
 
 		JLabel lblPrice = new JLabel("Price: ");
 		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPrice.setForeground(Color.WHITE);
 		lblPrice.setBounds(10, 246, 77, 21);
 		panelDatos.add(lblPrice);
 
@@ -134,24 +183,42 @@ public class WindowModify extends JDialog implements ActionListener {
 		textFieldPrice.setEnabled(activar);
 		textFieldPrice.setColumns(10);
 		textFieldPrice.setBounds(126, 247, 170, 20);
+		textFieldPrice.setBackground(new Color(80, 80, 80));
+        textFieldPrice.setForeground(Color.WHITE);
+        textFieldPrice.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		panelDatos.add(textFieldPrice);
 
 		btnModify = new JButton("Modify");
 		btnModify.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnModify.setBackground(new Color(211, 47, 47));
+        btnModify.setForeground(Color.WHITE);
+        btnModify.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		btnModify.setBounds(2, 10, 150, 33);
+		btnModify.setFocusPainted(false);
+        btnModify.setBorderPainted(false);
 		panelDatos.add(btnModify);
 		btnModify.addActionListener(this);
 
 		btnUpdate = new JButton("Update");
 		btnUpdate.setEnabled(activar);
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnUpdate.setBackground(new Color(100, 100, 100));
+        btnUpdate.setForeground(Color.WHITE);
+        btnUpdate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		btnUpdate.setBounds(163, 10, 150, 33);
+		btnUpdate.setFocusPainted(false);
+		btnUpdate.setBorderPainted(false);
 		panelDatos.add(btnUpdate);
 		btnUpdate.addActionListener(this);
 
 		btnBack = new JButton("GO BACK");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnBack.setBackground(new Color(211, 47, 47));
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		btnBack.setBounds(10, 512, 215, 41);
+		btnBack.setFocusPainted(false);
+		btnBack.setBorderPainted(false);
 		contentPanel.add(btnBack);
 		btnBack.addActionListener(this);
 
