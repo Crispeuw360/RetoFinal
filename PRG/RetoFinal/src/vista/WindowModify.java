@@ -67,15 +67,9 @@ public class WindowModify extends JDialog implements ActionListener {
      */
 	public WindowModify(/*JFrame parent,*/LoginControler cont,Worker worker) 
 	{
-		getContentPane().setBackground(new Color(255, 255, 255));
-
-        // Personalizar la ventana exterior
-        setUndecorated(true); // Elimina los bordes y la barra de título
-        setBackground(new Color(44, 44, 44)); // Color de fondo exterior
-
-        // Crear un borde personalizado para el JDialog
-        getRootPane().setBorder(new LineBorder(new Color(30, 30, 30), 10));
-		/*super(parent, true);*/
+		setUndecorated(true); // Elimina los bordes y la barra de título
+		setBackground(new Color(44, 44, 44)); // Color de fondo exterior
+		getRootPane().setBorder(new LineBorder(new Color(30, 30, 30), 10));
 		this.cont = cont;
 		this.worker=worker;
 		setResizable(false);
@@ -84,9 +78,7 @@ public class WindowModify extends JDialog implements ActionListener {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(new Color(44, 44, 44));
-        getContentPane().setLayout(new BorderLayout());
-		
-		
+
 		contentPanel.setBackground(new Color(55, 55, 55));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
