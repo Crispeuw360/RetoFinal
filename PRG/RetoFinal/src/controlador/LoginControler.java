@@ -5,9 +5,9 @@ import modelo.*;
 import vista.WindowCreateUser;
 import vista.WindowModify;
 
-public class LoginControlador {
+public class LoginControler {
 
-	WorkerDAO dao = new ImplementacionBD();
+	WorkerDAO dao = new ImplementsBD();
 
 	public Map<String, Model> getModels(Worker worker) {
 		return dao.getModels(worker);
@@ -33,24 +33,5 @@ public class LoginControlador {
 	{
 		return dao.insertClient(client);
 	}
-	/*
-	public boolean comprobarUsuario(Usuario usuario){
-		return dao.comprobarUsuario(usuario);	
-	}
-	public boolean insertarUsuario(Usuario usuario) {
-		return dao.insertarUsuario(usuario);
-	}
-	
-	
-	
-	public boolean eliminarUsuario(String nombre) {
-		return dao.eliminarUsuario(nombre);
-		
-	}
-	
-	public boolean modificarUsuario(Usuario usuario) {
-		return dao.modificarUsuario(usuario);
-		
-	}*/
 	
 }

@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
-public class ImplementacionBD implements WorkerDAO{
+public class ImplementsBD implements WorkerDAO{
 	// Atributos
 	private Connection con;
 	private PreparedStatement stmt;
@@ -35,7 +35,7 @@ public class ImplementacionBD implements WorkerDAO{
 
 	// Para la conexi n utilizamos un fichero de configuaraci n, config que
 	// guardamos en el paquete control:
-	public ImplementacionBD() {
+	public ImplementsBD() {
 		this.configFile = ResourceBundle.getBundle("modelo.configClase");
 		this.driverBD = this.configFile.getString("Driver");
 		this.urlBD = this.configFile.getString("Conn");

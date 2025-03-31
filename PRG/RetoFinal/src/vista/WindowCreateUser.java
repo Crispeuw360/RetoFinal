@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controlador.LoginControlador;
+import controlador.LoginControler;
 import modelo.CarDealership;
 import modelo.Client;
 
@@ -32,7 +32,7 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	/** we create the cont for using it in the window */
-	private LoginControlador cont;
+	private LoginControler cont;
 	private JTextField textFieldUserName;
 	private JTextField textFieldDni;
 	private JTextField textFieldEmail;
@@ -51,7 +51,7 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 	 * @param cardealer The car dealership object used in the system.
      * @param cont The controller that handles user authentication and management.
 	 * */
-	public WindowCreateUser(JFrame parent,CarDealership cardealer,LoginControlador cont) 
+	public WindowCreateUser(JFrame parent,CarDealership cardealer,LoginControler cont) 
 	{
 		//super(parent, true);
 		setResizable(false);

@@ -1,11 +1,11 @@
 package principal;
 
-import controlador.LoginControlador;
+import controlador.LoginControler;
 
 public class ProgramaPrincipal {
 
 	public static void main(String[] args) {
-		LoginControlador cont = new LoginControlador();
+		LoginControler cont = new LoginControler();
 		cont.visualizarPantalla();
 
 	}
