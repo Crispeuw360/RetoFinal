@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
-public class ImplementacionBD implements WorkerDAO {
+public class ImplementsBD implements WorkerDAO {
 	// Atributos
 	private Connection con;
 	private PreparedStatement stmt;
@@ -44,8 +44,8 @@ public class ImplementacionBD implements WorkerDAO {
 
 	// Para la conexi n utilizamos un fichero de configuaraci n, config que
 	// guardamos en el paquete control:
-	public ImplementacionBD() {
-		this.configFile = ResourceBundle.getBundle("modelo.configClase");
+	public ImplementsBD() {
+		this.configFile = ResourceBundle.getBundle("model.configClase");
 		this.driverBD = this.configFile.getString("Driver");
 		this.urlBD = this.configFile.getString("Conn");
 		this.userBD = this.configFile.getString("DBUser");

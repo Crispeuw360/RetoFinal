@@ -1,4 +1,4 @@
-package vista;
+package view;
 
 import java.awt.EventQueue;
 
@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controlador.LoginControlador;
-import modelo.Worker;
+import controller.LoginController;
+import model.Worker;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 
-public class VentanaLogin extends JFrame implements ActionListener {
+public class WindowLogin extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -27,9 +27,9 @@ public class VentanaLogin extends JFrame implements ActionListener {
 	private JPasswordField passwd;
 	private JButton btnAceptar;
 	private JLabel error;
-	private LoginControlador cont;
+	private LoginController cont;
 
-	public VentanaLogin(LoginControlador cont) {
+	public WindowLogin(LoginController cont) {
 		this.cont = cont;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 300);
@@ -94,7 +94,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
 					// Verificamos si el usuario es administrador
 
-					VentanaPrincipal ven = new VentanaPrincipal(cont, foundWorker);
+					WindowMain ven = new WindowMain(cont, foundWorker);
 					ven.setVisible(true);
 
 					this.dispose();

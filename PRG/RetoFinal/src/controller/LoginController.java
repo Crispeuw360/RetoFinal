@@ -1,17 +1,18 @@
-package controlador;
+package controller;
 
 import java.util.Map;
-import modelo.*;
-import vista.VentanaLogin;
-import vista.VentanaPrincipal;
 
-public class LoginControlador {
+import model.*;
+import view.WindowLogin;
+import view.WindowMain;
 
-	WorkerDAO dao = new ImplementacionBD();
+public class LoginController {
+
+	WorkerDAO dao = new ImplementsBD();
 
 	public void visualizarPantalla() {
 
-		VentanaLogin ven = new VentanaLogin(this);
+		WindowLogin ven = new WindowLogin(this);
 		ven.setVisible(true);
 	}
 
