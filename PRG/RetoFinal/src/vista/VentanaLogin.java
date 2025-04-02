@@ -60,24 +60,24 @@ public class VentanaLogin extends JFrame implements ActionListener {
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
         lblTitulo.setForeground(Color.WHITE);
-        lblTitulo.setBounds(200, 10, 200, 40);
+        lblTitulo.setBounds(200, 27, 200, 40);
         contentPane.add(lblTitulo);
 
         JLabel lblUser = new JLabel("Usuario:");
         lblUser.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
         lblUser.setForeground(Color.WHITE);
-        lblUser.setBounds(150, 70, 130, 25);
+        lblUser.setBounds(150, 102, 130, 25);
         contentPane.add(lblUser);
 
         JLabel lblContrasena = new JLabel("Contraseña:");
         lblContrasena.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
         lblContrasena.setForeground(Color.WHITE);
-        lblContrasena.setBounds(150, 120, 130, 25);
+        lblContrasena.setBounds(150, 155, 130, 25);
         contentPane.add(lblContrasena);
 
         usu = new JTextField();
         usu.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
-        usu.setBounds(290, 70, 192, 25);
+        usu.setBounds(290, 104, 192, 21);
         usu.setBackground(new Color(80, 80, 80));
         usu.setForeground(Color.WHITE);
         usu.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
@@ -85,7 +85,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
         passwd = new JPasswordField();
         passwd.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
-        passwd.setBounds(290, 120, 136, 25);
+        passwd.setBounds(290, 157, 136, 21);
         passwd.setBackground(new Color(80, 80, 80));
         passwd.setForeground(Color.WHITE);
         passwd.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
@@ -93,7 +93,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
         btnShowPassword = new JButton("show");
         btnShowPassword.setFont(new Font("Trebuchet MS", Font.PLAIN, 8));
-        btnShowPassword.setBounds(430, 121, 52, 24);
+        btnShowPassword.setBounds(430, 157, 52, 21);
         btnShowPassword.setFocusPainted(false);
         btnShowPassword.setBorderPainted(false);
         btnShowPassword.setBackground(new Color(150, 0, 0));
@@ -102,8 +102,8 @@ public class VentanaLogin extends JFrame implements ActionListener {
         contentPane.add(btnShowPassword);
 
         btnAceptar = new JButton("ACEPTAR");
-        btnAceptar.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-        btnAceptar.setBounds(240, 180, 120, 40);
+        btnAceptar.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
+        btnAceptar.setBounds(244, 225, 112, 25);
         btnAceptar.setFocusPainted(false);
         btnAceptar.setBorderPainted(false);
         btnAceptar.setBackground(new Color(150, 0, 0));
@@ -113,7 +113,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
         JButton btnSalir = new JButton("SALIR");
         btnSalir.setFont(new Font("Trebuchet MS", Font.PLAIN, 11));
-        btnSalir.setBounds(487, 20, 63, 25);
+        btnSalir.setBounds(488, 38, 63, 25);
         btnSalir.setFocusPainted(false);
         btnSalir.setBorderPainted(false);
         btnSalir.setBackground(new Color(150, 0, 0));
@@ -172,11 +172,9 @@ public class VentanaLogin extends JFrame implements ActionListener {
 	        char[] password = passwd.getPassword();
 	        passwd.setEchoChar((char)0);
 	        passwd.setText(new String(password));
-	        btnShowPassword.setText("Ocultar");
 	    } else {
 	        // No almacenamos el texto plano, solo cambiamos el echo char
 	        passwd.setEchoChar('•');
-	        btnShowPassword.setText("Mostrar");
 	    }
 	}
 }

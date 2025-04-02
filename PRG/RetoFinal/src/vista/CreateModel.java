@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import modelo.Model;
 import modelo.Worker;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
@@ -29,6 +31,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Component;
 
 public class CreateModel extends JDialog implements ActionListener {
 
@@ -45,7 +48,7 @@ public class CreateModel extends JDialog implements ActionListener {
 	private Map<String, Model> modelList;
 	private Map<String, CarDealership> carDealerships;
 	private boolean activar = false;
-	private JComboBox comboBoxId;
+	private JComboBox <String>comboBoxId;
 	private JButton btnCreate;
 	private JPanel contentPane;
 	private JButton btnVentanaEmergente;
@@ -152,6 +155,17 @@ public class CreateModel extends JDialog implements ActionListener {
         comboBoxId.setForeground(Color.WHITE);
         comboBoxId.setBounds(126, 244, 170, 21);
         panelDatos.add(comboBoxId);
+		comboBoxId.setRenderer(new DefaultListCellRenderer() {
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+				if (isSelected) {
+					setBackground(new Color(211, 47, 47));//red
+					setForeground(Color.WHITE);
+				} 
+				return this;
+			}
+		});
 
         btnCreate = new JButton("CREATE");
         btnCreate.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
