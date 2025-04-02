@@ -13,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -30,6 +33,10 @@ public class VentanaLogin extends JFrame implements ActionListener {
 	private JButton btnAceptar;
 	private JLabel error;
 	private LoginControlador cont;
+	private JButton btnShowPassword;
+    private boolean passwordVisible = false;
+    private ImageIcon eyeIcon;
+    private ImageIcon eyeClosedIcon; 
 
 	public VentanaLogin(LoginControlador cont) {
 		this.cont = cont;
@@ -66,13 +73,24 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		passwd = new JPasswordField();
 		passwd.setBounds(310, 117, 150, 25);
 		contentPane.add(passwd);
+		
+		btnShowPassword = new JButton("Mostrar");
+        btnShowPassword.setFont(new Font("Trebuchet MS", Font.PLAIN, 10));
+        btnShowPassword.setBounds(470, 117, 23, 25);
+        btnShowPassword.addActionListener(this);
+        contentPane.add(btnShowPassword);
 
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String usuario, password;
-		if (e.getSource() == btnAceptar) {
+		if (e.getSource() == btnShowPassword) {
+			togglePasswordVisibility();
+		}
+		
+		else if (e.getSource() == btnAceptar) {
 			usuario = usu.getText();
 			char[] passwordChars = passwd.getPassword();
 			password = new String(passwordChars);
@@ -98,5 +116,19 @@ public class VentanaLogin extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(this, "Fill in all fields");
 			}
 		}
+	}
+	private void togglePasswordVisibility() {
+	    passwordVisible = !passwordVisible;
+	    
+	    if (passwordVisible) {
+	        char[] password = passwd.getPassword();
+	        passwd.setEchoChar((char)0);
+	        passwd.setText(new String(password));
+	        btnShowPassword.setText("Ocultar");
+	    } else {
+	        // No almacenamos el texto plano, solo cambiamos el echo char
+	        passwd.setEchoChar('•');
+	        btnShowPassword.setText("Mostrar");
+	    }
 	}
 }

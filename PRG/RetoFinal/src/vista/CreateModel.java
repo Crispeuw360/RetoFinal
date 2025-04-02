@@ -3,6 +3,7 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -46,92 +47,134 @@ public class CreateModel extends JDialog implements ActionListener {
 	private boolean activar = false;
 	private JComboBox comboBoxId;
 	private JButton btnCreate;
-	private JLabel error;
 	private JPanel contentPane;
 	private JButton btnVentanaEmergente;
+	private JButton btnBack;
 
 	public CreateModel(/* JFrame parent, */LoginControlador cont, Worker worker) {
 		/* super(parent, true); */
 		this.cont = cont;
 		this.worker = worker;
-		setResizable(false);
-		setTitle("VentanaModificar");
-		setSize(600, 450);
-		setLocationRelativeTo(null);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
+		setUndecorated(true);
+        setBackground(new Color(44, 44, 44));
+        getRootPane().setBorder(new LineBorder(new Color(30, 30, 30), 10));
+        setResizable(false);
+        setTitle("Create Model");
+        setSize(600, 450);
+        setLocationRelativeTo(null);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().setBackground(new Color(44, 44, 44));
 
-		lblTitulo = new JLabel("CREATE");
-		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		lblTitulo.setBounds(192, 10, 201, 58);
-		contentPanel.add(lblTitulo);
+        contentPanel.setBackground(new Color(55, 55, 55));
+        contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        getContentPane().add(contentPanel, BorderLayout.CENTER);
+        contentPanel.setLayout(null);
 
-		JPanel panelDatos = new JPanel();
-		panelDatos.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelDatos.setBounds(64, 78, 323, 289);
-		contentPanel.add(panelDatos);
-		panelDatos.setLayout(null);
+        JLabel lblTitulo = new JLabel("CREATE");
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+        lblTitulo.setForeground(Color.WHITE);
+        lblTitulo.setBounds(192, 10, 201, 58);
+        contentPanel.add(lblTitulo);
 
-		lblName = new JLabel("Name: ");
-		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblName.setBounds(10, 48, 77, 21);
-		panelDatos.add(lblName);
+        JPanel panelDatos = new JPanel();
+        panelDatos.setBorder(new LineBorder(new Color(150, 0, 0)));
+        panelDatos.setBackground(new Color(70, 70, 70));
+        panelDatos.setBounds(64, 78, 323, 289);
+        contentPanel.add(panelDatos);
+        panelDatos.setLayout(null);
 
-		textFieldName = new JTextField();
-		textFieldName.setBounds(126, 51, 170, 20);
-		panelDatos.add(textFieldName);
-		textFieldName.setColumns(10);
+        JLabel lblName = new JLabel("Name: ");
+        lblName.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+        lblName.setForeground(Color.WHITE);
+        lblName.setBounds(10, 48, 77, 21);
+        panelDatos.add(lblName);
 
-		JLabel lblMark = new JLabel("Mark");
-		lblMark.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMark.setBounds(10, 98, 77, 21);
-		panelDatos.add(lblMark);
+        textFieldName = new JTextField();
+        textFieldName.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
+        textFieldName.setBounds(126, 51, 170, 20);
+        textFieldName.setBackground(new Color(80, 80, 80));
+        textFieldName.setForeground(Color.WHITE);
+        textFieldName.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
+        panelDatos.add(textFieldName);
 
-		textFieldMark = new JTextField();
-		textFieldMark.setColumns(10);
-		textFieldMark.setBounds(126, 101, 170, 20);
-		panelDatos.add(textFieldMark);
+        JLabel lblMark = new JLabel("Mark");
+        lblMark.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+        lblMark.setForeground(Color.WHITE);
+        lblMark.setBounds(10, 98, 77, 21);
+        panelDatos.add(lblMark);
 
-		textFieldStock = new JTextField();
-		textFieldStock.setColumns(10);
-		textFieldStock.setBounds(126, 150, 170, 20);
-		panelDatos.add(textFieldStock);
+        textFieldMark = new JTextField();
+        textFieldMark.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
+        textFieldMark.setBounds(126, 101, 170, 20);
+        textFieldMark.setBackground(new Color(80, 80, 80));
+        textFieldMark.setForeground(Color.WHITE);
+        textFieldMark.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
+        panelDatos.add(textFieldMark);
 
-		JLabel lblStock = new JLabel("Stock: ");
-		lblStock.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblStock.setBounds(10, 147, 77, 21);
-		panelDatos.add(lblStock);
+        JLabel lblStock = new JLabel("Stock: ");
+        lblStock.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+        lblStock.setForeground(Color.WHITE);
+        lblStock.setBounds(10, 147, 77, 21);
+        panelDatos.add(lblStock);
 
-		JLabel lblPrice = new JLabel("Price: ");
-		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPrice.setBounds(10, 198, 77, 21);
-		panelDatos.add(lblPrice);
+        textFieldStock = new JTextField();
+        textFieldStock.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
+        textFieldStock.setBounds(126, 150, 170, 20);
+        textFieldStock.setBackground(new Color(80, 80, 80));
+        textFieldStock.setForeground(Color.WHITE);
+        textFieldStock.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
+        panelDatos.add(textFieldStock);
 
-		textFieldPrice = new JTextField();
-		textFieldPrice.setColumns(10);
-		textFieldPrice.setBounds(126, 201, 170, 20);
-		panelDatos.add(textFieldPrice);
+        JLabel lblPrice = new JLabel("Price: ");
+        lblPrice.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+        lblPrice.setForeground(Color.WHITE);
+        lblPrice.setBounds(10, 198, 77, 21);
+        panelDatos.add(lblPrice);
 
-		JLabel lblid = new JLabel("ID: ");
-		lblid.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblid.setBounds(10, 242, 77, 21);
-		panelDatos.add(lblid);
+        textFieldPrice = new JTextField();
+        textFieldPrice.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
+        textFieldPrice.setBounds(126, 201, 170, 20);
+        textFieldPrice.setBackground(new Color(80, 80, 80));
+        textFieldPrice.setForeground(Color.WHITE);
+        textFieldPrice.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
+        panelDatos.add(textFieldPrice);
 
-		comboBoxId = new JComboBox();
-		comboBoxId.setBounds(126, 244, 77, 21);
+        JLabel lblid = new JLabel("ID: ");
+        lblid.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+        lblid.setForeground(Color.WHITE);
+        lblid.setBounds(10, 242, 77, 21);
+        panelDatos.add(lblid);
 
-		panelDatos.add(comboBoxId);
+        comboBoxId = new JComboBox<>();
+        comboBoxId.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
+        comboBoxId.setBackground(new Color(55, 55, 55));
+        comboBoxId.setForeground(Color.WHITE);
+        comboBoxId.setBounds(126, 244, 170, 21);
+        panelDatos.add(comboBoxId);
 
-		btnCreate = new JButton("CREATE");
-		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnCreate.setBounds(430, 324, 115, 43);
-		contentPanel.add(btnCreate);
-		btnCreate.addActionListener(this);
-
+        btnCreate = new JButton("CREATE");
+        btnCreate.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
+        btnCreate.setBackground(new Color(150, 0, 0));
+        btnCreate.setForeground(Color.WHITE);
+        btnCreate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        btnCreate.setBounds(430, 324, 115, 43);
+        btnCreate.setFocusPainted(false);
+        btnCreate.setBorderPainted(false);
+        contentPanel.add(btnCreate);
+        btnCreate.addActionListener(this);
 		
+        btnBack = new JButton("BACK");
+        btnBack.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
+        btnBack.setBackground(new Color(150, 0, 0));
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        btnBack.setBounds(430, 56, 115, 43);
+        btnBack.setFocusPainted(false);
+        btnBack.setBorderPainted(false);
+        contentPanel.add(btnBack);
+        btnBack.addActionListener(this);
+
 		loadCarDealership();
 	}
 
@@ -208,20 +251,25 @@ public class CreateModel extends JDialog implements ActionListener {
 	            
 	        }
 	    }
+	    else if (btnBack == e.getSource()) {
+            dispose();
+            VentanaPrincipal principal = new VentanaPrincipal(cont, worker);
+            principal.setVisible(true);
+        }
 	}
 
 	public boolean checkModelList(CarDealership cardealer, String name) {
-		boolean encontrado = false;
+		boolean found = false;
 		// calls the method of the LoginControlador to get all the clients to the
 		// checkbox
 		modelList = cont.getModels(cardealer);
 		if (!modelList.isEmpty()) {
 			for (Model d : modelList.values()) {
 				if (d.getName_model().equalsIgnoreCase(name)) {
-					encontrado = true;
+					found = true;
 				}
 			}
 		}
-		return encontrado;
+		return found;
 	}
 }

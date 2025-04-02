@@ -264,6 +264,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		if (e.getSource() == mntmMngModel) {
 			CreateModel createModel = new CreateModel( cont, worker); 
 			createModel.setVisible(true);
+			this.dispose();
 		}
 
 		if (e.getSource() == mntmMngWorker) {
