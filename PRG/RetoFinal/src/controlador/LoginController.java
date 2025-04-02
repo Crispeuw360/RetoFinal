@@ -5,7 +5,7 @@ import modelo.*;
 import vista.WindowCreateUser;
 import vista.WindowModify;
 
-public class LoginControler {
+public class LoginController {
 
 	WorkerDAO dao = new ImplementsBD();
 
@@ -17,12 +17,12 @@ public class LoginControler {
 	}
 	public void visualizarPantalla() {
 
-		
+		/*
 		Worker work = new Worker("juan23","pass123",true,1);
 
-		WindowModify ven = new WindowModify(this,work);
-		/*CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
-		WindowCreateUser ven = new WindowCreateUser(car,this);*/
+		WindowModify ven = new WindowModify(this,work);*/
+		CarDealership car = new CarDealership("AutoMadrid","Madrid",1);
+		WindowCreateUser ven = new WindowCreateUser(car,this);
 		ven.setVisible(true);
 	}
 	public boolean modifyModel(Model model) 

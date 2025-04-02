@@ -1,24 +1,30 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-import controlador.LoginControler;
+import controlador.LoginController;
 import modelo.CarDealership;
 import modelo.Client;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 /**
@@ -32,7 +38,7 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	/** we create the cont for using it in the window */
-	private LoginControler cont;
+	private LoginController cont;
 	private JTextField textFieldUserName;
 	private JTextField textFieldDni;
 	private JTextField textFieldEmail;
@@ -43,6 +49,8 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 	private JButton btnBack;
 	private JButton btnShowPass;
 	private boolean visible = false;
+	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png")); 
+	private Image img = icon.getImage().getScaledInstance(80, 81, Image.SCALE_SMOOTH); 
 
 	/**
 	 * Constructor for the window Create User
@@ -51,84 +59,121 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 	 * @param cardealer The car dealership object used in the system.
      * @param cont The controller that handles user authentication and management.
 	 * */
-	public WindowCreateUser(JFrame parent,CarDealership cardealer,LoginControler cont) 
+	public WindowCreateUser(/*JFrame parent,*/CarDealership cardealer,LoginController cont) 
 	{
+		
 		//super(parent, true);
+		setUndecorated(true); // Elimina los bordes y la barra de título
+		setBackground(new Color(44, 44, 44)); // Color de fondo exterior
+		getRootPane().setBorder(new LineBorder(new Color(30, 30, 30), 10));
 		setResizable(false);
 		setTitle("Create New User");
 		this.cont = cont;
 		setSize(600, 450);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
+		getContentPane().setBackground(new Color(44, 44, 44));
+		contentPanel.setBackground(new Color(55, 55, 55));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		JLabel lblTitle = new JLabel("New User");
-		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(208, 10, 156, 33);
+		lblTitle.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setForeground(Color.WHITE);
 		contentPanel.add(lblTitle);
 		
 		JLabel lblUserName = new JLabel("User Name");
-		lblUserName.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblUserName.setBounds(26, 78, 126, 33);
+		lblUserName.setBounds(26, 112, 126, 33);
+		lblUserName.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
+		lblUserName.setForeground(Color.WHITE);
 		contentPanel.add(lblUserName);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPassword.setBounds(26, 132, 126, 33);
+		lblPassword.setBounds(26, 166, 126, 33);
+		lblPassword.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
+		lblPassword.setForeground(Color.WHITE);
 		contentPanel.add(lblPassword);
 		
 		JLabel lblDni = new JLabel("DNI");
-		lblDni.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDni.setBounds(26, 187, 126, 33);
+		lblDni.setBounds(26, 219, 126, 33);
+		lblDni.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
+		lblDni.setForeground(Color.WHITE);
 		contentPanel.add(lblDni);
 		
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblEmail.setBounds(26, 246, 126, 33);
+		lblEmail.setBounds(26, 278, 126, 33);
+		lblEmail.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
+		lblEmail.setForeground(Color.WHITE);
 		contentPanel.add(lblEmail);
 		
 		textFieldUserName = new JTextField();
-		textFieldUserName.setBounds(177, 78, 326, 31);
+		textFieldUserName.setBounds(177, 112, 326, 31);
+		textFieldUserName.setBackground(new Color(80, 80, 80));
+		textFieldUserName.setForeground(Color.WHITE);
+		textFieldUserName.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		contentPanel.add(textFieldUserName);
 		textFieldUserName.setColumns(10);
 		
 		textFieldDni = new JTextField();
+		textFieldDni.setBounds(177, 225, 326, 31);
 		textFieldDni.setColumns(10);
-		textFieldDni.setBounds(177, 191, 326, 31);
+		textFieldDni.setForeground(Color.WHITE);
+		textFieldDni.setBackground(new Color(80, 80, 80));
+		textFieldDni.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		contentPanel.add(textFieldDni);
 		
 		textFieldEmail = new JTextField();
+		textFieldEmail.setBounds(177, 280, 326, 31);
 		textFieldEmail.setColumns(10);
-		textFieldEmail.setBounds(177, 246, 326, 31);
+		textFieldEmail.setForeground(Color.WHITE);
+		textFieldEmail.setBackground(new Color(80, 80, 80));
+		textFieldEmail.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		contentPanel.add(textFieldEmail);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(177, 136, 326, 31);
+		passwordField.setBounds(177, 170, 273, 31);
+		passwordField.setForeground(Color.WHITE);
+		passwordField.setBackground(new Color(80, 80, 80));
+		passwordField.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		contentPanel.add(passwordField);
 		
 		btnCreate = new JButton("Create");
-		btnCreate.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnCreate.setBounds(222, 297, 156, 46);
+		btnCreate.setBounds(221, 331, 156, 46);
+		btnCreate.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
+		btnCreate.setBackground(new Color(211, 47, 47));
+        btnCreate.setForeground(Color.WHITE);
+        btnCreate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        btnCreate.setFocusPainted(false);
+		btnCreate.setBorderPainted(false);
 		contentPanel.add(btnCreate);
 		btnCreate .addActionListener(this);
 		
 		lblInvisible = new JLabel("");
-		lblInvisible.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblInvisible.setBounds(26, 343, 543, 46);
+		lblInvisible.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
 		contentPanel.add(lblInvisible);
 		
-		btnBack = new JButton("Go Back");
-		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnBack.setBounds(10, 20, 126, 35);
+		btnBack = new JButton("Go Back",new ImageIcon(img));
+		btnBack.setBounds(42, 22, 74, 63);
+		btnBack.setBackground(new Color(55, 55, 55));
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		btnBack.setFocusPainted(false);
+		btnBack.setBorderPainted(false);
 		contentPanel.add(btnBack);
 		btnBack.addActionListener(this);
 		
 		btnShowPass = new JButton("Show");
-		btnShowPass.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		btnShowPass.setBounds(513, 135, 56, 33);
+		btnShowPass.setBounds(453, 169, 56, 33);
+		btnShowPass.setFont(new Font("Trebuchet MS", Font.PLAIN, 9));
+		btnShowPass.setBackground(new Color(211, 47, 47));
+        btnShowPass.setForeground(Color.WHITE);
+        btnShowPass.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		btnShowPass.setFocusPainted(false);
+		btnShowPass.setBorderPainted(false);
 		contentPanel.add(btnShowPass);
 		btnShowPass.addActionListener(this);		
 	}

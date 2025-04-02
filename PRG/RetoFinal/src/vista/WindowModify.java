@@ -10,17 +10,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controlador.LoginControler;
+import controlador.LoginController;
 import modelo.CarDealership;
 import modelo.Model;
 import modelo.Worker;
 import javax.swing.DefaultListCellRenderer;
-
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
@@ -49,13 +50,15 @@ public class WindowModify extends JDialog implements ActionListener {
 	private JTextField textFieldMark;
 	private JTextField textFieldStock;
 	private JTextField textFieldPrice;
-	private JButton btnBack;
+	private JButton btnLogo;
 	private JButton btnModify;
 	private JButton btnUpdate;
-	private LoginControler cont;
+	private LoginController cont;
 	private Worker worker;
 	private Map<String, Model> modelsList;
 	private boolean activar = false;
+	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png")); 
+	private Image img = icon.getImage().getScaledInstance(100, 101, Image.SCALE_SMOOTH); 
 
 
 	/**
@@ -65,7 +68,7 @@ public class WindowModify extends JDialog implements ActionListener {
      * @param cont   The controller handling model modifications.
      * @param worker The worker managing models.
      */
-	public WindowModify(/*JFrame parent,*/LoginControler cont,Worker worker) 
+	public WindowModify(/*JFrame parent,*/LoginController cont,Worker worker) 
 	{
 		setUndecorated(true); // Elimina los bordes y la barra de título
 		setBackground(new Color(44, 44, 44)); // Color de fondo exterior
@@ -95,7 +98,7 @@ public class WindowModify extends JDialog implements ActionListener {
 		comboBoxList.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
 		comboBoxList.setBackground(new Color(55, 55, 55));
 		comboBoxList.setForeground(new Color(255, 255, 255));
-		comboBoxList.setBounds(35, 108, 201, 41);
+		comboBoxList.setBounds(28, 262, 235, 41);
 		comboBoxList.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -189,7 +192,7 @@ public class WindowModify extends JDialog implements ActionListener {
 		btnModify.setBackground(new Color(211, 47, 47));
         btnModify.setForeground(Color.WHITE);
         btnModify.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		btnModify.setBounds(2, 10, 150, 33);
+		btnModify.setBounds(10, 10, 150, 33);
 		btnModify.setFocusPainted(false);
         btnModify.setBorderPainted(false);
 		panelDatos.add(btnModify);
@@ -207,16 +210,16 @@ public class WindowModify extends JDialog implements ActionListener {
 		panelDatos.add(btnUpdate);
 		btnUpdate.addActionListener(this);
 
-		btnBack = new JButton("GO BACK");
-		btnBack.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
-		btnBack.setBackground(new Color(211, 47, 47));
-        btnBack.setForeground(Color.WHITE);
-        btnBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		btnBack.setBounds(10, 512, 215, 41);
-		btnBack.setFocusPainted(false);
-		btnBack.setBorderPainted(false);
-		contentPanel.add(btnBack);
-		btnBack.addActionListener(this);
+		btnLogo = new JButton("",new ImageIcon(img));
+		btnLogo.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
+		btnLogo.setBackground(new Color(55, 55, 55));
+        btnLogo.setForeground(Color.WHITE);
+        btnLogo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		btnLogo.setBounds(28, 26, 103, 105);
+		btnLogo.setFocusPainted(false);
+		btnLogo.setBorderPainted(false);
+		contentPanel.add(btnLogo);
+		btnLogo.addActionListener(this);
 
 		loadModels(worker);
 		setupListeners();
@@ -281,7 +284,7 @@ public class WindowModify extends JDialog implements ActionListener {
 
 		}
 		//button to go back
-		if(e.getSource()==btnBack) 
+		if(e.getSource()==btnLogo) 
 		{
 			this.dispose();
 		}
