@@ -346,21 +346,12 @@ public class ImplementacionBD implements WorkerDAO {
 				foundWorker = new Worker(esAdmin, usuario, contraseña, idCarDealer);
 			}
 
+			stmt.close();
+			con.close();
 		} catch (SQLException e) {
 			System.out.println("Error al verificar credenciales: " + e.getMessage());
-		} finally {
-			// Cerramos los recursos en un bloque finally
-			try {
-				if (stmt != null)
-					stmt.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				System.out.println("Error al cerrar recursos: " + e.getMessage());
-			}
 		}
-
-		return foundWorker; // Devolvemos el Worker encontrado (o null si no existe)
+		return foundWorker;
 	}
 	public CarDealership getDealership(String name) {
 	    CarDealership foundDealership = null;
