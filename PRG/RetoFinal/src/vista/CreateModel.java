@@ -35,23 +35,18 @@ import java.awt.Component;
 
 public class CreateModel extends JDialog implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JLabel lblTitulo;
-	private JLabel lblName;
 	private JTextField textFieldName;
 	private JTextField textFieldMark;
 	private JTextField textFieldStock;
 	private JTextField textFieldPrice;
 	private LoginControlador cont;
 	private Worker worker;
-	private CarDealership cardealer;
 	private Map<String, Model> modelList;
 	private Map<String, CarDealership> carDealerships;
-	private boolean activar = false;
 	private JComboBox <String>comboBoxId;
 	private JButton btnCreate;
-	private JPanel contentPane;
-	private JButton btnVentanaEmergente;
 	private JButton btnBack;
 
 	public CreateModel(/* JFrame parent, */LoginControlador cont, Worker worker) {
@@ -248,7 +243,7 @@ public class CreateModel extends JDialog implements ActionListener {
 	        String name = textFieldName.getText();
 	        CarDealership cardealer = cont.getDealership(nameDealership);
 
-	        if (!checkModelList(cardealer, name)) {
+	       if (!checkModelList(cardealer, name)) {
 	            Model model = new Model(name, textFieldMark.getText(), stock, price, cardealer.getId());
 	            if (cont.createModel(model)) {
 	            	JOptionPane.showMessageDialog(this, "Created successfully");
@@ -261,7 +256,7 @@ public class CreateModel extends JDialog implements ActionListener {
 	            	JOptionPane.showMessageDialog(this, "Error creating model");
 	            }
 	        } else {
-	        	JOptionPane.showMessageDialog(this, "Model already exists");
+	        	JOptionPane.showMessageDialog(this, "M odel already exists");
 	            
 	        }
 	    }

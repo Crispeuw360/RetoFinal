@@ -33,12 +33,10 @@ public class VentanaLogin extends JFrame implements ActionListener {
 	private JTextField usu;
 	private JPasswordField passwd;
 	private JButton btnAceptar;
-	private JLabel error;
 	private LoginControlador cont;
 	private JButton btnShowPassword;
     private boolean passwordVisible = false;
-    private ImageIcon eyeIcon;
-    private ImageIcon eyeClosedIcon; 
+   
 
 	public VentanaLogin(LoginControlador cont) {
 		this.cont = cont;
@@ -165,16 +163,22 @@ public class VentanaLogin extends JFrame implements ActionListener {
 	        }
 	    }
 	}
+	/**
+	 * Toggles the password visibility between visible and hidden states
+	 */
 	private void togglePasswordVisibility() {
+	    // Toggle the visibility flag
 	    passwordVisible = !passwordVisible;
 	    
 	    if (passwordVisible) {
+	        // Show password in plain text
 	        char[] password = passwd.getPassword();
-	        passwd.setEchoChar((char)0);
+	        passwd.setEchoChar((char)0);  // Set echo char to 0 to show characters
 	        passwd.setText(new String(password));
 	    } else {
-	        // No almacenamos el texto plano, solo cambiamos el echo char
-	        passwd.setEchoChar('•');
+	        // Hide password by showing bullet points
+	        // Security note: We don't store plain text, we just change the echo char
+	        passwd.setEchoChar('•');  // Set echo char to bullet point character
 	    }
 	}
 }

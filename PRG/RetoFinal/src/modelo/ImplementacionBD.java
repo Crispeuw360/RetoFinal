@@ -67,96 +67,94 @@ public class ImplementacionBD implements WorkerDAO {
 
 	public Map<String, Worker> getCoWorkers(Worker worker) {
 
-		// TODO Auto-generated method stub
+	    // TODO Auto-generated method stub
+	    ResultSet rs = null;
+	    Map<String, Worker> workers = new TreeMap<>();
 
-		ResultSet rs = null;
+	    // Open database connection
+	    this.openConnection();
 
-		Map<String, Worker> workers = new TreeMap<>();
+	    try {
+	        // Prepare SQL query to get workers
+	        stmt = con.prepareStatement(SQLGETWORKERS);
+	        // Set the car dealership ID parameter
+	        stmt.setInt(1, worker.getId_car_dealer());
+	        // Execute the query
+	        rs = stmt.executeQuery();
 
-		// Abrimos la conexi n
+	        // Process results one by one
+	        while (rs.next()) {
+	            // Create new Worker object
+	            worker = new Worker();
 
-		this.openConnection();
+	            // Set worker properties from query results
+	            worker.setAdmin(rs.getBoolean("admin_"));
+	            worker.setUser(rs.getString("user_"));
+	            worker.setPassword(rs.getString("password_"));
+	            worker.setId_car_dealer(rs.getInt("id_car_dealer"));
 
-		try {
+	            // Add worker to the map using username as key
+	            workers.put(worker.getUser(), worker);
+	        }
 
-			stmt = con.prepareStatement(SQLGETWORKERS);
-			stmt.setInt(1, worker.getId_car_dealer());
-			rs = stmt.executeQuery();
+	        // Close resources
+	        rs.close();
+	        stmt.close();
+	        con.close();
 
-			// Leemos de uno en uno
+	    } catch (SQLException e) {
+	        // Handle SQL errors
+	        System.out.println("Error de SQL");
+	        e.printStackTrace();
+	    }
 
-			while (rs.next()) {
-
-				worker = new Worker();
-
-				worker.setAdmin(rs.getBoolean("admin_"));
-
-				worker.setUser(rs.getString("user_"));
-
-				worker.setPassword(rs.getString("password_"));
-
-				worker.setId_car_dealer(rs.getInt("id_car_dealer"));
-
-				workers.put(worker.getUser(), worker);
-
-			}
-
-			rs.close();
-
-			stmt.close();
-
-			con.close();
-
-		} catch (SQLException e) {
-
-			System.out.println("Error de SQL");
-
-			e.printStackTrace();
-
-		}
-
-		return workers;
-
+	    // Return the map of workers
+	    return workers;
 	}
 	public Map<String, Model> getModels(CarDealership cardealer) {
-		ResultSet rs = null;
-		Model model;
-		Map<String, Model> models = new TreeMap<>();
+	    ResultSet rs = null;
+	    Model model;
+	    Map<String, Model> models = new TreeMap<>();
 
-		// Open connection
+	    // Open database connection
+	    this.openConnection();
 
-		this.openConnection();
+	    try {
+	        // Prepare SQL query to get models
+	        stmt = con.prepareStatement(SQLGETMODELS);
+	        // Set the car dealership ID parameter
+	        stmt.setInt(1, cardealer.getId());
+	        // Execute the query
+	        rs = stmt.executeQuery();
 
-		try {
-			stmt = con.prepareStatement(SQLGETMODELS);
-			stmt.setInt(1, cardealer.getId());
-			rs = stmt.executeQuery();
+	        // Process results one by one
+	        while (rs.next()) {
+	            // Create new Model object
+	            model = new Model();
 
-			// Leemos de uno en uno
+	            // Set model properties from query results
+	            model.setId_car_dealer(rs.getInt("id_car_dealer"));
+	            model.setMark(rs.getString("mark"));
+	            model.setName_model(rs.getString("name_model"));
+	            model.setPrice(rs.getDouble("price"));
+	            model.setStock(rs.getInt("stock"));
 
-			while (rs.next()) {
+	            // Add model to the map using name_model as key
+	            models.put(model.getName_model(), model);
+	        }
 
-				model = new Model();
+	        // Close resources
+	        rs.close();
+	        stmt.close();
+	        con.close();
 
-				model.setId_car_dealer(rs.getInt("id_car_dealer"));
-				model.setMark(rs.getString("mark"));
-				model.setName_model(rs.getString("name_model"));
-				model.setPrice(rs.getDouble("price"));
-				model.setStock(rs.getInt("stock"));
-
-				models.put(model.getName_model(), model);
-
-			}
-
-			rs.close();
-			stmt.close();
-			con.close();
-
-		} catch (SQLException e) {
-			System.out.println("Error de SQL");
-			e.printStackTrace();
-		}
-		return models;
+	    } catch (SQLException e) {
+	        // Handle SQL errors
+	        System.out.println("Error de SQL");
+	        e.printStackTrace();
+	    }
+	    // Return the map of models
+	    return models;
 	}
 	public Map<String, CarDealership> getCarDealerships() {
 	    Map<String, CarDealership> dealerships = new TreeMap<>();
@@ -198,46 +196,43 @@ public class ImplementacionBD implements WorkerDAO {
 	
 	public CarDealership getWorkingPlace(Worker worker) {
 
-		CarDealership cardealer = null;
+	    CarDealership cardealer = null;
+	    ResultSet rs = null;
+	    
+	    this.openConnection(); // Open database connection
 
-		ResultSet rs = null;
+	    try {
+	        // Prepare SQL query to get car dealership information
+	        stmt = con.prepareStatement(SQLGETDEALER);
+	        // Set the car dealer ID parameter
+	        stmt.setInt(1, worker.getId_car_dealer());
+	        // Execute the query
+	        rs = stmt.executeQuery();
 
-		this.openConnection();
+	        // Process results one by one
+	        while (rs.next()) {
+	            // Create new CarDealership object
+	            cardealer = new CarDealership();
+	            
+	            // Set dealership properties from query results
+	            cardealer.setId(rs.getInt("id_car_dealer"));
+	            cardealer.setLocation(rs.getString("location"));
+	            cardealer.setName(rs.getString("name_"));
+	        }
 
-		try {
+	        // Close resources
+	        rs.close();
+	        stmt.close();
+	        con.close();
 
-			stmt = con.prepareStatement(SQLGETDEALER);
-			stmt.setInt(1, worker.getId_car_dealer());
-			rs = stmt.executeQuery();
+	    } catch (SQLException e) {
+	        // Handle SQL errors
+	        System.out.println("Error de SQL");
+	        e.printStackTrace();
+	    }
 
-			// Leemos de uno en uno
-
-			while (rs.next()) {
-
-				cardealer = new CarDealership();
-
-				cardealer.setId(rs.getInt("id_car_dealer"));
-				cardealer.setLocation(rs.getString("location"));
-				cardealer.setName(rs.getString("name_"));
-
-			}
-
-			rs.close();
-
-			stmt.close();
-
-			con.close();
-
-		} catch (SQLException e) {
-
-			System.out.println("Error de SQL");
-
-			e.printStackTrace();
-
-		}
-
-		return cardealer;
-
+	    // Return the found car dealership (or null if not found)
+	    return cardealer;
 	}
 
 	public boolean deleteModel(Model model) {
@@ -256,21 +251,6 @@ public class ImplementacionBD implements WorkerDAO {
 		}
 		return ok;
 	}
-	/*
-	 * public boolean deleteWorker(Worker worker) { boolean ok = false;
-	 * 
-	 * this.openConnection();
-	 * 
-	 * 
-	 * try { smtm =con.prepareCall(SQLDELETEWORKER)
-	 * 
-	 * }
-	 * 
-	 * return ok;
-	 * 
-	 * 
-	 * }
-	 */
 
 	public boolean modifyModel(Model model) {
 		// TODO Auto-generated method stub
@@ -300,58 +280,58 @@ public class ImplementacionBD implements WorkerDAO {
 	}
 	
 	
-	public boolean  createModel(Model model) {
-		boolean creado=false;
-		this.openConnection();
-		
-		try {
-			stmt = con.prepareStatement(SQLINSERT);
-			stmt.setString(1, model.getName_model());
-			stmt.setString(2, model.getMark());
-			stmt.setInt(3, model.getStock());
-			stmt.setDouble(4, model.getPrice());
-			stmt.setInt(5, model.getId_car_dealer());
+	public boolean createModel(Model model) {  
+	    boolean creado = false;  
+	    this.openConnection(); // Open database connection  
 
-			if (stmt.executeUpdate() > 0) {
-				creado = true;
-			}
-			stmt.close();
-			con.close();
-		} catch (SQLException e) {
-			System.out.println("Error al insertar el modelo: " + e.getMessage());
-		}
-		return creado;
-	}
+	    try {  
+	        stmt = con.prepareStatement(SQLINSERT); // Prepare the stmt statement with the connection and corresponding SQL query  
+	        stmt.setString(1, model.getName_model());  
+	        stmt.setString(2, model.getMark());  
+	        stmt.setInt(3, model.getStock());  
+	        stmt.setDouble(4, model.getPrice());  
+	        stmt.setInt(5, model.getId_car_dealer());  
+
+	        if (stmt.executeUpdate() > 0) { // If executed successfully, return true  
+	            creado = true;  
+	        }  
+	        stmt.close();  
+	        con.close();  
+	    } catch (SQLException e) {  
+	        System.out.println("Error al insertar el modelo: " + e.getMessage());  
+	    }  
+	    return creado;  
+	}  
 	
 	public Worker checkWorker(Worker worker) {
-		Worker foundWorker = null; // Inicializamos como null
-		this.openConnection(); // Abrimos la conexión a la base de datos
+	    Worker foundWorker = null; 
+	    this.openConnection(); // Open the database connection
 
-		try {
-			// Preparamos la consulta SQL
-			stmt = con.prepareStatement(SQLLOGIN);
-			stmt.setString(1, worker.getUser()); // Establecemos el nombre de usuario
-			stmt.setString(2, worker.getPassword()); // Establecemos la contraseña
-			ResultSet resultado = stmt.executeQuery(); // Ejecutamos la consulta
+	    try {
+	        // Prepare the SQL query
+	        stmt = con.prepareStatement(SQLLOGIN);
+	        stmt.setString(1, worker.getUser()); 
+	        stmt.setString(2, worker.getPassword()); 
+	        ResultSet resultado = stmt.executeQuery(); // Execute the query
 
-			// Si hay un resultado, el usuario existe
-			if (resultado.next()) {
-				// Obtenemos los datos del usuario de la base de datos
-				boolean esAdmin = resultado.getBoolean("ADMIN_"); // Campo que indica si es administrador
-				String usuario = resultado.getString("USER_"); // Nombre de usuario
-				String contraseña = resultado.getString("PASSWORD_"); // Contraseña
-				int idCarDealer = resultado.getInt("ID_CAR_DEALER"); // Identificador de concesionario
+	        // If there is a result, the user exists
+	        if (resultado.next()) {
+	            // Get the user data from the database
+	            boolean esAdmin = resultado.getBoolean("ADMIN_"); 
+	            String usuario = resultado.getString("USER_"); 
+	            String contraseña = resultado.getString("PASSWORD_"); 
+	            int idCarDealer = resultado.getInt("ID_CAR_DEALER"); 
 
-				// Creamos un nuevo objeto Worker con los datos obtenidos
-				foundWorker = new Worker(esAdmin, usuario, contraseña, idCarDealer);
-			}
+	            // Create a new Worker object with the retrieved data
+	            foundWorker = new Worker(esAdmin, usuario, contraseña, idCarDealer);
+	        }
 
-			stmt.close();
-			con.close();
-		} catch (SQLException e) {
-			System.out.println("Error al verificar credenciales: " + e.getMessage());
-		}
-		return foundWorker;
+	        stmt.close();
+	        con.close();
+	    } catch (SQLException e) {
+	        System.out.println("Error al verificar credenciales: " + e.getMessage());
+	    }
+	    return foundWorker;
 	}
 	public CarDealership getDealership(String name) {
 	    CarDealership foundDealership = null;
