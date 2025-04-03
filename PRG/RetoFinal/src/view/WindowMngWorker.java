@@ -11,7 +11,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -91,12 +90,9 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 					boolean cellHasFocus) {
 				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				if (isSelected) {
-					setBackground(new Color(211, 47, 47));
+					setBackground(new Color(211, 47, 47));//red
 					setForeground(Color.WHITE);
-				} else {
-					setBackground(new Color(55, 55, 55));
-					setForeground(Color.WHITE);
-				}
+				} 
 				return this;
 			}
 		});
@@ -159,6 +155,18 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		comboBoxWorkPlace.setBackground(new Color(80, 80, 80));
 		comboBoxWorkPlace.setForeground(Color.WHITE);
 		comboBoxWorkPlace.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
+		comboBoxWorkPlace.setRenderer(new DefaultListCellRenderer() {
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+				if (isSelected) {
+					setBackground(new Color(211, 47, 47));//red
+					setForeground(Color.WHITE);
+				} 
+				return this;
+			}
+		});
 		panelDatos.add(comboBoxWorkPlace);
 
 		JLabel lblDealer = new JLabel("Dealership");
@@ -175,7 +183,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 		btnModify = new JButton("Modify");
 		btnModify.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
-		btnModify.setBounds(2, 10, 150, 33);
+		btnModify.setBounds(10, 10, 150, 33);
 		btnModify.setBackground(new Color(211, 47, 47));
 		btnModify.setForeground(Color.WHITE);
 		btnModify.setBorder(BorderFactory.createLineBorder(Color.BLACK));

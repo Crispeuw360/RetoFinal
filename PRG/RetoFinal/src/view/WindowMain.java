@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -38,6 +39,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JMenuBar;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class WindowMain extends JFrame implements ActionListener {
 	private LoginController cont;
@@ -59,6 +62,8 @@ public class WindowMain extends JFrame implements ActionListener {
 	private JMenu mnAdmin;
 	private JMenuItem mntmMngModel;
 	private JMenuItem mntmMngWorker;
+	private ImageIcon icon = new ImageIcon("src/img/icon.png");
+	private Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 
 	public WindowMain(LoginController cont, Worker worker) {
 		this.cont = cont;
@@ -77,9 +82,9 @@ public class WindowMain extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 
 		lblCarInfo = new JLabel("");
-		lblCarInfo.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+		lblCarInfo.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
 		lblCarInfo.setForeground(Color.WHITE);
-		lblCarInfo.setBounds(50, 150, 320, 200);
+		lblCarInfo.setBounds(50, 188, 320, 200);
 		contentPane.add(lblCarInfo);
 
 		lblDealership = new JLabel("");
@@ -112,7 +117,7 @@ public class WindowMain extends JFrame implements ActionListener {
 		JLabel lblDisponibleModels = new JLabel("Available Models");
 		lblDisponibleModels.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDisponibleModels.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
-		lblDisponibleModels.setForeground(Color.WHITE);
+		lblDisponibleModels.setForeground(new Color(0, 0, 0));
 		scrollPane.setColumnHeaderView(lblDisponibleModels);
 
 		btnModifyCars = new JButton("MODIFY");
@@ -170,8 +175,7 @@ public class WindowMain extends JFrame implements ActionListener {
 
 		mntmLogOut = new JMenuItem("Log Out");
 		mntmLogOut.setFont(new Font("Trebuchet MS", Font.PLAIN, 12));
-		mntmLogOut.setBackground(new Color(70, 70, 70));// NO HACE NADAAAAAAAAAAAAAAAAAAAAJKSNDA
-		// SKJFSDFASDKJSNDA
+		mntmLogOut.setBackground(new Color(70, 70, 70));
 		mntmLogOut.setForeground(Color.WHITE);
 		mnUserMenu.add(mntmLogOut);
 		mntmLogOut.addActionListener(this);
@@ -194,7 +198,17 @@ public class WindowMain extends JFrame implements ActionListener {
 		mntmMngModel.setBackground(new Color(80, 80, 80));
 		mntmMngModel.setForeground(Color.WHITE);
 		mnAdmin.add(mntmMngModel);
-		mntmMngModel.addActionListener(this);
+
+		// Opaque menu to get same colors
+		mnUserMenu.setOpaque(true);
+		mnAdmin.setOpaque(true);
+		mntmLocation.setOpaque(true);
+		mntmLogOut.setOpaque(true);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(WindowMain.class.getResource("/imgs/miniLogo.png")));
+		lblNewLabel.setBounds(-40, -28, 255, 206);
+		contentPane.add(lblNewLabel);
 
 		loadDealer();
 		loadModel();
@@ -206,8 +220,9 @@ public class WindowMain extends JFrame implements ActionListener {
 					String modelName = listModels.getSelectedValue();
 					if (modelName != null) {
 						Model model = models.get(modelName);
-						String infoCar = "Name: " + model.getName_model() + "<br>" + "Mark: " + model.getMark() + "<br>"
-								+ "Price: " + model.getPrice() + "€" + "<br>" + "Stock: " + model.getStock();
+						String infoCar = "Name: " + model.getName_model() + "<br><br>" + "Mark: " + model.getMark()
+								+ "<br><br>" + "Price: " + model.getPrice() + "€" + "<br><br>" + "Stock: "
+								+ model.getStock();
 						lblCarInfo.setText("<html>" + infoCar + "</htlm>");
 					}
 				}
@@ -256,6 +271,7 @@ public class WindowMain extends JFrame implements ActionListener {
 				if (cont.deleteModel(model)) {
 					lblWarning.setText(model.getName_model() + " was erased from the DataBase");
 					loadModel();
+					lblCarInfo.setText("");
 				}
 			}
 		}
@@ -278,7 +294,7 @@ public class WindowMain extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == mntmMngModel) {
-			
+
 		}
 
 		if (e.getSource() == mntmMngWorker) {
