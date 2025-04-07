@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import controlador.LoginController;
+import controller.LoginController;
 import modelo.CarDealership;
 import modelo.Client;
 
@@ -154,6 +154,7 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		lblInvisible = new JLabel("");
 		lblInvisible.setBounds(26, 343, 543, 46);
 		lblInvisible.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
+		lblInvisible.setForeground(Color.WHITE);
 		contentPanel.add(lblInvisible);
 		
 		btnBack = new JButton("Go Back",new ImageIcon(img));

@@ -154,30 +154,6 @@ public class ImplementsBD implements WorkerDAO{
 	}
 
 
-	/*@Override
-		public boolean eliminarUsuario(String nombre) {
-			// TODO Auto-generated method stub
-			boolean ok=false;
-
-			this.openConnection();
-			try {
-				// Preparamos la sentencia stmt con la conexion y sentencia sql correspondiente
-
-				stmt = con.prepareStatement(SQLBORRAR);
-				stmt.setString(1, nombre);
-				if (stmt.executeUpdate()>0) {
-					ok=true;
-				}
-
-	            stmt.close();
-	            con.close();
-			  } catch (SQLException e) {
-	             System.out.println("Error al verificar credenciales: " + e.getMessage());
-	        }
-
-			return ok;
-		}*/
-
 	@Override
 	public boolean modifyModel(Model model) {
 		// TODO Auto-generated method stub

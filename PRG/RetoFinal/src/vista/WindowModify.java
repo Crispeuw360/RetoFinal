@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controlador.LoginController;
 import modelo.CarDealership;
 import modelo.Model;
 import modelo.Worker;
@@ -30,6 +29,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import controller.LoginController;
+
 import java.awt.Color;
 import java.awt.Component;
 

@@ -1,6 +1,6 @@
 package principal;
 
-import controlador.LoginController;
+import controller.LoginController;
 
 public class ProgramaPrincipal {
 
