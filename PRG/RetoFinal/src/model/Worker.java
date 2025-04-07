@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 /**
  * Represents a worker in the system.

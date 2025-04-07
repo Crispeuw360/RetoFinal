@@ -1,4 +1,4 @@
-package vista;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -10,9 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import modelo.CarDealership;
-import modelo.Model;
-import modelo.Worker;
+import model.*;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;

@@ -1,9 +1,9 @@
 package controller;
 
 import java.util.Map;
-import modelo.*;
-import vista.WindowCreateUser;
-import vista.WindowModify;
+import model.*;
+import view.WindowCreateUser;
+import view.WindowModify;
 
 public class LoginController {
 

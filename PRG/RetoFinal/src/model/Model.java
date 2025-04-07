@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 /**
  * Represents a car model in the system.

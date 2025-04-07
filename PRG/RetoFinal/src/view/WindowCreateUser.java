@@ -1,4 +1,4 @@
-package vista;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,8 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controller.LoginController;
-import modelo.CarDealership;
-import modelo.Client;
+import model.*;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
