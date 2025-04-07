@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -26,12 +27,15 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -64,6 +68,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 	private JSlider sliderQuantity;
 	private JLabel lblInformationModels;
 	private JLabel lblInformationClients;
+	private JLabel lblImage;
 
 	public WindowPurchase(/*JFrame parent,*/ Worker worker, LoginController cont) {
 		setForeground(new Color(255, 255, 255));
@@ -86,19 +91,19 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		comboBoxModels.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		comboBoxModels.setBounds(117, 94, 135, 35);
 		comboBoxModels.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (isSelected) {
-                    setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
-                    setForeground(Color.WHITE);
-                } else {
-                    setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
-                    setForeground(Color.WHITE);
-                }
-                return this;
-            }
-        });
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+				if (isSelected) {
+					setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
+					setForeground(Color.WHITE);
+				} else {
+					setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
+					setForeground(Color.WHITE);
+				}
+				return this;
+			}
+		});
 		contentPanel.add(comboBoxModels);
 
 		comboBoxClients = new JComboBox<String>();
@@ -107,19 +112,19 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		comboBoxClients.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
 		comboBoxClients.setBounds(524, 94, 135, 35);
 		comboBoxClients.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (isSelected) {
-                    setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
-                    setForeground(Color.WHITE);
-                } else {
-                    setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
-                    setForeground(Color.WHITE);
-                }
-                return this;
-            }
-        });
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+				if (isSelected) {
+					setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
+					setForeground(Color.WHITE);
+				} else {
+					setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
+					setForeground(Color.WHITE);
+				}
+				return this;
+			}
+		});
 		contentPanel.add(comboBoxClients);
 
 		btnSell = new JButton("SELL\r\n");
@@ -129,6 +134,12 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		btnSell.setBounds(566, 430, 127, 43);
 		contentPanel.add(btnSell);
 		btnSell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		//add the image to the sell button
+		ImageIcon imageDollar = new ImageIcon(WindowPurchase.class.getResource("/imgs/dollar.png"));
+		Image img1 = imageDollar.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		ImageIcon imageDollarScaled = new ImageIcon(img1);
+		btnSell.setIcon(imageDollarScaled);
 
 		lblMessage = new JLabel("");
 		lblMessage.setForeground(new Color(255, 255, 255));
@@ -143,6 +154,11 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		btnAddUser.setBounds(139, 431, 127, 43);
 		contentPanel.add(btnAddUser);
 		btnAddUser.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		ImageIcon imageUser = new ImageIcon(WindowPurchase.class.getResource("/imgs/usuario.png"));
+		Image img2 = imageUser.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		ImageIcon imageUserScaled2 = new ImageIcon(img2);
+		btnAddUser.setIcon(imageUserScaled2);
 
 		lblModels = new JLabel("SELECT THE MODEL");
 		lblModels.setForeground(new Color(255, 255, 255));
@@ -188,6 +204,15 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		lblInformationClients.setBounds(524, 265, 187, 56);
 		contentPanel.add(lblInformationClients);
 
+		lblImage = new JLabel("");
+		lblImage.setBounds(352, 63, 69, 66);
+		contentPanel.add(lblImage);
+
+		ImageIcon imageLogo = new ImageIcon(WindowPurchase.class.getResource("/imgs/logo.png"));
+		Image img3 = imageLogo.getImage().getScaledInstance(69, 66, Image.SCALE_SMOOTH);
+		ImageIcon imageUserScaled3 = new ImageIcon(img3);
+		lblImage.setIcon(imageUserScaled3);
+
 		loadCliens();
 		loadModels(worker);
 
@@ -231,7 +256,11 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 
 		if(e.getSource()==btnSell) {
 			try {
-				checkingStock();
+				if(comboBoxClients.getSelectedItem() == null || comboBoxModels.getSelectedItem() == null) {
+					lblMessage.setText("YOU HAVE TO SELECT MODEL AND CLIENT BEFORE");
+				}else {
+					checkingStock();
+				}
 			} catch (StockException e1) {
 				// TODO Auto-generated catch block
 				//e1.printStackTrace();
@@ -252,7 +281,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 
 		client = clientsList.get(comboBoxClients.getSelectedItem());
 		model = modelsList.get(comboBoxModels.getSelectedItem());
-		
+
 		if(cont.checkStock(model)>0) {
 			if(cont.checkStock(model)<sliderQuantity.getValue()){
 				JOptionPane.showMessageDialog(null, "Insufficient stock", "ERROR", JOptionPane.INFORMATION_MESSAGE);
@@ -265,6 +294,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 			throw new StockException();
 
 		}
+
 	}
 
 
@@ -293,12 +323,16 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		}
 
 		client = clientsList.get(comboBoxClients.getSelectedItem());
-		
+
 		if(comboBoxClients.getSelectedItem() != null) {			
 			if(client != null) {
 				lblMessage.setText("");
 				lblInformationClients.setText("<html>DNI: " + client.getDni() + "<br>Email: " + client.getEmail());
 			}
 		}
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		this.dispose(); // Cierra la ventana al hacer clic en la imagen
 	}
 }
