@@ -256,7 +256,7 @@ public class CreateModel extends JDialog implements ActionListener {
 	            	JOptionPane.showMessageDialog(this, "Error creating model");
 	            }
 	        } else {
-	        	JOptionPane.showMessageDialog(this, "M odel already exists");
+	        	JOptionPane.showMessageDialog(this, "Model already exists");
 	            
 	        }
 	    }
