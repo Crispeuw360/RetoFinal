@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import model.*;
@@ -18,6 +19,11 @@ public class LoginController {
 
 	public Map<String, Model> getModels(CarDealership cardealer) {
 		return dao.getModels(cardealer);
+	}
+
+	public Map<String, Model> getModels(Worker worker) {
+		return dao.getModels(worker);
+
 	}
 
 	public Map<String, Worker> getWorkers() {
@@ -62,5 +68,34 @@ public class LoginController {
 	public boolean createWorker(Worker worker) {
 		return dao.createWorker(worker);
 	}
+	public Map<String, Client_> getClients() {
+		return dao.getClients_();
+
+	}
+
+	public boolean callProcedure(Client_ client, Model model, Worker worker, LocalDate actualDate, int quantity) {
+		return dao.callProcedure(client, model, worker, actualDate, quantity);
+	}
+
+	public int checkStock(Model model) {
+		return dao.checkStock(model);
+	}
+
+	public boolean modifyModel(Model model) {
+		return dao.modifyModel(model);
+	}
+
+	public boolean insertClient(Client_ client) {
+		return dao.insertClient(client);
+	}
+
+	public CarDealership getDealership(String name) {
+		return dao.getDealership(name);
+	}
+	
+	public Map<String, CarDealership> getCarDealerships(){
+		return dao.getCarDealerships();
+	}
+	
 
 }
