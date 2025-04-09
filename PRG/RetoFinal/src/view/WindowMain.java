@@ -198,15 +198,16 @@ public class WindowMain extends JFrame implements ActionListener {
 		mntmMngModel.setBackground(new Color(80, 80, 80));
 		mntmMngModel.setForeground(Color.WHITE);
 		mnAdmin.add(mntmMngModel);
+		mntmMngModel.addActionListener(this);
 
 		// Opaque menu to get same colors
 		mnUserMenu.setOpaque(true);
 		mnAdmin.setOpaque(true);
 		mntmLocation.setOpaque(true);
 		mntmLogOut.setOpaque(true);
-		
+
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(WindowMain.class.getResource("/imgs/miniLogo.png")));
+		lblNewLabel.setIcon(new ImageIcon(WindowMain.class.getResource("/imgs/Logo.png")));
 		lblNewLabel.setBounds(-40, -28, 255, 206);
 		contentPane.add(lblNewLabel);
 
@@ -293,13 +294,30 @@ public class WindowMain extends JFrame implements ActionListener {
 			cont.visualizarPantalla();
 		}
 
-		if (e.getSource() == mntmMngModel) {
+		if (e.getSource() == btnModifyCars) {
+			this.dispose();
+			WindowModify win = new WindowModify(this, cont, worker);
+			win.setVisible(true);
+
+		}
+
+		if (e.getSource() == btnSell) {
+
+			this.dispose();
+			WindowPurchase win = new WindowPurchase(this, worker, cont);
+			win.setVisible(true);
 
 		}
 
 		if (e.getSource() == mntmMngWorker) {
 			this.dispose();
 			WindowMngWorker ven = new WindowMngWorker(this, cont, worker);
+			ven.setVisible(true);
+		}
+
+		if (e.getSource() == mntmMngModel) {
+			this.dispose();
+			WindowCreateModel ven = new WindowCreateModel(this, cont, worker);
 			ven.setVisible(true);
 		}
 	}

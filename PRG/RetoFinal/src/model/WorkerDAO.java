@@ -38,9 +38,9 @@ public interface WorkerDAO {
 
 	public boolean createWorker(Worker worker);
 
-	public Map<String, Client_> getClients_();
+	public Map<String, Client> getClients_();
 
-	public boolean callProcedure(Client_ client, Model model, Worker worker, LocalDate actualDate, int quantity);
+	public boolean callProcedure(Client client, Model model, Worker worker, LocalDate actualDate, int quantity);
 
 	public int checkStock(Model model);
 
@@ -48,6 +48,10 @@ public interface WorkerDAO {
 
 	public boolean modifyModel(Model model);
 
-	public boolean insertClient(Client_ client);
+	public boolean insertClient(Client client);
+
+	public boolean createModel(Model model);
+
+	public Model getModel(String name_model);
 
 }

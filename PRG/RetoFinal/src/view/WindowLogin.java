@@ -1,4 +1,4 @@
-package vista;
+package view;
 
 import java.awt.EventQueue;
 
@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import controlador.LoginControlador;
-import modelo.Worker;
+import controller.*;
+import model.Worker;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,19 +26,19 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 
-public class VentanaLogin extends JFrame implements ActionListener {
+public class WindowLogin extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField usu;
 	private JPasswordField passwd;
 	private JButton btnAceptar;
-	private LoginControlador cont;
+	private LoginController cont;
 	private JButton btnShowPassword;
     private boolean passwordVisible = false;
    
 
-	public VentanaLogin(LoginControlador cont) {
+	public WindowLogin(LoginController cont) {
 		this.cont = cont;
         setUndecorated(true);
         setBackground(new Color(44, 44, 44));
@@ -143,14 +143,14 @@ public class VentanaLogin extends JFrame implements ActionListener {
 	        java.util.Arrays.fill(passwordChars, ' ');  
 
 	        if (!usuario.isEmpty() && !password.isEmpty()) {
-	            Worker worker = new Worker(false, usuario, password, 1); // Initially, we don't know if admin
+	            Worker worker = new Worker( usuario, password,false, 1); // Initially, we don't know if admin
 	            Worker foundWorker = cont.checkWorker(worker); // Enters worker with admin and cardealer wrong, comes out right
 
 	            if (foundWorker != null) {
 
 	                // We verify if the user is administrator
 
-	                VentanaPrincipal ven = new VentanaPrincipal(cont, foundWorker);
+	                WindowMain ven = new WindowMain(cont, foundWorker);
 	                ven.setVisible(true);
 
 	                this.dispose();

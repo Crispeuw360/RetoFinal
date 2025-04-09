@@ -68,12 +68,12 @@ public class LoginController {
 	public boolean createWorker(Worker worker) {
 		return dao.createWorker(worker);
 	}
-	public Map<String, Client_> getClients() {
+	public Map<String, Client> getClients() {
 		return dao.getClients_();
 
 	}
 
-	public boolean callProcedure(Client_ client, Model model, Worker worker, LocalDate actualDate, int quantity) {
+	public boolean callProcedure(Client client, Model model, Worker worker, LocalDate actualDate, int quantity) {
 		return dao.callProcedure(client, model, worker, actualDate, quantity);
 	}
 
@@ -85,7 +85,7 @@ public class LoginController {
 		return dao.modifyModel(model);
 	}
 
-	public boolean insertClient(Client_ client) {
+	public boolean insertClient(Client client) {
 		return dao.insertClient(client);
 	}
 
@@ -95,6 +95,15 @@ public class LoginController {
 	
 	public Map<String, CarDealership> getCarDealerships(){
 		return dao.getCarDealerships();
+	}
+	
+	public boolean createModel(Model model) {
+		return dao.createModel(model);
+	}
+
+	public Model getModel(String name_model) {
+		
+		return dao.getModel(name_model);
 	}
 	
 

@@ -27,6 +27,7 @@ public class ImplementsBD implements WorkerDAO {
 
 	// dej
 	final String SQLGETMODELS = "SELECT * FROM model WHERE id_car_dealer = ?";
+	final String SQLGETMODEL = "SELECT * FROM model WHERE name_model = ?";
 
 	final String SQLGETWORKERS = " SELECT * FROM worker";
 	final String SQLGETWORKER = "SELECT * FROM worker WHERE user_ = ?";
@@ -313,7 +314,7 @@ public class ImplementsBD implements WorkerDAO {
 				String password = resultado.getString("password_");
 				int idCarDealer = resultado.getInt("id_car_dealer");
 
-				foundWorker = new Worker(admin, userName, password, idCarDealer);
+				foundWorker = new Worker( userName, password,admin,idCarDealer);
 			}
 
 			stmt.close();
@@ -325,6 +326,36 @@ public class ImplementsBD implements WorkerDAO {
 		return foundWorker;
 
 	}
+	public Model getModel(String modelName) {
+
+	    Model foundModel = null;
+	    this.openConnection();
+
+	    try {
+	        // Preparamos la consulta SQL
+	        stmt = con.prepareStatement(SQLGETMODEL);
+	        stmt.setString(1, modelName);
+	        ResultSet resultado = stmt.executeQuery();
+
+	        if (resultado.next()) {
+	            String name_model = resultado.getString("name_model");
+	            String mark = resultado.getString("mark");
+	            int stock = resultado.getInt("stock");
+	            double price = resultado.getDouble("price");
+	            int id_car_dealer = resultado.getInt("id_car_dealer");
+
+	            foundModel = new Model(name_model, mark, stock, price, id_car_dealer);
+	        }
+
+	        stmt.close();
+	        con.close();
+	    } catch (SQLException e) {
+	        System.out.println("Error al obtener el modelo: " + e.getMessage());
+	    }
+
+	    return foundModel;
+	}
+
 
 	@Override
 	public boolean createWorker(Worker worker) {
@@ -398,7 +429,7 @@ public class ImplementsBD implements WorkerDAO {
 				int idCarDealer = resultado.getInt("ID_CAR_DEALER"); // Identificador de concesionario
 
 				// Creamos un nuevo objeto Worker con los datos obtenidos
-				foundWorker = new Worker(esAdmin, usuario, contraseña, idCarDealer);
+				foundWorker = new Worker( usuario, contraseña,esAdmin, idCarDealer);
 			}
 
 			stmt.close();
@@ -411,12 +442,12 @@ public class ImplementsBD implements WorkerDAO {
 
 	// returns all the clients of all cardealerships
 	@Override
-	public Map<String, Client_> getClients_() {
+	public Map<String, Client> getClients_() {
 		// TODO Auto-generated method stub
 
 		ResultSet rs = null;
-		Client_ client;
-		Map<String, Client_> clientsList = new TreeMap<>();
+		Client client;
+		Map<String, Client> clientsList = new TreeMap<>();
 
 		// Open conection
 		this.openConnection();
@@ -427,7 +458,7 @@ public class ImplementsBD implements WorkerDAO {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				client = new Client_();
+				client = new Client();
 				client.setDni(rs.getString("dni"));
 				client.setEmail(rs.getString("email"));
 				client.setPassword_((rs.getString("password_")));
@@ -447,7 +478,7 @@ public class ImplementsBD implements WorkerDAO {
 
 	// it calls the SQL procedure
 	@Override
-	public boolean callProcedure(Client_ client, Model model, Worker worker, LocalDate actualDate, int quantity) {
+	public boolean callProcedure(Client client, Model model, Worker worker, LocalDate actualDate, int quantity) {
 		// TODO Auto-generated method stub
 		boolean ok = false;
 		DateTimeFormatter formateador = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -511,7 +542,7 @@ public class ImplementsBD implements WorkerDAO {
 		return stockValue;
 	}
 
-	public boolean insertClient(Client_ client) {
+	public boolean insertClient(Client client) {
 		// TODO Auto-generated method stub
 		boolean ok = false;
 		this.openConnection();
@@ -519,9 +550,9 @@ public class ImplementsBD implements WorkerDAO {
 			// Preparamos la sentencia stmt con la conexion y sentencia sql correspondiente
 
 			stmt = con.prepareStatement(SQLINSERTCLIENT);
-			stmt.setString(1, client.getDni());
+			stmt.setString(1, client.getUser_());
 			stmt.setString(2, client.getEmail());
-			stmt.setString(3, client.getUser_());
+			stmt.setString(3, client.getDni());
 			stmt.setString(4, client.getPassword_());
 			if (stmt.executeUpdate() > 0) {
 				ok = true;

@@ -1,4 +1,4 @@
-package vista;
+package view;
 
 import java.awt.BorderLayout;
 
@@ -15,11 +15,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.metal.MetalButtonUI;
 
 import Exception.StockException;
-import controlador.LoginController;
-import modelo.CarDealership;
-import modelo.Client_;
-import modelo.Model;
-import modelo.Worker;
+import controller.*;
+import model.*;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -45,7 +42,7 @@ import javax.swing.JSlider;
 import java.awt.Color;
 import java.awt.Component;
 
-public class WindowPurchase extends JDialog implements ActionListener, ChangeListener, ItemListener{
+public class WindowPurchase extends JDialog implements ActionListener, ChangeListener, ItemListener {
 
 	/**
 	 * 
@@ -57,7 +54,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 	private JButton btnSell;
 	private JLabel lblMessage;
 	private JButton btnAddUser;
-	private Map<String, Client_> clientsList;
+	private Map<String, Client> clientsList;
 	private Map<String, Model> modelsList;
 	private LoginController cont;
 	private JLabel lblModels;
@@ -70,11 +67,11 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 	private JLabel lblInformationClients;
 	private JLabel lblImage;
 
-	public WindowPurchase(/*JFrame parent,*/ Worker worker, LoginController cont) {
+	public WindowPurchase(JFrame parent, Worker worker, LoginController cont) {
 		setForeground(new Color(255, 255, 255));
 		setBackground(new Color(0, 0, 0));
 		setTitle("PURCHASE");
-		//super(parent, true);
+		// super(parent, true);
 		this.cont = cont;
 		this.worker = worker;
 		setSize(800, 600);
@@ -92,7 +89,8 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		comboBoxModels.setBounds(117, 94, 135, 35);
 		comboBoxModels.setRenderer(new DefaultListCellRenderer() {
 			@Override
-			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
 				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				if (isSelected) {
 					setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
@@ -113,7 +111,8 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		comboBoxClients.setBounds(524, 94, 135, 35);
 		comboBoxClients.setRenderer(new DefaultListCellRenderer() {
 			@Override
-			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
 				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 				if (isSelected) {
 					setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
@@ -135,7 +134,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		contentPanel.add(btnSell);
 		btnSell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		//add the image to the sell button
+		// add the image to the sell button
 		ImageIcon imageDollar = new ImageIcon(WindowPurchase.class.getResource("/imgs/dollar.png"));
 		Image img1 = imageDollar.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		ImageIcon imageDollarScaled = new ImageIcon(img1);
@@ -216,7 +215,6 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		loadCliens();
 		loadModels(worker);
 
-
 		btnSell.addActionListener(this);
 		btnAddUser.addActionListener(this);
 		btnGoBack.addActionListener(this);
@@ -229,7 +227,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 	public void loadCliens() {
 		clientsList = cont.getClients();
 		if (!clientsList.isEmpty()) {
-			for (Client_ c : clientsList.values()) {
+			for (Client c : clientsList.values()) {
 				comboBoxClients.addItem(c.getUser_());
 			}
 		}
@@ -251,52 +249,63 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		// TODO Auto-generated method stub
 
 		if (e.getSource() == btnAddUser) {
-			//AQUI VA LA VENTANA NUEVO USUARIO
+			this.dispose();
+			WindowCreateUser win = new WindowCreateUser(this, worker, cont);
+			win.setVisible(true);
 		}
 
-		if(e.getSource()==btnSell) {
+		if (e.getSource() == btnSell) {
 			try {
-				if(comboBoxClients.getSelectedItem() == null || comboBoxModels.getSelectedItem() == null) {
+				if (comboBoxClients.getSelectedItem() == null || comboBoxModels.getSelectedItem() == null) {
 					lblMessage.setText("YOU HAVE TO SELECT MODEL AND CLIENT BEFORE");
-				}else {
+				} else {
 					checkingStock();
+
 				}
 			} catch (StockException e1) {
 				// TODO Auto-generated catch block
-				//e1.printStackTrace();
+				// e1.printStackTrace();
 			}
 		}
 
-
-
 		if (e.getSource() == btnGoBack) {
 			this.dispose();
+			WindowMain ven = new WindowMain(cont, worker);
+			ven.setVisible(true);
+
 		}
 
 	}
 
 	public void checkingStock() throws StockException {
-		Client_ client;
+		Client client;
 		Model model;
 
 		client = clientsList.get(comboBoxClients.getSelectedItem());
 		model = modelsList.get(comboBoxModels.getSelectedItem());
 
-		if(cont.checkStock(model)>0) {
-			if(cont.checkStock(model)<sliderQuantity.getValue()){
+		if (cont.checkStock(model) > 0) {
+			if (cont.checkStock(model) < sliderQuantity.getValue()) {
 				JOptionPane.showMessageDialog(null, "Insufficient stock", "ERROR", JOptionPane.INFORMATION_MESSAGE);
-			}else {
+			} else {
+
+				comboBoxClients.setSelectedIndex(-1);
+				lblInformationClients.setText("");
+
+				// model = cont.getModel(model.getName_model());
+
 				cont.callProcedure(client, model, worker, LocalDate.now(), sliderQuantity.getValue());
-				lblInformationModels.setText("<html>Mark: " + model.getMark() + "<br>Price: " + model.getPrice() + "€" + "<br>Stock: " + (model.getStock()-sliderQuantity.getValue()) + "</html>");
+				lblInformationModels.setText("<html>Mark: " + model.getMark() + "<br>Price: " + model.getPrice() + "€"
+						+ "<br>Stock: " + (model.getStock() - sliderQuantity.getValue()) + "</html>");
+
 				lblMessage.setText("PURCHASE CORRECTLY DONE!");
 			}
-		}else {
+		} else {
 			throw new StockException();
 
 		}
 
 	}
-
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
@@ -311,21 +320,20 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
 		Model model;
-		Client_ client;
+		Client client;
 
-		model = modelsList.get(comboBoxModels.getSelectedItem());
-
-		if(comboBoxModels.getSelectedItem() != null) {
-			if(model != null) {
+		if (comboBoxModels.getSelectedItem() != null) {
+			model = modelsList.get(comboBoxModels.getSelectedItem());
+			if (model != null) {
 				lblMessage.setText("");
-				lblInformationModels.setText("<html>Mark: " + model.getMark() + "<br>Price: " + model.getPrice() + "€" + "<br>Stock: " + model.getStock() + "</html>");
+				lblInformationModels.setText("<html>Mark: " + model.getMark() + "<br>Price: " + model.getPrice() + "€"
+						+ "<br>Stock: " + model.getStock() + "</html>");
 			}
 		}
 
-		client = clientsList.get(comboBoxClients.getSelectedItem());
-
-		if(comboBoxClients.getSelectedItem() != null) {			
-			if(client != null) {
+		if (comboBoxClients.getSelectedItem() != null) {
+			client = clientsList.get(comboBoxClients.getSelectedItem());
+			if (client != null) {
 				lblMessage.setText("");
 				lblInformationClients.setText("<html>DNI: " + client.getDni() + "<br>Email: " + client.getEmail());
 			}

@@ -34,8 +34,8 @@ import java.awt.Color;
 import java.awt.Component;
 
 /**
- * This window allows modifying models in the system.
- * A worker can update details of a selected model.
+ * This window allows modifying models in the system. A worker can update
+ * details of a selected model.
  *
  * @author Igor
  * @version 1.0
@@ -57,24 +57,22 @@ public class WindowModify extends JDialog implements ActionListener {
 	private Worker worker;
 	private Map<String, Model> modelsList;
 	private boolean activar = false;
-	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png")); 
-	private Image img = icon.getImage().getScaledInstance(100, 101, Image.SCALE_SMOOTH); 
-
+	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png"));
+	private Image img = icon.getImage().getScaledInstance(100, 101, Image.SCALE_SMOOTH);
 
 	/**
-     * Constructor for the WindowModify class.
-     *
-     *@param parent  the father/main window
-     * @param cont   The controller handling model modifications.
-     * @param worker The worker managing models.
-     */
-	public WindowModify(/*JFrame parent,*/LoginController cont,Worker worker) 
-	{
+	 * Constructor for the WindowModify class.
+	 *
+	 * @param parent the father/main window
+	 * @param cont   The controller handling model modifications.
+	 * @param worker The worker managing models.
+	 */
+	public WindowModify(JFrame parent, LoginController cont, Worker worker) {
 		setUndecorated(true); // Elimina los bordes y la barra de título
 		setBackground(new Color(44, 44, 44)); // Color de fondo exterior
 		getRootPane().setBorder(new LineBorder(new Color(30, 30, 30), 10));
 		this.cont = cont;
-		this.worker=worker;
+		this.worker = worker;
 		setResizable(false);
 		setTitle("VentanaModificar");
 		setSize(800, 600);
@@ -100,21 +98,21 @@ public class WindowModify extends JDialog implements ActionListener {
 		comboBoxList.setForeground(new Color(255, 255, 255));
 		comboBoxList.setBounds(28, 262, 235, 41);
 		comboBoxList.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (isSelected) {
-                    setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
-                    setForeground(Color.WHITE);
-                } else {
-                    setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
-                    setForeground(Color.WHITE);
-                }
-                return this;
-            }
-        });
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+				super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+				if (isSelected) {
+					setBackground(new Color(211, 47, 47)); // Rojo oscuro cuando se selecciona
+					setForeground(Color.WHITE);
+				} else {
+					setBackground(new Color(55, 55, 55)); // Gris oscuro en normal
+					setForeground(Color.WHITE);
+				}
+				return this;
+			}
+		});
 		contentPanel.add(comboBoxList);
-
 
 		JPanel panelDatos = new JPanel();
 		panelDatos.setBorder(new LineBorder(new Color(150, 0, 0)));
@@ -151,8 +149,8 @@ public class WindowModify extends JDialog implements ActionListener {
 		textFieldMark.setColumns(10);
 		textFieldMark.setBounds(126, 143, 170, 20);
 		textFieldMark.setBackground(new Color(80, 80, 80));
-        textFieldMark.setForeground(Color.WHITE);
-        textFieldMark.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
+		textFieldMark.setForeground(Color.WHITE);
+		textFieldMark.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		panelDatos.add(textFieldMark);
 
 		textFieldStock = new JTextField();
@@ -161,8 +159,8 @@ public class WindowModify extends JDialog implements ActionListener {
 		textFieldStock.setColumns(10);
 		textFieldStock.setBounds(126, 193, 170, 20);
 		textFieldStock.setBackground(new Color(80, 80, 80));
-        textFieldStock.setForeground(Color.WHITE);
-        textFieldStock.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
+		textFieldStock.setForeground(Color.WHITE);
+		textFieldStock.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		panelDatos.add(textFieldStock);
 
 		JLabel lblStock = new JLabel("Stock: ");
@@ -183,18 +181,18 @@ public class WindowModify extends JDialog implements ActionListener {
 		textFieldPrice.setColumns(10);
 		textFieldPrice.setBounds(126, 247, 170, 20);
 		textFieldPrice.setBackground(new Color(80, 80, 80));
-        textFieldPrice.setForeground(Color.WHITE);
-        textFieldPrice.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
+		textFieldPrice.setForeground(Color.WHITE);
+		textFieldPrice.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		panelDatos.add(textFieldPrice);
 
 		btnModify = new JButton("Modify");
 		btnModify.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
 		btnModify.setBackground(new Color(211, 47, 47));
-        btnModify.setForeground(Color.WHITE);
-        btnModify.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		btnModify.setForeground(Color.WHITE);
+		btnModify.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		btnModify.setBounds(10, 10, 150, 33);
 		btnModify.setFocusPainted(false);
-        btnModify.setBorderPainted(false);
+		btnModify.setBorderPainted(false);
 		panelDatos.add(btnModify);
 		btnModify.addActionListener(this);
 
@@ -202,19 +200,19 @@ public class WindowModify extends JDialog implements ActionListener {
 		btnUpdate.setEnabled(activar);
 		btnUpdate.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
 		btnUpdate.setBackground(new Color(100, 100, 100));
-        btnUpdate.setForeground(Color.WHITE);
-        btnUpdate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		btnUpdate.setForeground(Color.WHITE);
+		btnUpdate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		btnUpdate.setBounds(163, 10, 150, 33);
 		btnUpdate.setFocusPainted(false);
 		btnUpdate.setBorderPainted(false);
 		panelDatos.add(btnUpdate);
 		btnUpdate.addActionListener(this);
 
-		btnLogo = new JButton("",new ImageIcon(img));
+		btnLogo = new JButton("", new ImageIcon(img));
 		btnLogo.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
 		btnLogo.setBackground(new Color(55, 55, 55));
-        btnLogo.setForeground(Color.WHITE);
-        btnLogo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		btnLogo.setForeground(Color.WHITE);
+		btnLogo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		btnLogo.setBounds(28, 26, 103, 105);
 		btnLogo.setFocusPainted(false);
 		btnLogo.setBorderPainted(false);
@@ -225,31 +223,28 @@ public class WindowModify extends JDialog implements ActionListener {
 		setupListeners();
 	}
 
-
 	/**
-     * Handles button actions for modifying and updating models.
-     *
-     * @param e The action event triggered by a button click.
-     */
+	 * Handles button actions for modifying and updating models.
+	 *
+	 * @param e The action event triggered by a button click.
+	 */
 	@Override
-	//it provides all the functions of the buttons
+	// it provides all the functions of the buttons
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		int stock;
 		double price;
 		Model modi;
-		
-		//Enables the forms
-		if(e.getSource()==btnModify)
-		{
+
+		// Enables the forms
+		if (e.getSource() == btnModify) {
 			activar = true;
 			toggleFields(activar);
 		}
-		//Modify the Models
-		if(e.getSource()==btnUpdate) 
-		{
-			if (!textFieldMark.getText().isEmpty()&&!textFieldPrice.getText().isEmpty()&&!textFieldStock.getText().isEmpty()) 
-			{
+		// Modify the Models
+		if (e.getSource() == btnUpdate) {
+			if (!textFieldMark.getText().isEmpty() && !textFieldPrice.getText().isEmpty()
+					&& !textFieldStock.getText().isEmpty()) {
 				if (checkInt(textFieldStock.getText().trim()) && checkDouble(textFieldPrice.getText().trim())) {
 					stock = Integer.parseInt(textFieldStock.getText().trim());
 					price = Double.parseDouble(textFieldPrice.getText().trim());
@@ -275,34 +270,37 @@ public class WindowModify extends JDialog implements ActionListener {
 				} else {
 					JOptionPane.showMessageDialog(null, "Error: Put a Double in the form.", "Error format",
 							JOptionPane.ERROR_MESSAGE);
-				} 
-			}else
-			{
+				}
+			} else {
 				JOptionPane.showMessageDialog(null, "Error: Fill al the forms.", "Error format",
 						JOptionPane.ERROR_MESSAGE);
 			}
 
 		}
-		//button to go back
-		if(e.getSource()==btnLogo) 
-		{
+		// button to go back
+		if (e.getSource() == btnLogo) {
+			WindowMain ven = new WindowMain(cont, worker);
+			ven.setVisible(true);
+
 			this.dispose();
+
 		}
 
 	}
+
 	/**
 	 * Loads all models into the comboBox.
 	 *
 	 * @param worker The worker whose models will be loaded.
 	 */
 	public void loadModels(Worker worker) {
-	    modelsList = cont.getModels(worker);
-	    if (!modelsList.isEmpty()) {
-	        for (Model m : modelsList.values()) {
-	            comboBoxList.addItem(m.getName_model());
-	        }
-	    }
-	    comboBoxList.setSelectedIndex(-1);
+		modelsList = cont.getModels(worker);
+		if (!modelsList.isEmpty()) {
+			for (Model m : modelsList.values()) {
+				comboBoxList.addItem(m.getName_model());
+			}
+		}
+		comboBoxList.setSelectedIndex(-1);
 	}
 
 	/**
@@ -311,55 +309,56 @@ public class WindowModify extends JDialog implements ActionListener {
 	 * @param model The model whose details will be displayed.
 	 */
 	private void updateFields(Model model) {
-	    if (model != null) {
-	        textFieldName.setText(model.getName_model());
-	        textFieldMark.setText(model.getMark());
-	        textFieldStock.setText(String.valueOf(model.getStock()));
-	        textFieldPrice.setText(String.valueOf(model.getPrice()));
-	    } else {
-	        textFieldName.setText("");
-	        textFieldMark.setText("");
-	        textFieldStock.setText("");
-	        textFieldPrice.setText("");
-	        
-	        comboBoxList.setSelectedIndex(-1);
-	        toggleFields(false);
-	    }
+		if (model != null) {
+			textFieldName.setText(model.getName_model());
+			textFieldMark.setText(model.getMark());
+			textFieldStock.setText(String.valueOf(model.getStock()));
+			textFieldPrice.setText(String.valueOf(model.getPrice()));
+		} else {
+			textFieldName.setText("");
+			textFieldMark.setText("");
+			textFieldStock.setText("");
+			textFieldPrice.setText("");
+
+			comboBoxList.setSelectedIndex(-1);
+			toggleFields(false);
+		}
 	}
 
 	/**
 	 * Sets up the listener for the comboBox to detect changes in selection.
 	 */
 	public void setupListeners() {
-	    comboBoxList.addActionListener(new ActionListener() {
-	        /**
-	         * Detects a change in selection and updates the fields accordingly.
-	         *
-	         * @param e The action event triggered when an item is selected.
-	         */
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            String selectedModel = (String) comboBoxList.getSelectedItem();
-	            if (selectedModel != null && modelsList.containsKey(selectedModel)) {
-	                Model model = modelsList.get(selectedModel);
-	                updateFields(model);
-	            } else {
-	                updateFields(null);
-	            }
-	        }
-	    });
+		comboBoxList.addActionListener(new ActionListener() {
+			/**
+			 * Detects a change in selection and updates the fields accordingly.
+			 *
+			 * @param e The action event triggered when an item is selected.
+			 */
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selectedModel = (String) comboBoxList.getSelectedItem();
+				if (selectedModel != null && modelsList.containsKey(selectedModel)) {
+					Model model = modelsList.get(selectedModel);
+					updateFields(model);
+				} else {
+					updateFields(null);
+				}
+			}
+		});
 	}
 
 	/**
 	 * Enables or disables the text fields and buttons.
 	 *
-	 * @param enable If true, the fields and buttons are enabled; otherwise, they are disabled.
+	 * @param enable If true, the fields and buttons are enabled; otherwise, they
+	 *               are disabled.
 	 */
 	private void toggleFields(boolean enable) {
-	    textFieldMark.setEnabled(enable);
-	    textFieldStock.setEnabled(enable);
-	    textFieldPrice.setEnabled(enable);
-	    btnUpdate.setEnabled(enable);
+		textFieldMark.setEnabled(enable);
+		textFieldStock.setEnabled(enable);
+		textFieldPrice.setEnabled(enable);
+		btnUpdate.setEnabled(enable);
 	}
 
 	/**
@@ -369,12 +368,12 @@ public class WindowModify extends JDialog implements ActionListener {
 	 * @return True if the string is a valid integer, false otherwise.
 	 */
 	public static boolean checkInt(String str) {
-	    try {
-	        Integer.parseInt(str);
-	        return true;  // The string is a valid integer.
-	    } catch (NumberFormatException e) {
-	        return false; // The string is not a valid integer.
-	    }
+		try {
+			Integer.parseInt(str);
+			return true; // The string is a valid integer.
+		} catch (NumberFormatException e) {
+			return false; // The string is not a valid integer.
+		}
 	}
 
 	/**
@@ -384,12 +383,12 @@ public class WindowModify extends JDialog implements ActionListener {
 	 * @return True if the string is a valid double, false otherwise.
 	 */
 	public static boolean checkDouble(String str) {
-	    try {
-	        Double.parseDouble(str);
-	        return true;  // The string is a valid double.
-	    } catch (NumberFormatException e) {
-	        return false; // The string is not a valid double.
-	    }
+		try {
+			Double.parseDouble(str);
+			return true; // The string is a valid double.
+		} catch (NumberFormatException e) {
+			return false; // The string is not a valid double.
+		}
 	}
 
 }

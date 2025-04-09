@@ -313,12 +313,13 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String workerName = (String) comboBoxWorkers.getSelectedItem();
-
+				btnUpdate.setText("Update");
 				if (workerName != null && workers.containsKey(workerName)) {
 					Worker selectedWorker = workers.get(workerName);
 					updateFields(selectedWorker);
 					toggleFields(false);
 					lblWarning.setText("");
+					
 
 					if (selectedWorker.getUser().equals(worker.getUser())) {
 						btnDelete.setEnabled(false);
@@ -328,6 +329,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 						btnDelete.setToolTipText(null);
 					}
 				} else if (workerName == "New Worker") {
+					btnUpdate.setText("Create");
 					updateFields(null);
 					toggleFields(false);
 					lblWarning.setText("");
@@ -365,6 +367,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 			textField_user.setText(selectedWorker.getUser());
 			passwordField.setText(selectedWorker.getPassword());
 			loadDealer(selectedWorker);
+			
 
 			if (selectedWorker.isAdmin()) {
 				rdbtnYes.setSelected(true);
@@ -406,7 +409,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		}
 		boolean admin = rdbtnYes.isSelected();
 
-		return new Worker(admin, userName, password, dealerId);
+		return new Worker( userName, password,admin, dealerId);
 	}
 
 	@Override
@@ -480,6 +483,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 							loadWorker();
 							JOptionPane.showMessageDialog(this, createWorker.getUser() + " was successfully created",
 									"Success", JOptionPane.INFORMATION_MESSAGE);
+							
 						}
 					} else {
 						JOptionPane.showMessageDialog(this, createWorker.getUser() + " already exists", "Error",
