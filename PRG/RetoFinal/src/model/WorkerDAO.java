@@ -12,13 +12,17 @@ public interface WorkerDAO {
 	 * boolean modificarUsuario(Usuario usuario);
 	 */
 
-	Map<String, Model> getModels(CarDealership cardealer);
+	public Map<String, Model> getModels(CarDealership cardealer);
 
-	Map<String, Worker> getWorkers();
+	public Map<String, Worker> getWorkers();
 
-	Map<String, Worker> getCoWorkers(Worker worker);
+	public Map<String, Worker> getCoWorkers(Worker worker);
 
 	public CarDealership getWorkingPlace(Worker worker);
+
+	public CarDealership getDealership(String name);
+
+	Map<String, CarDealership> getCarDealerships();
 
 	Map<String, CarDealership> getAllDeals();
 
@@ -39,11 +43,11 @@ public interface WorkerDAO {
 	public boolean callProcedure(Client_ client, Model model, Worker worker, LocalDate actualDate, int quantity);
 
 	public int checkStock(Model model);
-	
+
 	public Map<String, Model> getModels(Worker worker);
-	
+
 	public boolean modifyModel(Model model);
-	
+
 	public boolean insertClient(Client_ client);
 
 }

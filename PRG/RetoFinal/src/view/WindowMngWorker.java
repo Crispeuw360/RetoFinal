@@ -264,7 +264,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		setupListeners();
 	}
 
-	// Resto de los métodos permanecen iguales...
+	
 	public void loadWorker() {
 		workers = cont.getWorkers();
 		comboBoxWorkers.removeAllItems();

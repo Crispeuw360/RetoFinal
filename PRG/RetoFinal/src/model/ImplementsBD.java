@@ -624,4 +624,10 @@ public class ImplementsBD implements WorkerDAO {
 		return foundDealership;
 	}
 
+	@Override
+	public Map<String, CarDealership> getCarDealerships() {
+		// TODO Auto-generated method stubsalkfjdoasjdfoiajsdfaoisjfaoksjfdakfojdsoijfaoijdsfoijasdfkjadsfjlaksf
+		return null;
+	}
+
 }
