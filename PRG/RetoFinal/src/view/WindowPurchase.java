@@ -235,6 +235,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 	}
 
 	public void loadModels(Worker Worker) {
+		comboBoxModels.removeAllItems();
 		modelsList = cont.getModels(worker);
 		if (!modelsList.isEmpty()) {
 			for (Model m : modelsList.values()) {
@@ -289,16 +290,19 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 				JOptionPane.showMessageDialog(null, "Insufficient stock", "ERROR", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 
-				comboBoxClients.setSelectedIndex(-1);
-				lblInformationClients.setText("");
+				
 
 				// model = cont.getModel(model.getName_model());
 
 				cont.callProcedure(client, model, worker, LocalDate.now(), sliderQuantity.getValue());
 				lblInformationModels.setText("<html>Mark: " + model.getMark() + "<br>Price: " + model.getPrice() + "€"
 						+ "<br>Stock: " + (model.getStock() - sliderQuantity.getValue()) + "</html>");
-
+				loadModels(worker);
 				lblMessage.setText("PURCHASE CORRECTLY DONE!");
+				comboBoxClients.setSelectedIndex(-1);
+				lblInformationClients.setText("");
+				lblInformationModels.setText("");
+				
 			}
 		} else {
 			throw new StockException();

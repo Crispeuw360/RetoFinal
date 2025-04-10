@@ -62,9 +62,7 @@ public class WindowMain extends JFrame implements ActionListener {
 	private JMenu mnAdmin;
 	private JMenuItem mntmMngModel;
 	private JMenuItem mntmMngWorker;
-	private ImageIcon icon = new ImageIcon("src/img/icon.png");
-	private Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-
+	
 	public WindowMain(LoginController cont, Worker worker) {
 		this.cont = cont;
 		this.worker = worker;
@@ -206,11 +204,15 @@ public class WindowMain extends JFrame implements ActionListener {
 		mntmLocation.setOpaque(true);
 		mntmLogOut.setOpaque(true);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(WindowMain.class.getResource("/imgs/Logo.png")));
-		lblNewLabel.setBounds(-40, -28, 255, 206);
-		contentPane.add(lblNewLabel);
+		JLabel lblImage = new JLabel("");
+		lblImage.setBounds(50, 27, 150, 150);
+		contentPane.add(lblImage);
 
+		ImageIcon imageLogo = new ImageIcon(WindowPurchase.class.getResource("/imgs/logo.png"));
+		Image img3 = imageLogo.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+		ImageIcon imageUserScaled3 = new ImageIcon(img3);
+		lblImage.setIcon(imageUserScaled3);
+		
 		loadDealer();
 		loadModel();
 		loadWorker();
