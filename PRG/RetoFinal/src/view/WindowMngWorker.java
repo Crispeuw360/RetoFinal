@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -34,7 +36,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField_user;
 	private JPasswordField passwordField;
-	private JButton btnGoBack;
+	private JButton btnBack;
 	private JButton btnDelete;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JRadioButton rdbtnYes;
@@ -51,7 +53,10 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 	private JButton btnModify;
 	private JLabel lblWarning;
 	private JLabel lblTitulo;
-
+	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png"));
+	private Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+	
+	
 	public WindowMngWorker(WindowMain ventanaPrincipal, LoginController cont, Worker worker) {
 		super(ventanaPrincipal, true);
 		this.cont = cont;
@@ -233,16 +238,16 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		panelDatos.add(lblWarning);
 
 		// BOTTOM BUTTONS
-		btnGoBack = new JButton("GO BACK");
-		btnGoBack.setFont(new Font("Trebuchet MS", Font.BOLD, 18));
-		btnGoBack.setBounds(10, 512, 215, 41);
-		btnGoBack.setBackground(new Color(211, 47, 47));
-		btnGoBack.setForeground(Color.WHITE);
-		btnGoBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		btnGoBack.setFocusPainted(false);
-		btnGoBack.setBorderPainted(false);
-		contentPanel.add(btnGoBack);
-		btnGoBack.addActionListener(this);
+		btnBack = new JButton("", new ImageIcon(img));
+		btnBack.setBounds(10, 439, 241, 150);
+		btnBack.setBackground(new Color(55, 55, 55));
+		btnBack.setForeground(Color.WHITE);
+		btnBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		btnBack.setFocusPainted(false);
+		btnBack.setBorderPainted(false);
+		contentPanel.add(btnBack);
+		btnBack.addActionListener(this);
+
 
 		btnDelete = new JButton("DELETE");
 		btnDelete.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
@@ -414,7 +419,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnGoBack) {
+		if (e.getSource() == btnBack) {
 			worker = cont.getWorker(worker.getUser());
 
 			WindowMain win = new WindowMain(cont, worker);
