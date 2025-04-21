@@ -80,7 +80,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
 		lblTitulo.setForeground(Color.WHITE);
-		lblTitulo.setBounds(277, 10, 201, 58);
+		lblTitulo.setBounds(299, 10, 201, 58);
 		contentPanel.add(lblTitulo);
 
 		// COMBOBOX
@@ -88,7 +88,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 		comboBoxWorkers.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
 		comboBoxWorkers.setBackground(new Color(55, 55, 55));
 		comboBoxWorkers.setForeground(Color.WHITE);
-		comboBoxWorkers.setBounds(50, 108, 201, 41);
+		comboBoxWorkers.setBounds(50, 250, 200, 40);
 		comboBoxWorkers.setRenderer(new DefaultListCellRenderer() {
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
@@ -239,10 +239,10 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 		// BOTTOM BUTTONS
 		btnBack = new JButton("", new ImageIcon(img));
-		btnBack.setBounds(10, 439, 241, 150);
+		btnBack.setBounds(30, 30, 120, 120);
 		btnBack.setBackground(new Color(55, 55, 55));
 		btnBack.setForeground(Color.WHITE);
-		btnBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	
 		btnBack.setFocusPainted(false);
 		btnBack.setBorderPainted(false);
 		contentPanel.add(btnBack);
@@ -251,7 +251,7 @@ public class WindowMngWorker extends JDialog implements ActionListener {
 
 		btnDelete = new JButton("DELETE");
 		btnDelete.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
-		btnDelete.setBounds(552, 512, 215, 41);
+		btnDelete.setBounds(50, 448, 215, 41);
 		btnDelete.setBackground(new Color(211, 47, 47));
 		btnDelete.setForeground(Color.WHITE);
 		btnDelete.setBorder(BorderFactory.createLineBorder(Color.BLACK));

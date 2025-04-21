@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -46,6 +48,8 @@ public class WindowCreateModel extends JDialog implements ActionListener {
 	private JComboBox<String> comboBoxId;
 	private JButton btnCreate;
 	private JButton btnBack;
+	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png"));
+	private Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 
 	public WindowCreateModel(JFrame parent, LoginController cont, Worker worker) {
 		super(parent, true);
@@ -76,7 +80,7 @@ public class WindowCreateModel extends JDialog implements ActionListener {
 		JPanel panelDatos = new JPanel();
 		panelDatos.setBorder(new LineBorder(new Color(150, 0, 0)));
 		panelDatos.setBackground(new Color(70, 70, 70));
-		panelDatos.setBounds(64, 78, 323, 289);
+		panelDatos.setBounds(223, 93, 323, 289);
 		contentPanel.add(panelDatos);
 		panelDatos.setLayout(null);
 
@@ -165,18 +169,17 @@ public class WindowCreateModel extends JDialog implements ActionListener {
 		btnCreate.setBackground(new Color(150, 0, 0));
 		btnCreate.setForeground(Color.WHITE);
 		btnCreate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		btnCreate.setBounds(430, 324, 115, 43);
+		btnCreate.setBounds(54, 339, 115, 43);
 		btnCreate.setFocusPainted(false);
 		btnCreate.setBorderPainted(false);
 		contentPanel.add(btnCreate);
 		btnCreate.addActionListener(this);
 
-		btnBack = new JButton("BACK");
+		btnBack = new JButton("", new ImageIcon(img));
 		btnBack.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		btnBack.setBackground(new Color(150, 0, 0));
-		btnBack.setForeground(Color.WHITE);
-		btnBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		btnBack.setBounds(430, 56, 115, 43);
+		btnBack.setBackground(new Color(55, 55, 55));
+
+		btnBack.setBounds(20, 20, 80, 80);
 		btnBack.setFocusPainted(false);
 		btnBack.setBorderPainted(false);
 		contentPanel.add(btnBack);
@@ -191,11 +194,11 @@ public class WindowCreateModel extends JDialog implements ActionListener {
 
 		if (!carDealerships.isEmpty()) {
 			for (CarDealership c : carDealerships.values()) {
-				// Añadir el objeto completo al ComboBox
+				// add item to the combobox
 				comboBoxId.addItem(c.getName());
 			}
 		}
-		comboBoxId.setSelectedIndex(0);
+		comboBoxId.setSelectedIndex(-1);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -250,6 +253,7 @@ public class WindowCreateModel extends JDialog implements ActionListener {
 					textFieldMark.setText("");
 					textFieldStock.setText("");
 					textFieldPrice.setText("");
+					comboBoxId.setSelectedIndex(-1);
 				} else {
 					JOptionPane.showMessageDialog(this, "Error creating model");
 				}

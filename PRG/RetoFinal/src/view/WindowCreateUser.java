@@ -50,7 +50,7 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 	private JButton btnShowPass;
 	private boolean visible = false;
 	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png"));
-	private Image img = icon.getImage().getScaledInstance(80, 81, Image.SCALE_SMOOTH);
+	private Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 	private Worker worker;
 
 	/**
@@ -80,39 +80,39 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		JLabel lblTitle = new JLabel("New User");
-		lblTitle.setBounds(208, 10, 156, 33);
+		JLabel lblTitle = new JLabel("New Client");
+		lblTitle.setBounds(208, 36, 156, 33);
 		lblTitle.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setForeground(Color.WHITE);
 		contentPanel.add(lblTitle);
 
 		JLabel lblUserName = new JLabel("User Name");
-		lblUserName.setBounds(26, 112, 126, 33);
+		lblUserName.setBounds(49, 102, 126, 33);
 		lblUserName.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
 		lblUserName.setForeground(Color.WHITE);
 		contentPanel.add(lblUserName);
 
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(26, 166, 126, 33);
+		lblPassword.setBounds(49, 174, 126, 33);
 		lblPassword.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
 		lblPassword.setForeground(Color.WHITE);
 		contentPanel.add(lblPassword);
 
 		JLabel lblDni = new JLabel("DNI");
-		lblDni.setBounds(26, 219, 126, 33);
+		lblDni.setBounds(49, 240, 126, 33);
 		lblDni.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
 		lblDni.setForeground(Color.WHITE);
 		contentPanel.add(lblDni);
 
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(26, 278, 126, 33);
+		lblEmail.setBounds(49, 309, 126, 33);
 		lblEmail.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
 		lblEmail.setForeground(Color.WHITE);
 		contentPanel.add(lblEmail);
 
 		textFieldUserName = new JTextField();
-		textFieldUserName.setBounds(177, 112, 326, 31);
+		textFieldUserName.setBounds(224, 105, 326, 33);
 		textFieldUserName.setBackground(new Color(80, 80, 80));
 		textFieldUserName.setForeground(Color.WHITE);
 		textFieldUserName.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
@@ -120,7 +120,7 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		textFieldUserName.setColumns(10);
 
 		textFieldDni = new JTextField();
-		textFieldDni.setBounds(177, 225, 326, 31);
+		textFieldDni.setBounds(224, 243, 326, 33);
 		textFieldDni.setColumns(10);
 		textFieldDni.setForeground(Color.WHITE);
 		textFieldDni.setBackground(new Color(80, 80, 80));
@@ -128,7 +128,7 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		contentPanel.add(textFieldDni);
 
 		textFieldEmail = new JTextField();
-		textFieldEmail.setBounds(177, 280, 326, 31);
+		textFieldEmail.setBounds(224, 312, 326, 33);
 		textFieldEmail.setColumns(10);
 		textFieldEmail.setForeground(Color.WHITE);
 		textFieldEmail.setBackground(new Color(80, 80, 80));
@@ -136,14 +136,14 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		contentPanel.add(textFieldEmail);
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(177, 170, 273, 31);
+		passwordField.setBounds(224, 174, 265, 33);
 		passwordField.setForeground(Color.WHITE);
 		passwordField.setBackground(new Color(80, 80, 80));
 		passwordField.setBorder(BorderFactory.createLineBorder(new Color(211, 47, 47)));
 		contentPanel.add(passwordField);
 
 		btnCreate = new JButton("Create");
-		btnCreate.setBounds(221, 331, 156, 46);
+		btnCreate.setBounds(222, 381, 156, 33);
 		btnCreate.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
 		btnCreate.setBackground(new Color(211, 47, 47));
 		btnCreate.setForeground(Color.WHITE);
@@ -159,8 +159,8 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		lblInvisible.setForeground(Color.WHITE);
 		contentPanel.add(lblInvisible);
 
-		btnBack = new JButton("Go Back", new ImageIcon(img));
-		btnBack.setBounds(42, 22, 74, 63);
+		btnBack = new JButton("", new ImageIcon(img));
+		btnBack.setBounds(20, 15, 80, 80);
 		btnBack.setBackground(new Color(55, 55, 55));
 		btnBack.setForeground(Color.WHITE);
 		btnBack.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -170,7 +170,7 @@ public class WindowCreateUser extends JDialog implements ActionListener {
 		btnBack.addActionListener(this);
 
 		btnShowPass = new JButton("Show");
-		btnShowPass.setBounds(453, 169, 56, 33);
+		btnShowPass.setBounds(494, 174, 56, 33);
 		btnShowPass.setFont(new Font("Trebuchet MS", Font.PLAIN, 9));
 		btnShowPass.setBackground(new Color(211, 47, 47));
 		btnShowPass.setForeground(Color.WHITE);

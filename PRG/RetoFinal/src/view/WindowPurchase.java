@@ -41,6 +41,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JSlider;
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.SwingConstants;
 
 public class WindowPurchase extends JDialog implements ActionListener, ChangeListener, ItemListener {
 
@@ -60,12 +61,13 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 	private JLabel lblModels;
 	private JLabel lblWorkers;
 	private Worker worker;
-	private JButton btnGoBack;
+	private JButton btnBack;
 	private JLabel lblQuantity;
 	private JSlider sliderQuantity;
 	private JLabel lblInformationModels;
 	private JLabel lblInformationClients;
-	private JLabel lblImage;
+	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png"));
+	private Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 
 	public WindowPurchase(JFrame parent, Worker worker, LoginController cont) {
 		setForeground(new Color(255, 255, 255));
@@ -86,7 +88,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		comboBoxModels.setForeground(new Color(255, 255, 255));
 		comboBoxModels.setBackground(new Color(55, 55, 55));
 		comboBoxModels.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
-		comboBoxModels.setBounds(117, 94, 135, 35);
+		comboBoxModels.setBounds(143, 170, 150, 35);
 		comboBoxModels.setRenderer(new DefaultListCellRenderer() {
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
@@ -108,7 +110,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		comboBoxClients.setForeground(new Color(255, 255, 255));
 		comboBoxClients.setBackground(new Color(55, 55, 55));
 		comboBoxClients.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
-		comboBoxClients.setBounds(524, 94, 135, 35);
+		comboBoxClients.setBounds(463, 170, 150, 35);
 		comboBoxClients.setRenderer(new DefaultListCellRenderer() {
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
@@ -130,7 +132,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		btnSell.setBackground(new Color(211, 47, 47));
 		btnSell.setForeground(new Color(255, 255, 255));
 		btnSell.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
-		btnSell.setBounds(566, 430, 127, 43);
+		btnSell.setBounds(496, 396, 127, 43);
 		contentPanel.add(btnSell);
 		btnSell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -150,7 +152,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		btnAddUser.setForeground(new Color(255, 255, 255));
 		btnAddUser.setBackground(new Color(211, 47, 47));
 		btnAddUser.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
-		btnAddUser.setBounds(139, 431, 127, 43);
+		btnAddUser.setBounds(143, 396, 127, 43);
 		contentPanel.add(btnAddUser);
 		btnAddUser.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -162,29 +164,33 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		lblModels = new JLabel("SELECT THE MODEL");
 		lblModels.setForeground(new Color(255, 255, 255));
 		lblModels.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		lblModels.setBounds(106, 49, 177, 35);
+		lblModels.setBounds(143, 124, 177, 35);
 		contentPanel.add(lblModels);
 
 		lblWorkers = new JLabel("SELECT THE CLIENT");
 		lblWorkers.setForeground(new Color(255, 255, 255));
 		lblWorkers.setFont(new Font("Trebuchet MS", Font.PLAIN, 18));
-		lblWorkers.setBounds(516, 49, 177, 35);
+		lblWorkers.setBounds(463, 124, 177, 35);
 		contentPanel.add(lblWorkers);
 
-		btnGoBack = new JButton("GO BACK");
-		btnGoBack.setFont(new Font("Trebuchet MS", Font.BOLD, 12));
-		btnGoBack.setBounds(24, 515, 84, 24);
-		contentPanel.add(btnGoBack);
-		btnSell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		btnBack = new JButton("", new ImageIcon(img));
+		btnBack.setBounds(20, 20, 100, 100);
+		btnBack.setBackground(new Color(55, 55, 55));
+		btnBack.setForeground(Color.WHITE);
+	
+		btnBack.setFocusPainted(false);
+		btnBack.setBorderPainted(false);
+		contentPanel.add(btnBack);
+
 
 		lblQuantity = new JLabel("Units to sell: 0");
 		lblQuantity.setForeground(new Color(255, 255, 255));
 		lblQuantity.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
-		lblQuantity.setBounds(342, 349, 153, 24);
+		lblQuantity.setBounds(353, 351, 153, 24);
 		contentPanel.add(lblQuantity);
 
 		sliderQuantity = new JSlider();
-		sliderQuantity.setBounds(117, 351, 200, 22);
+		sliderQuantity.setBounds(143, 351, 200, 22);
 		contentPanel.add(sliderQuantity);
 		sliderQuantity.setValue(5);
 		sliderQuantity.setValue(1);
@@ -194,30 +200,28 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		lblInformationModels = new JLabel("");
 		lblInformationModels.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
 		lblInformationModels.setForeground(new Color(255, 255, 255));
-		lblInformationModels.setBounds(117, 265, 153, 75);
+		lblInformationModels.setBounds(140, 232, 187, 75);
 		contentPanel.add(lblInformationModels);
 
 		lblInformationClients = new JLabel("");
 		lblInformationClients.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
 		lblInformationClients.setForeground(new Color(255, 255, 255));
-		lblInformationClients.setBounds(524, 265, 187, 56);
+		lblInformationClients.setBounds(463, 232, 187, 75);
 		contentPanel.add(lblInformationClients);
 
-		lblImage = new JLabel("");
-		lblImage.setBounds(352, 63, 69, 66);
-		contentPanel.add(lblImage);
-
-		ImageIcon imageLogo = new ImageIcon(WindowPurchase.class.getResource("/imgs/logo.png"));
-		Image img3 = imageLogo.getImage().getScaledInstance(69, 66, Image.SCALE_SMOOTH);
-		ImageIcon imageUserScaled3 = new ImageIcon(img3);
-		lblImage.setIcon(imageUserScaled3);
+		JLabel lblTitulo = new JLabel("SELL MODELS");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setForeground(Color.WHITE);
+		lblTitulo.setFont(new Font("Trebuchet MS", Font.BOLD, 20));
+		lblTitulo.setBounds(305, 10, 201, 58);
+		contentPanel.add(lblTitulo);
 
 		loadCliens();
 		loadModels(worker);
 
 		btnSell.addActionListener(this);
 		btnAddUser.addActionListener(this);
-		btnGoBack.addActionListener(this);
+		btnBack.addActionListener(this);
 		sliderQuantity.addChangeListener(this);
 		comboBoxModels.addItemListener(this);
 		comboBoxClients.addItemListener(this);
@@ -269,7 +273,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 			}
 		}
 
-		if (e.getSource() == btnGoBack) {
+		if (e.getSource() == btnBack) {
 			this.dispose();
 			WindowMain ven = new WindowMain(cont, worker);
 			ven.setVisible(true);
@@ -290,8 +294,6 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 				JOptionPane.showMessageDialog(null, "Insufficient stock", "ERROR", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 
-				
-
 				// model = cont.getModel(model.getName_model());
 
 				cont.callProcedure(client, model, worker, LocalDate.now(), sliderQuantity.getValue());
@@ -302,7 +304,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 				comboBoxClients.setSelectedIndex(-1);
 				lblInformationClients.setText("");
 				lblInformationModels.setText("");
-				
+
 			}
 		} else {
 			throw new StockException();

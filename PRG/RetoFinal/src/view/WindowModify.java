@@ -58,7 +58,7 @@ public class WindowModify extends JDialog implements ActionListener {
 	private Map<String, Model> modelsList;
 	private boolean activar = false;
 	private ImageIcon icon = new ImageIcon(getClass().getResource("/imgs/Logo.png"));
-	private Image img = icon.getImage().getScaledInstance(100, 101, Image.SCALE_SMOOTH);
+	private Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 
 	/**
 	 * Constructor for the WindowModify class.
@@ -96,7 +96,7 @@ public class WindowModify extends JDialog implements ActionListener {
 		comboBoxList.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
 		comboBoxList.setBackground(new Color(55, 55, 55));
 		comboBoxList.setForeground(new Color(255, 255, 255));
-		comboBoxList.setBounds(28, 262, 235, 41);
+		comboBoxList.setBounds(50, 250, 200, 40);
 		comboBoxList.setRenderer(new DefaultListCellRenderer() {
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
@@ -213,7 +213,7 @@ public class WindowModify extends JDialog implements ActionListener {
 		btnLogo.setBackground(new Color(55, 55, 55));
 		btnLogo.setForeground(Color.WHITE);
 		btnLogo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		btnLogo.setBounds(28, 26, 103, 105);
+		btnLogo.setBounds(30, 30, 120, 120);
 		btnLogo.setFocusPainted(false);
 		btnLogo.setBorderPainted(false);
 		contentPanel.add(btnLogo);
