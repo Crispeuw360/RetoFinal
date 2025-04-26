@@ -145,7 +145,7 @@ public class WindowPurchase extends JDialog implements ActionListener, ChangeLis
 		lblMessage = new JLabel("");
 		lblMessage.setForeground(new Color(255, 255, 255));
 		lblMessage.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
-		lblMessage.setBounds(117, 396, 529, 24);
+		lblMessage.setBounds(94, 479, 529, 24);
 		contentPanel.add(lblMessage);
 
 		btnAddUser = new JButton("ADD USER");
